@@ -9,18 +9,23 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --color-primary: #1a1a1a;
-            --color-secondary: #f8f8f8;
-            --color-accent: #c9a961;
+            --color-secondary: #f8f7f4;
+            --color-accent: #d4af37;
             --color-text: #2c2c2c;
             --color-text-light: #666;
+            --color-border: #e5e5e5;
             
-            --font-display: 'Cormorant Garamond', serif;
-            --font-body: 'Montserrat', sans-serif;
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
         }
         
         * {
@@ -36,7 +41,7 @@
         body {
             font-family: var(--font-body);
             color: var(--color-text);
-            line-height: 1.7;
+            line-height: 1.6;
             overflow-x: hidden;
         }
         
@@ -50,17 +55,17 @@
             backdrop-filter: blur(10px);
             z-index: 1000;
             padding: 1rem 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--color-border);
             transition: all 0.3s ease;
         }
         
         .navbar.scrolled {
-            padding: 0.5rem 0;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            padding: 0.75rem 0;
+            box-shadow: var(--shadow-sm);
         }
         
         .nav-container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
@@ -71,353 +76,407 @@
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
             text-decoration: none;
         }
         
         .logo-image {
-            height: 50px;
-            width: 50px;
+            height: 45px;
+            width: 45px;
             object-fit: cover;
             border-radius: 50%;
             transition: transform 0.3s ease;
         }
         
         .navbar.scrolled .logo-image {
-            height: 40px;
-            width: 40px;
-        }
-        
-        .logo-container:hover .logo-image {
-            transform: scale(1.05);
+            height: 38px;
+            width: 38px;
         }
         
         .logo-text {
             font-family: var(--font-display);
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 600;
             color: var(--color-primary);
-            letter-spacing: 0.05em;
+            letter-spacing: 0.02em;
         }
         
         .nav-links {
             display: flex;
-            gap: 3rem;
+            gap: 2.5rem;
             list-style: none;
+            align-items: center;
         }
         
         .nav-links a {
             color: var(--color-text);
             text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 400;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            position: relative;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
             transition: color 0.3s ease;
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--color-accent);
-            transition: width 0.3s ease;
         }
         
         .nav-links a:hover {
             color: var(--color-accent);
         }
         
-        .nav-links a:hover::after {
-            width: 100%;
+        .cta-nav {
+            background: var(--color-accent);
+            color: white !important;
+            padding: 0.6rem 1.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-nav:hover {
+            background: #c09b2a;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
         }
         
         /* Mobile Menu */
         .menu-toggle {
             display: none;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
             cursor: pointer;
-            padding: 10px;
+            padding: 8px;
         }
         
         .menu-toggle span {
-            width: 25px;
-            height: 2px;
+            width: 24px;
+            height: 2.5px;
             background: var(--color-primary);
             transition: all 0.3s ease;
+            border-radius: 2px;
         }
         
         /* Hero Section */
         .hero {
-            height: 100vh;
+            min-height: 90vh;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
-            overflow: hidden;
+            background: linear-gradient(135deg, #f8f7f4 0%, #ebe8e0 100%);
+            padding: 8rem 2rem 4rem;
+            text-align: center;
         }
         
         .hero-content {
-            text-align: center;
-            z-index: 2;
-            animation: fadeInUp 1.2s ease-out;
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
         }
         
         .hero-logo {
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
             object-fit: cover;
             border-radius: 50%;
             margin-bottom: 2rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--shadow-md);
         }
         
         .hero h1 {
             font-family: var(--font-display);
-            font-size: clamp(3rem, 8vw, 7rem);
-            font-weight: 400;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 600;
             color: var(--color-primary);
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.02em;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
             line-height: 1.1;
         }
         
         .hero-subtitle {
-            font-size: clamp(1rem, 2vw, 1.4rem);
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
             color: var(--color-text-light);
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: 3rem;
-        }
-        
-        .hero-divider {
-            width: 80px;
-            height: 1px;
-            background: var(--color-accent);
-            margin: 2rem auto;
+            font-weight: 400;
+            margin-bottom: 1rem;
         }
         
         .hero-address {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--color-text);
-            font-weight: 300;
-            margin-top: 2rem;
+            margin-bottom: 2.5rem;
         }
         
-        .cta-button {
-            display: inline-block;
-            padding: 1.2rem 3rem;
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .btn-primary {
             background: var(--color-primary);
             color: white;
-            text-decoration: none;
-            font-size: 0.95rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            font-weight: 400;
-            transition: all 0.4s ease;
-            border: 2px solid var(--color-primary);
-            margin-top: 1rem;
         }
         
-        .cta-button:hover {
-            background: transparent;
-            color: var(--color-primary);
+        .btn-primary:hover {
+            background: #000;
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--shadow-md);
         }
         
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 3rem;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
+        .btn-secondary {
+            background: white;
+            color: var(--color-primary);
+            border-color: var(--color-border);
         }
         
-        .scroll-indicator span {
-            display: block;
-            width: 1px;
-            height: 60px;
-            background: linear-gradient(to bottom, transparent, var(--color-accent));
+        .btn-secondary:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Stats Section */
+        .stats {
+            background: white;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+        
+        .stat-item {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
         }
         
         /* Sections */
         section {
-            padding: 8rem 2rem;
-            max-width: 1400px;
+            padding: 6rem 2rem;
+        }
+        
+        .section-container {
+            max-width: 1200px;
             margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
         }
         
         .section-title {
             font-family: var(--font-display);
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 400;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
             color: var(--color-primary);
             margin-bottom: 1rem;
-            letter-spacing: 0.02em;
+            letter-spacing: -0.01em;
         }
         
         .section-subtitle {
             font-size: 1.1rem;
             color: var(--color-text-light);
-            font-weight: 300;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 4rem;
+            line-height: 1.7;
         }
         
         /* About Section */
+        .about {
+            background: var(--color-secondary);
+        }
+        
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6rem;
+            gap: 4rem;
             align-items: center;
         }
         
-        .about-text {
-            font-size: 1.1rem;
-            line-height: 1.9;
-            color: var(--color-text);
-        }
-        
         .about-text p {
-            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1.2rem;
+            color: var(--color-text);
         }
         
         .about-text .highlight {
             font-family: var(--font-display);
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-style: italic;
             color: var(--color-accent);
             margin: 2rem 0;
+            padding-left: 2rem;
+            border-left: 3px solid var(--color-accent);
             line-height: 1.6;
         }
         
         .about-image {
             background: linear-gradient(135deg, #d4c5a9 0%, #b8a892 100%);
             aspect-ratio: 4/5;
-            border-radius: 2px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .about-image::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>');
-            opacity: 0.3;
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
         }
         
         /* Collections Section */
-        .collections {
-            background: var(--color-secondary);
-        }
-        
         .collections-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin-top: 4rem;
+            gap: 2rem;
+            margin-top: 3rem;
         }
         
         .collection-card {
             background: white;
-            padding: 3rem 2rem;
+            padding: 2.5rem 2rem;
+            border-radius: 8px;
             text-align: center;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            border: 1px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .collection-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--color-accent);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .collection-card:hover::before {
+            transform: scaleX(1);
         }
         
         .collection-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-accent);
         }
         
         .collection-icon {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 1.5rem;
-            color: var(--color-accent);
+            filter: grayscale(0.3);
         }
         
         .collection-card h3 {
             font-family: var(--font-display);
             font-size: 1.8rem;
-            font-weight: 500;
+            font-weight: 600;
             margin-bottom: 1rem;
             color: var(--color-primary);
         }
         
         .collection-card p {
             color: var(--color-text-light);
-            line-height: 1.8;
+            line-height: 1.7;
             font-size: 0.95rem;
         }
         
         /* Brands Section */
-        .brands-list {
+        .brands {
+            background: var(--color-secondary);
+        }
+        
+        .brands-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
         }
         
         .brand-item {
-            padding: 2rem;
             background: white;
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 2rem 1.5rem;
+            border-radius: 8px;
             text-align: center;
             font-family: var(--font-display);
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--color-text);
             transition: all 0.3s ease;
+            border: 1px solid var(--color-border);
         }
         
         .brand-item:hover {
             border-color: var(--color-accent);
             color: var(--color-accent);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-sm);
         }
         
         /* Contact Section */
         .contact {
-            background: var(--color-primary);
-            color: white;
-        }
-        
-        .contact .section-title,
-        .contact .section-subtitle {
-            color: white;
-        }
-        
-        .contact .section-subtitle {
-            opacity: 0.7;
+            background: white;
         }
         
         .contact-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            margin-top: 4rem;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+        
+        .contact-info {
+            background: var(--color-secondary);
+            padding: 3rem;
+            border-radius: 8px;
         }
         
         .contact-info h3 {
             font-family: var(--font-display);
             font-size: 1.8rem;
-            font-weight: 400;
+            font-weight: 600;
             margin-bottom: 2rem;
-            color: var(--color-accent);
+            color: var(--color-primary);
         }
         
         .info-item {
             margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
         }
         
         .info-item h4 {
@@ -425,17 +484,13 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-bottom: 0.5rem;
-            opacity: 0.7;
-            font-weight: 400;
+            color: var(--color-text-light);
+            font-weight: 600;
         }
         
-        .info-item p {
-            font-size: 1.1rem;
-            font-weight: 300;
-        }
-        
-        .info-item a {
-            color: white;
+        .info-item p, .info-item a {
+            font-size: 1.05rem;
+            color: var(--color-text);
             text-decoration: none;
             transition: color 0.3s ease;
         }
@@ -444,21 +499,31 @@
             color: var(--color-accent);
         }
         
+        .phone-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.3rem !important;
+            font-weight: 600;
+            color: var(--color-accent) !important;
+        }
+        
         .social-links {
             display: flex;
-            gap: 1.5rem;
-            margin-top: 3rem;
+            gap: 1rem;
+            margin-top: 2rem;
         }
         
         .social-links a {
             width: 45px;
             height: 45px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid var(--color-border);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-            color: white;
+            color: var(--color-text);
             text-decoration: none;
             transition: all 0.3s ease;
         }
@@ -470,45 +535,43 @@
         }
         
         .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            background: var(--color-secondary);
+            padding: 3rem;
+            border-radius: 8px;
         }
         
         .form-group {
-            display: flex;
-            flex-direction: column;
+            margin-bottom: 1.5rem;
         }
         
         .form-group label {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
             margin-bottom: 0.5rem;
-            opacity: 0.7;
+            color: var(--color-text);
         }
         
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
             padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
             font-family: var(--font-body);
             font-size: 1rem;
+            color: var(--color-text);
             transition: all 0.3s ease;
         }
         
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: var(--color-accent);
-            background: rgba(255, 255, 255, 0.08);
-        }
-        
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
         }
         
         .form-group textarea {
@@ -517,34 +580,79 @@
         }
         
         .submit-button {
+            width: 100%;
             padding: 1.2rem;
-            background: var(--color-accent);
+            background: var(--color-primary);
             color: white;
-            border: 2px solid var(--color-accent);
+            border: none;
+            border-radius: 4px;
             font-family: var(--font-body);
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: 500;
         }
         
         .submit-button:hover {
-            background: transparent;
-            color: var(--color-accent);
+            background: var(--color-accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
         
         /* Footer */
         footer {
-            background: #0a0a0a;
-            color: rgba(255, 255, 255, 0.6);
+            background: var(--color-primary);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 4rem 2rem 2rem;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-section h4 {
+            color: white;
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-section p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--color-accent);
+        }
+        
+        .footer-bottom {
             text-align: center;
-            padding: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.9rem;
         }
         
-        footer a {
+        .footer-bottom a {
             color: var(--color-accent);
             text-decoration: none;
         }
@@ -553,7 +661,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(40px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -561,71 +669,6 @@
             }
         }
         
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            40% {
-                transform: translateX(-50%) translateY(-10px);
-            }
-            60% {
-                transform: translateX(-50%) translateY(-5px);
-            }
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex;
-            }
-            
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                height: 100vh;
-                width: 70%;
-                background: white;
-                flex-direction: column;
-                padding: 6rem 2rem 2rem;
-                gap: 2rem;
-                box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
-                transition: right 0.4s ease;
-            }
-            
-            .nav-links.active {
-                right: 0;
-            }
-            
-            .about-content,
-            .contact-content {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-            
-            .collections-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            section {
-                padding: 4rem 1.5rem;
-            }
-            
-            .hero h1 {
-                font-size: 3rem;
-            }
-            
-            .hero-logo {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .logo-text {
-                font-size: 1.2rem;
-            }
-        }
-        
-        /* Scroll Reveal Animation */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -636,13 +679,87 @@
             opacity: 1;
             transform: translateY(0);
         }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 80%;
+                max-width: 400px;
+                background: white;
+                flex-direction: column;
+                padding: 6rem 2rem 2rem;
+                gap: 2rem;
+                box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+                transition: right 0.4s ease;
+                align-items: flex-start;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .cta-nav {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .collections-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            section {
+                padding: 4rem 1.5rem;
+            }
+            
+            .hero {
+                padding: 6rem 1.5rem 4rem;
+            }
+            
+            .stats-container {
+                gap: 2rem;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo-container">
+            <a href="#accueil" class="logo-container">
                 <img src="logo.png" alt="Show-Room d'Oliv Logo" class="logo-image">
                 <span class="logo-text">SHOW-ROOM D'OLIV</span>
             </a>
@@ -651,7 +768,7 @@
                 <li><a href="#propos">À propos</a></li>
                 <li><a href="#collections">Collections</a></li>
                 <li><a href="#marques">Marques</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact" class="cta-nav">📞 Contact</a></li>
             </ul>
             <div class="menu-toggle" onclick="toggleMenu()">
                 <span></span>
@@ -666,120 +783,202 @@
         <div class="hero-content">
             <img src="logo.png" alt="Show-Room d'Oliv Logo" class="hero-logo">
             <h1>Show-Room d'Oliv</h1>
-            <div class="hero-divider"></div>
-            <p class="hero-subtitle">Mode Homme & Femme</p>
-            <p class="hero-address">3, Boulevard Gambetta - 30900 NÎMES</p>
-            <a href="#contact" class="cta-button">Nous Visiter</a>
+            <p class="hero-subtitle">Votre destination mode à Nîmes</p>
+            <p class="hero-address">📍 3, Boulevard Gambetta - 30900 NÎMES</p>
+            <div class="hero-cta">
+                <a href="tel:+33607708215" class="btn btn-primary">📞 06 07 70 82 15</a>
+                <a href="#contact" class="btn btn-secondary">✉️ Prendre RDV</a>
+            </div>
         </div>
-        <div class="scroll-indicator">
-            <span></span>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item reveal">
+                <div class="stat-number">300m²</div>
+                <div class="stat-label">D'espace mode</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Marques exclusives</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Collections homme & femme</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number">❤️</div>
+                <div class="stat-label">Passion mode depuis toujours</div>
+            </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="propos">
-        <div class="about-content reveal">
-            <div class="about-text">
-                <h2 class="section-title">L'élégance au cœur de Nîmes</h2>
-                <p class="section-subtitle">Depuis toujours</p>
-                <p>En plein cœur de Nîmes, le Show-Room d'Oliv vous accueille sur plus de 300m² dédiés à la mode homme et femme.</p>
-                <p>Sans cesse en recherche de nouvelles marques et nouvelles tendances, nous vous offrons la possibilité de découvrir les collections du moment dans un cadre élégant et raffiné.</p>
-                <p class="highlight">"La mode est un art de vivre que nous partageons avec passion"</p>
-                <p>Notre équipe vous accompagne dans vos choix pour créer le style qui vous ressemble, alliant élégance et personnalité.</p>
+    <section id="propos" class="about">
+        <div class="section-container">
+            <div class="about-content">
+                <div class="about-text reveal">
+                    <h2 class="section-title">L'élégance au cœur de Nîmes</h2>
+                    <p>En plein cœur de Nîmes, le Show-Room d'Oliv vous accueille sur plus de <strong>300m² dédiés à la mode homme et femme</strong>.</p>
+                    <p>Sans cesse en recherche de nouvelles marques et nouvelles tendances, nous vous offrons la possibilité de découvrir les collections du moment dans un cadre élégant et raffiné.</p>
+                    <p class="highlight">"La mode est un art de vivre que nous partageons avec passion"</p>
+                    <p>Notre équipe vous accompagne dans vos choix pour créer le style qui vous ressemble, alliant élégance et personnalité.</p>
+                </div>
+                <div class="about-image reveal"></div>
             </div>
-            <div class="about-image"></div>
         </div>
     </section>
 
     <!-- Collections Section -->
-    <section id="collections" class="collections">
-        <h2 class="section-title reveal">Nos Collections</h2>
-        <p class="section-subtitle reveal">Femme & Homme</p>
-        <div class="collections-grid">
-            <div class="collection-card reveal">
-                <div class="collection-icon">👗</div>
-                <h3>Collection Femme</h3>
-                <p>Une sélection raffinée de pièces tendances et intemporelles pour sublimer votre garde-robe.</p>
+    <section id="collections">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2 class="section-title">Nos Collections</h2>
+                <p class="section-subtitle">Des pièces soigneusement sélectionnées pour sublimer votre style, que vous soyez à la recherche d'élégance classique ou de tendances actuelles.</p>
             </div>
-            <div class="collection-card reveal">
-                <div class="collection-icon">👔</div>
-                <h3>Collection Homme</h3>
-                <p>Élégance et modernité pour un style affirmé, du casual chic au costume sur mesure.</p>
-            </div>
-            <div class="collection-card reveal">
-                <div class="collection-icon">✨</div>
-                <h3>Accessoires</h3>
-                <p>Les détails qui font la différence : sacs, chaussures, bijoux et bien plus encore.</p>
+            <div class="collections-grid">
+                <div class="collection-card reveal">
+                    <div class="collection-icon">👗</div>
+                    <h3>Collection Femme</h3>
+                    <p>Une sélection raffinée de pièces tendances et intemporelles pour sublimer votre garde-robe féminine.</p>
+                </div>
+                <div class="collection-card reveal">
+                    <div class="collection-icon">👔</div>
+                    <h3>Collection Homme</h3>
+                    <p>Élégance et modernité pour un style affirmé, du casual chic au costume sur mesure.</p>
+                </div>
+                <div class="collection-card reveal">
+                    <div class="collection-icon">✨</div>
+                    <h3>Accessoires</h3>
+                    <p>Les détails qui font la différence : sacs, chaussures, bijoux et bien plus encore.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Brands Section -->
-    <section id="marques">
-        <h2 class="section-title reveal">Nos Marques</h2>
-        <p class="section-subtitle reveal">Une sélection exclusive</p>
-        <div class="brands-list">
-            <div class="brand-item reveal">Marque A</div>
-            <div class="brand-item reveal">Marque B</div>
-            <div class="brand-item reveal">Marque C</div>
-            <div class="brand-item reveal">Marque D</div>
-            <div class="brand-item reveal">Marque E</div>
-            <div class="brand-item reveal">Marque F</div>
-            <div class="brand-item reveal">Marque G</div>
-            <div class="brand-item reveal">Marque H</div>
+    <section id="marques" class="brands">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2 class="section-title">Nos Marques</h2>
+                <p class="section-subtitle">Une sélection exclusive de marques reconnues pour leur qualité et leur style.</p>
+            </div>
+            <div class="brands-grid">
+                <div class="brand-item reveal">Marque A</div>
+                <div class="brand-item reveal">Marque B</div>
+                <div class="brand-item reveal">Marque C</div>
+                <div class="brand-item reveal">Marque D</div>
+                <div class="brand-item reveal">Marque E</div>
+                <div class="brand-item reveal">Marque F</div>
+                <div class="brand-item reveal">Marque G</div>
+                <div class="brand-item reveal">Marque H</div>
+            </div>
         </div>
     </section>
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
-        <h2 class="section-title reveal">Nous Contacter</h2>
-        <p class="section-subtitle reveal">Prenez rendez-vous</p>
-        <div class="contact-content">
-            <div class="contact-info reveal">
-                <h3>Informations</h3>
-                <div class="info-item">
-                    <h4>Adresse</h4>
-                    <p>3, Boulevard Gambetta<br>30900 NÎMES, France</p>
-                </div>
-                <div class="info-item">
-                    <h4>Téléphone</h4>
-                    <p><a href="tel:+33607708215">+33 6 07 70 82 15</a></p>
-                </div>
-                <div class="info-item">
-                    <h4>Email</h4>
-                    <p><a href="mailto:contact@show-room-oliv.fr">contact@show-room-oliv.fr</a></p>
-                </div>
-                <div class="info-item">
-                    <h4>Horaires</h4>
-                    <p>Lundi - Samedi<br>10h00 - 19h00</p>
-                </div>
-                <div class="social-links">
-                    <a href="#" aria-label="Facebook">f</a>
-                    <a href="#" aria-label="Instagram">📷</a>
-                </div>
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2 class="section-title">Nous Contacter</h2>
+                <p class="section-subtitle">Une question ? Un conseil ? N'hésitez pas à nous contacter ou à passer nous voir en boutique.</p>
             </div>
-            <form class="contact-form reveal">
-                <div class="form-group">
-                    <label for="name">Nom</label>
-                    <input type="text" id="name" name="name" placeholder="Votre nom" required>
+            <div class="contact-content">
+                <div class="contact-info reveal">
+                    <h3>Informations</h3>
+                    <div class="info-item">
+                        <h4>📍 Adresse</h4>
+                        <p>3, Boulevard Gambetta<br>30900 NÎMES, France</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>📞 Téléphone</h4>
+                        <a href="tel:+33607708215" class="phone-link">06 07 70 82 15</a>
+                    </div>
+                    <div class="info-item">
+                        <h4>✉️ Email</h4>
+                        <a href="mailto:contact@show-room-oliv.fr">contact@show-room-oliv.fr</a>
+                    </div>
+                    <div class="info-item">
+                        <h4>⏰ Horaires</h4>
+                        <p>Lundi - Samedi<br>10h00 - 19h00</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="votre@email.fr" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" placeholder="Votre message..." required></textarea>
-                </div>
-                <button type="submit" class="submit-button">Envoyer</button>
-            </form>
+                <form class="contact-form reveal">
+                    <div class="form-group">
+                        <label for="name">Nom complet *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Téléphone</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Sujet *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">-- Sélectionnez --</option>
+                            <option value="rdv">Prendre rendez-vous</option>
+                            <option value="info">Demande d'information</option>
+                            <option value="marque">Question sur une marque</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">📩 Envoyer mon message</button>
+                </form>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Show-Room d'Oliv. Tous droits réservés.</p>
-        <p>Site créé par <a href="https://depannagepcgard.fr">Dépannage PC Gard</a></p>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>SHOW-ROOM D'OLIV</h4>
+                <p>Votre destination mode à Nîmes depuis toujours. Plus de 300m² dédiés à l'élégance et au style.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#propos">À propos</a></li>
+                    <li><a href="#collections">Collections</a></li>
+                    <li><a href="#marques">Marques</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li>📞 06 07 70 82 15</li>
+                    <li>✉️ contact@show-room-oliv.fr</li>
+                    <li>📍 3 Bd Gambetta, Nîmes</li>
+                    <li>⏰ Lun-Sam 10h-19h</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Suivez-nous</h4>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Show-Room d'Oliv. Tous droits réservés.</p>
+            <p>Site créé par <a href="https://depannagepcgard.fr">Dépannage PC Gard</a></p>
+        </div>
     </footer>
 
     <script>
@@ -824,7 +1023,7 @@
         window.addEventListener('scroll', revealOnScroll);
         revealOnScroll(); // Initial check
         
-        // Form submission (you'll need to add backend handling)
+        // Form submission
         document.querySelector('.contact-form').addEventListener('submit', (e) => {
             e.preventDefault();
             alert('Merci pour votre message ! Nous vous recontacterons très prochainement.');
@@ -835,10 +1034,7 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
-                // Ignore empty anchors or just '#'
-                if (href === '#' || href === '') {
-                    return;
-                }
+                if (href === '#' || href === '') return;
                 e.preventDefault();
                 const target = document.querySelector(href);
                 if (target) {
