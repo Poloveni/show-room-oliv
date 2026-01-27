@@ -543,6 +543,10 @@
             font-size: 1.3rem;
             transition: all 0.4s ease;
             border: 2px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
         }
         
         .brand-item:hover {
@@ -550,6 +554,23 @@
             color: var(--color-accent);
             transform: translateY(-8px);
             box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+        }
+        
+        .brand-item img {
+            max-width: 100%;
+            max-height: 80px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            filter: grayscale(100%);
+            opacity: 0.7;
+        }
+        
+        .brand-item:hover img {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.1);
         }
         
         .contact-content {
@@ -940,14 +961,30 @@
                 <p class="section-subtitle">Une sélection exclusive de marques reconnues pour leur qualité et leur style.</p>
             </div>
             <div class="brands-grid">
-                <div class="brand-item reveal">Marque A</div>
-                <div class="brand-item reveal">Marque B</div>
-                <div class="brand-item reveal">Marque C</div>
-                <div class="brand-item reveal">Marque D</div>
-                <div class="brand-item reveal">Marque E</div>
-                <div class="brand-item reveal">Marque F</div>
-                <div class="brand-item reveal">Marque G</div>
-                <div class="brand-item reveal">Marque H</div>
+                <div class="brand-item reveal">
+                    <img src="marques/marque-a.png" alt="Marque A">
+                </div>
+                <div class="brand-item reveal">
+                    <img src="marques/marque-b.png" alt="Marque B">
+                </div>
+                <div class="brand-item reveal">
+                    <img src="marques/marque-c.png" alt="Marque C">
+                </div>
+                <div class="brand-item reveal">
+                    <img src="marques/marque-d.png" alt="Marque D">
+                </div>
+                <div class="brand-item reveal">
+                    <img src="marques/marque-e.png" alt="Marque E">
+                </div>
+                <div class="brand-item reveal">
+                    <img src="marques/marque-f.png" alt="Marque F">
+                </div>
+                <div class="brand-item reveal">
+                    <img src="marques/marque-g.png" alt="Marque G">
+                </div>
+                <div class="brand-item reveal">
+                    <img src="marques/marque-h.png" alt="Marque H">
+                </div>
             </div>
         </div>
     </section>
