@@ -575,13 +575,20 @@
         }
         
         .about-image {
-            background: linear-gradient(135deg, #d4c5a9 0%, #b8a892 100%);
             aspect-ratio: 4/5;
             border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             transition: transform 0.5s ease;
             position: relative;
             overflow: hidden;
+            background: #f0f0f0;
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
         
         .about-image::before {
@@ -590,6 +597,8 @@
             inset: 0;
             background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
             animation: shimmer 3s infinite;
+            z-index: 1;
+            pointer-events: none;
         }
         
         @keyframes shimmer {
@@ -1222,7 +1231,9 @@
                     <p class="highlight">La mode est un art de vivre que nous partageons avec passion</p>
                     <p>Notre équipe vous accompagne dans vos choix pour créer le style qui vous ressemble, alliant élégance et personnalité. De la tenue casual au look sophistiqué, trouvez les pièces qui sublimeront votre garde-robe.</p>
                 </div>
-                <div class="about-image reveal"></div>
+                <div class="about-image reveal">
+                    <img src="about-photo.jpg" alt="Boutique Show-Room d'Oliv">
+                </div>
             </div>
         </div>
     </section>
