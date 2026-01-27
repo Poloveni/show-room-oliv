@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show-Room d'Oliv - Boutique Mode Nîmes</title>
-    <meta name="description" content="Boutique de mode homme et femme à Nîmes. Découvrez nos collections sur 300m² en plein cœur de la ville.">
+    <title>Show-Room d'Oliv - Boutique Mode Femme Nîmes</title>
+    <meta name="description" content="Boutique de mode femme à Nîmes. Découvrez nos collections sur 400m² en plein cœur de la ville.">
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -19,13 +18,8 @@
             --color-text: #2c2c2c;
             --color-text-light: #666;
             --color-border: #e5e5e5;
-            
             --font-display: 'Playfair Display', serif;
             --font-body: 'Inter', sans-serif;
-            
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
-            --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
         }
         
         * {
@@ -45,7 +39,6 @@
             overflow-x: hidden;
         }
         
-        /* Navigation */
         .navbar {
             position: fixed;
             top: 0;
@@ -62,7 +55,6 @@
         .navbar.scrolled {
             padding: 0.75rem 0;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            background: rgba(255, 255, 255, 0.98);
         }
         
         .nav-container {
@@ -94,11 +86,6 @@
             transform: scale(1.05) rotate(5deg);
         }
         
-        .navbar.scrolled .logo-image {
-            height: 38px;
-            width: 38px;
-        }
-        
         .logo-text {
             font-family: var(--font-display);
             font-size: 1.4rem;
@@ -119,7 +106,6 @@
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
-            letter-spacing: 0.02em;
             transition: all 0.3s ease;
             position: relative;
         }
@@ -149,7 +135,6 @@
             color: white !important;
             padding: 0.6rem 1.5rem;
             border-radius: 25px;
-            transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
         
@@ -162,7 +147,6 @@
             box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
         }
         
-        /* Mobile Menu */
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -179,7 +163,6 @@
             border-radius: 2px;
         }
         
-        /* Hero Section with Video Background */
         .hero {
             min-height: 100vh;
             position: relative;
@@ -212,7 +195,6 @@
             opacity: 0.3;
         }
         
-        /* Animated gradient background (fallback si pas de vidéo) */
         .hero-gradient {
             position: absolute;
             top: 0;
@@ -230,7 +212,6 @@
             100% { background-position: 0% 50%; }
         }
         
-        /* Particles effect */
         .particles {
             position: absolute;
             top: 0;
@@ -276,6 +257,17 @@
             animation: fadeInUp 1.2s ease-out;
         }
         
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         .hero-logo {
             width: 140px;
             height: 140px;
@@ -308,7 +300,6 @@
             color: var(--color-text);
             font-weight: 500;
             margin-bottom: 1rem;
-            letter-spacing: 0.02em;
         }
         
         .hero-address {
@@ -334,27 +325,8 @@
             text-decoration: none;
             border-radius: 50px;
             transition: all 0.4s ease;
-            border: 2px solid transparent;
             position: relative;
             overflow: hidden;
-        }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transition: width 0.6s ease, height 0.6s ease;
-            transform: translate(-50%, -50%);
-        }
-        
-        .btn:hover::before {
-            width: 300px;
-            height: 300px;
         }
         
         .btn-primary {
@@ -371,7 +343,7 @@
         .btn-secondary {
             background: white;
             color: var(--color-primary);
-            border-color: var(--color-accent);
+            border: 2px solid var(--color-accent);
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
         }
         
@@ -379,29 +351,14 @@
             background: var(--color-accent);
             color: white;
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
         }
         
-        /* Stats Section with Glassmorphism */
         .stats {
             background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,247,244,0.9) 100%);
             backdrop-filter: blur(10px);
             padding: 4rem 2rem;
             border-top: 1px solid rgba(212, 175, 55, 0.2);
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .stats::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
         }
         
         .stats-container {
@@ -411,12 +368,9 @@
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 3rem;
             text-align: center;
-            position: relative;
-            z-index: 1;
         }
         
         .stat-item {
-            animation: fadeInUp 0.8s ease-out;
             transition: transform 0.3s ease;
         }
         
@@ -432,9 +386,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            line-height: 1;
             margin-bottom: 0.5rem;
-            text-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
         }
         
         .stat-label {
@@ -445,10 +397,8 @@
             font-weight: 600;
         }
         
-        /* Sections */
         section {
             padding: 6rem 2rem;
-            position: relative;
         }
         
         .section-container {
@@ -468,7 +418,6 @@
             font-weight: 700;
             color: var(--color-primary);
             margin-bottom: 1.5rem;
-            letter-spacing: -0.01em;
             position: relative;
             display: inline-block;
         }
@@ -482,7 +431,6 @@
             width: 80px;
             height: 4px;
             background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
-            border-radius: 2px;
         }
         
         .section-subtitle {
@@ -492,22 +440,8 @@
             margin-top: 2rem;
         }
         
-        /* About Section with Parallax */
         .about {
             background: var(--color-secondary);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .about::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -20%;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
         }
         
         .about-content {
@@ -515,18 +449,15 @@
             grid-template-columns: 1fr 1fr;
             gap: 5rem;
             align-items: center;
-            position: relative;
-            z-index: 1;
         }
         
         .about-text p {
             font-size: 1.1rem;
             line-height: 1.9;
             margin-bottom: 1.5rem;
-            color: var(--color-text);
         }
         
-        .about-text .highlight {
+        .highlight {
             font-family: var(--font-display);
             font-size: 1.6rem;
             font-style: italic;
@@ -537,7 +468,6 @@
             margin: 2.5rem 0;
             padding-left: 2rem;
             border-left: 4px solid var(--color-accent);
-            line-height: 1.6;
         }
         
         .about-image {
@@ -546,31 +476,15 @@
             border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             transition: transform 0.5s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .about-image::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-            animation: shimmer 3s infinite;
-        }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
         
         .about-image:hover {
-            transform: scale(1.02) rotateY(5deg);
+            transform: scale(1.02);
         }
         
-        /* Collections Section with Advanced Cards */
         .collections-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2.5rem;
             margin-top: 3rem;
         }
@@ -580,44 +494,13 @@
             padding: 3rem 2.5rem;
             border-radius: 16px;
             text-align: center;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s ease;
             border: 2px solid var(--color-border);
-            position: relative;
-            overflow: hidden;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
         
-        .collection-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--color-accent) 0%, #f4d03f 100%);
-            transform: scaleX(0);
-            transition: transform 0.5s ease;
-        }
-        
-        .collection-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent 0%, rgba(212, 175, 55, 0.05) 100%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        
-        .collection-card:hover::before {
-            transform: scaleX(1);
-        }
-        
-        .collection-card:hover::after {
-            opacity: 1;
-        }
-        
         .collection-card:hover {
-            transform: translateY(-15px) scale(1.02);
+            transform: translateY(-15px);
             box-shadow: 0 25px 50px rgba(212, 175, 55, 0.3);
             border-color: var(--color-accent);
         }
@@ -625,48 +508,23 @@
         .collection-icon {
             font-size: 4rem;
             margin-bottom: 1.5rem;
-            transition: transform 0.5s ease;
-            display: inline-block;
-        }
-        
-        .collection-card:hover .collection-icon {
-            transform: scale(1.2) rotate(10deg);
         }
         
         .collection-card h3 {
             font-family: var(--font-display);
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 600;
             margin-bottom: 1.2rem;
             color: var(--color-primary);
-            position: relative;
-            z-index: 1;
         }
         
         .collection-card p {
             color: var(--color-text-light);
             line-height: 1.8;
-            font-size: 1rem;
-            position: relative;
-            z-index: 1;
         }
         
-        /* Brands Section */
         .brands {
             background: var(--color-secondary);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .brands::after {
-            content: '';
-            position: absolute;
-            bottom: -50%;
-            right: -20%;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
         }
         
         .brands-grid {
@@ -674,8 +532,6 @@
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
-            position: relative;
-            z-index: 1;
         }
         
         .brand-item {
@@ -685,48 +541,15 @@
             text-align: center;
             font-family: var(--font-display);
             font-size: 1.3rem;
-            color: var(--color-text);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s ease;
             border: 2px solid var(--color-border);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .brand-item::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        
-        .brand-item:hover::before {
-            opacity: 1;
         }
         
         .brand-item:hover {
             border-color: var(--color-accent);
             color: var(--color-accent);
-            transform: translateY(-8px) scale(1.05);
+            transform: translateY(-8px);
             box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
-        }
-        
-        /* Contact Section */
-        .contact {
-            background: white;
-            position: relative;
-        }
-        
-        .contact::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
         }
         
         .contact-content {
@@ -738,30 +561,21 @@
         
         .contact-info {
             background: linear-gradient(135deg, rgba(248, 247, 244, 0.8) 0%, rgba(235, 232, 224, 0.8) 100%);
-            backdrop-filter: blur(10px);
             padding: 3.5rem;
             border-radius: 16px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(212, 175, 55, 0.2);
         }
         
         .contact-info h3 {
             font-family: var(--font-display);
             font-size: 2rem;
-            font-weight: 600;
             margin-bottom: 2.5rem;
-            color: var(--color-primary);
         }
         
         .info-item {
             margin-bottom: 2.5rem;
             padding-bottom: 2rem;
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            transition: transform 0.3s ease;
-        }
-        
-        .info-item:hover {
-            transform: translateX(5px);
         }
         
         .info-item:last-child {
@@ -781,7 +595,6 @@
             font-size: 1.1rem;
             color: var(--color-text);
             text-decoration: none;
-            transition: color 0.3s ease;
         }
         
         .info-item a:hover {
@@ -789,15 +602,11 @@
         }
         
         .phone-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
             font-size: 1.4rem !important;
             font-weight: 700;
             background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         
         .social-links {
@@ -824,17 +633,14 @@
         .social-links a:hover {
             background: var(--color-accent);
             color: white;
-            transform: translateY(-5px) rotate(360deg);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            transform: translateY(-5px);
         }
         
         .contact-form {
             background: linear-gradient(135deg, rgba(248, 247, 244, 0.5) 0%, rgba(235, 232, 224, 0.5) 100%);
-            backdrop-filter: blur(10px);
             padding: 3.5rem;
             border-radius: 16px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(212, 175, 55, 0.2);
         }
         
         .form-group {
@@ -846,7 +652,6 @@
             font-size: 0.95rem;
             font-weight: 600;
             margin-bottom: 0.7rem;
-            color: var(--color-text);
         }
         
         .form-group input,
@@ -859,7 +664,6 @@
             border-radius: 8px;
             font-family: var(--font-body);
             font-size: 1rem;
-            color: var(--color-text);
             transition: all 0.3s ease;
         }
         
@@ -869,7 +673,6 @@
             outline: none;
             border-color: var(--color-accent);
             box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
-            transform: translateY(-2px);
         }
         
         .form-group textarea {
@@ -884,32 +687,11 @@
             color: white;
             border: none;
             border-radius: 50px;
-            font-family: var(--font-body);
             font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.4s ease;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .submit-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(212, 175, 55, 0.3);
-            transition: width 0.6s ease, height 0.6s ease;
-            transform: translate(-50%, -50%);
-        }
-        
-        .submit-button:hover::before {
-            width: 400px;
-            height: 400px;
         }
         
         .submit-button:hover {
@@ -917,23 +699,10 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
         
-        /* Footer */
         footer {
             background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
             color: rgba(255, 255, 255, 0.8);
             padding: 5rem 2rem 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
         }
         
         .footer-container {
@@ -952,11 +721,6 @@
             margin-bottom: 1.8rem;
         }
         
-        .footer-section p {
-            line-height: 1.9;
-            margin-bottom: 1rem;
-        }
-        
         .footer-section ul {
             list-style: none;
         }
@@ -968,47 +732,28 @@
         .footer-section a {
             color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
         }
         
         .footer-section a:hover {
             color: var(--color-accent);
-            padding-left: 5px;
         }
         
         .footer-bottom {
             text-align: center;
             padding-top: 2.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.95rem;
         }
         
         .footer-bottom a {
             color: var(--color-accent);
             text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-bottom a:hover {
-            color: #f4d03f;
-        }
-        
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
         
         .reveal {
             opacity: 0;
             transform: translateY(40px);
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 1s ease;
         }
         
         .reveal.active {
@@ -1016,7 +761,6 @@
             transform: translateY(0);
         }
         
-        /* Responsive */
         @media (max-width: 968px) {
             .about-content,
             .contact-content {
@@ -1026,12 +770,6 @@
             
             .footer-container {
                 grid-template-columns: 1fr 1fr;
-                gap: 2.5rem;
-            }
-            
-            .hero-logo {
-                width: 100px;
-                height: 100px;
             }
         }
         
@@ -1048,27 +786,16 @@
                 width: 85%;
                 max-width: 400px;
                 background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(20px);
                 flex-direction: column;
                 padding: 6rem 2rem 2rem;
                 gap: 2rem;
                 box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
-                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: right 0.4s ease;
                 align-items: flex-start;
             }
             
             .nav-links.active {
                 right: 0;
-            }
-            
-            .cta-nav {
-                width: 100%;
-                text-align: center;
-                justify-content: center;
-            }
-            
-            .collections-grid {
-                grid-template-columns: 1fr;
             }
             
             section {
@@ -1077,19 +804,6 @@
             
             .hero-content {
                 padding: 6rem 1.5rem 4rem;
-            }
-            
-            .stats-container {
-                gap: 2.5rem;
-            }
-            
-            .hero-cta {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
             }
             
             .footer-container {
@@ -1103,11 +817,10 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="#accueil" class="logo-container">
-                <img src="logo.png" alt="Show-Room d'Oliv Logo" class="logo-image">
+                <img src="logo.png" alt="Show-Room d'Oliv" class="logo-image">
                 <span class="logo-text">SHOW-ROOM D'OLIV</span>
             </a>
             <ul class="nav-links">
@@ -1125,16 +838,12 @@
         </div>
     </nav>
 
-    <!-- Hero Section with Animated Background -->
-<video class="hero-video" autoplay muted loop playsinline preload="auto">
-    <source src="./8991334-uhd_3840_1608_24fps.mp4" type="video/mp4">
-    <source src="8991334-uhd_3840_1608_24fps.mp4" type="video/mp4">
-</video>
-            
-            <!-- Animated gradient background (visible si pas de vidéo) -->
+    <section id="accueil" class="hero">
+        <div class="hero-background">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="8991334-uhd_3840_1608_24fps.mp4" type="video/mp4">
+            </video>
             <div class="hero-gradient"></div>
-            
-            <!-- Particles -->
             <div class="particles">
                 <div class="particle"></div>
                 <div class="particle"></div>
@@ -1142,14 +851,13 @@
                 <div class="particle"></div>
                 <div class="particle"></div>
             </div>
-            
             <div class="hero-overlay"></div>
         </div>
         
         <div class="hero-content">
-            <img src="logo.png" alt="Show-Room d'Oliv Logo" class="hero-logo">
+            <img src="logo.png" alt="Show-Room d'Oliv" class="hero-logo">
             <h1>Show-Room d'Oliv</h1>
-            <p class="hero-subtitle">Votre destination mode à Nîmes</p>
+            <p class="hero-subtitle">Votre destination mode femme à Nîmes</p>
             <p class="hero-address">📍 3, Boulevard Gambetta - 30900 NÎMES</p>
             <div class="hero-cta">
                 <a href="tel:+33607708215" class="btn btn-primary">📞 06 07 70 82 15</a>
@@ -1158,11 +866,10 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
     <section class="stats">
         <div class="stats-container">
             <div class="stat-item reveal">
-                <div class="stat-number">300m²</div>
+                <div class="stat-number">400m²</div>
                 <div class="stat-label">D'espace mode</div>
             </div>
             <div class="stat-item reveal">
@@ -1170,60 +877,62 @@
                 <div class="stat-label">Marques exclusives</div>
             </div>
             <div class="stat-item reveal">
-                <div class="stat-number">2</div>
-                <div class="stat-label">Collections homme & femme</div>
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Collections femme</div>
             </div>
             <div class="stat-item reveal">
                 <div class="stat-number">❤️</div>
-                <div class="stat-label">Passion mode depuis toujours</div>
+                <div class="stat-label">Passion mode</div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
     <section id="propos" class="about">
         <div class="section-container">
             <div class="about-content">
                 <div class="about-text reveal">
-                    <h2 class="section-title">L'élégance au cœur de Nîmes</h2>
-                    <p>En plein cœur de Nîmes, le Show-Room d'Oliv vous accueille sur plus de <strong>300m² dédiés à la mode homme et femme</strong>.</p>
+                    <h2 class="section-title">L'élégance féminine au cœur de Nîmes</h2>
+                    <p>En plein cœur de Nîmes, le Show-Room d'Oliv vous accueille sur plus de <strong>400m² dédiés exclusivement à la mode femme</strong>.</p>
                     <p>Sans cesse en recherche de nouvelles marques et nouvelles tendances, nous vous offrons la possibilité de découvrir les collections du moment dans un cadre élégant et raffiné.</p>
                     <p class="highlight">"La mode est un art de vivre que nous partageons avec passion"</p>
-                    <p>Notre équipe vous accompagne dans vos choix pour créer le style qui vous ressemble, alliant élégance et personnalité.</p>
+                    <p>Notre équipe vous accompagne dans vos choix pour créer le style qui vous ressemble, alliant élégance et personnalité. De la tenue casual au look sophistiqué, trouvez les pièces qui sublimeront votre garde-robe.</p>
                 </div>
                 <div class="about-image reveal"></div>
             </div>
         </div>
     </section>
 
-    <!-- Collections Section -->
     <section id="collections">
         <div class="section-container">
             <div class="section-header reveal">
                 <h2 class="section-title">Nos Collections</h2>
-                <p class="section-subtitle">Des pièces soigneusement sélectionnées pour sublimer votre style, que vous soyez à la recherche d'élégance classique ou de tendances actuelles.</p>
+                <p class="section-subtitle">Des pièces soigneusement sélectionnées pour sublimer votre style, de l'élégance classique aux dernières tendances.</p>
             </div>
             <div class="collections-grid">
                 <div class="collection-card reveal">
                     <div class="collection-icon">👗</div>
-                    <h3>Collection Femme</h3>
-                    <p>Une sélection raffinée de pièces tendances et intemporelles pour sublimer votre garde-robe féminine.</p>
+                    <h3>Prêt-à-Porter</h3>
+                    <p>Une sélection raffinée de vêtements tendances et intemporels pour toutes les occasions.</p>
                 </div>
                 <div class="collection-card reveal">
-                    <div class="collection-icon">👔</div>
-                    <h3>Collection Homme</h3>
-                    <p>Élégance et modernité pour un style affirmé, du casual chic au costume sur mesure.</p>
+                    <div class="collection-icon">👠</div>
+                    <h3>Chaussures</h3>
+                    <p>Des escarpins élégants aux baskets tendance, trouvez la paire parfaite pour compléter votre look.</p>
+                </div>
+                <div class="collection-card reveal">
+                    <div class="collection-icon">👜</div>
+                    <h3>Accessoires</h3>
+                    <p>Sacs à main, bijoux, foulards... Les détails qui font toute la différence.</p>
                 </div>
                 <div class="collection-card reveal">
                     <div class="collection-icon">✨</div>
-                    <h3>Accessoires</h3>
-                    <p>Les détails qui font la différence : sacs, chaussures, bijoux et bien plus encore.</p>
+                    <h3>Collection Soir</h3>
+                    <p>Des tenues sophistiquées pour vos événements spéciaux et soirées d'exception.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Brands Section -->
     <section id="marques" class="brands">
         <div class="section-container">
             <div class="section-header reveal">
@@ -1243,12 +952,11 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="section-container">
             <div class="section-header reveal">
                 <h2 class="section-title">Nous Contacter</h2>
-                <p class="section-subtitle">Une question ? Un conseil ? N'hésitez pas à nous contacter ou à passer nous voir en boutique.</p>
+                <p class="section-subtitle">Une question ? Un conseil mode ? N'hésitez pas à nous contacter ou à passer nous voir en boutique.</p>
             </div>
             <div class="contact-content">
                 <div class="contact-info reveal">
@@ -1307,12 +1015,11 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-container">
             <div class="footer-section">
                 <h4>SHOW-ROOM D'OLIV</h4>
-                <p>Votre destination mode à Nîmes depuis toujours. Plus de 300m² dédiés à l'élégance et au style.</p>
+                <p>Votre destination mode femme à Nîmes. Plus de 400m² dédiés à l'élégance et au style féminin.</p>
             </div>
             <div class="footer-section">
                 <h4>Navigation</h4>
@@ -1348,55 +1055,40 @@
     </footer>
 
     <script>
-        // Mobile Menu Toggle
         function toggleMenu() {
             const navLinks = document.querySelector('.nav-links');
-            const menuToggle = document.querySelector('.menu-toggle');
             navLinks.classList.toggle('active');
-            menuToggle.classList.toggle('active');
         }
         
-        // Close menu when clicking on a link
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 document.querySelector('.nav-links').classList.remove('active');
             });
         });
         
-        // Navbar scroll effect
-        let lastScroll = 0;
         window.addEventListener('scroll', () => {
             const navbar = document.querySelector('.navbar');
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll > 50) {
+            if (window.pageYOffset > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
-            
-            lastScroll = currentScroll;
         });
         
-        // Scroll reveal animation
         const reveals = document.querySelectorAll('.reveal');
-        
         const revealOnScroll = () => {
             const windowHeight = window.innerHeight;
             reveals.forEach(element => {
                 const elementTop = element.getBoundingClientRect().top;
-                const revealPoint = 100;
-                
-                if (elementTop < windowHeight - revealPoint) {
+                if (elementTop < windowHeight - 100) {
                     element.classList.add('active');
                 }
             });
         };
         
         window.addEventListener('scroll', revealOnScroll);
-        revealOnScroll(); // Initial check
+        revealOnScroll();
         
-        // Form submission
         document.querySelector('.contact-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const button = e.target.querySelector('.submit-button');
@@ -1411,7 +1103,6 @@
             }, 3000);
         });
         
-        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
@@ -1419,23 +1110,12 @@
                 e.preventDefault();
                 const target = document.querySelector(href);
                 if (target) {
-                    const offsetTop = target.offsetTop - 80;
                     window.scrollTo({
-                        top: offsetTop,
+                        top: target.offsetTop - 80,
                         behavior: 'smooth'
                     });
                 }
             });
-        });
-        
-        // Parallax effect for about image
-        window.addEventListener('scroll', () => {
-            const aboutImage = document.querySelector('.about-image');
-            if (aboutImage) {
-                const scrolled = window.pageYOffset;
-                const rate = scrolled * 0.3;
-                aboutImage.style.transform = `translateY(${rate}px)`;
-            }
         });
     </script>
 </body>
