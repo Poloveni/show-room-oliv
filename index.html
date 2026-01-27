@@ -689,6 +689,28 @@
             transform: scale(1.08);
         }
         
+        #collections {
+            background: linear-gradient(180deg, #f9f8f6 0%, #ffffff 50%, #f9f8f6 100%);
+            position: relative;
+        }
+
+        #collections::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(201, 169, 97, 0.05) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        #collections .section-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
         .collections-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -702,8 +724,8 @@
             border-radius: 20px;
             text-align: center;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid var(--border-light);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(201, 169, 97, 0.2);
+            box-shadow: 0 10px 40px rgba(201, 169, 97, 0.08);
             position: relative;
             overflow: hidden;
         }
@@ -712,18 +734,20 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, var(--accent-rose) 0%, transparent 100%);
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.08) 0%, transparent 100%);
             opacity: 0;
             transition: opacity 0.5s ease;
         }
 
         .collection-item:hover::before {
-            opacity: 0.1;
+            opacity: 1;
         }
         
         .collection-item:hover {
             transform: translateY(-15px);
-            box-shadow: 0 25px 60px rgba(201, 169, 97, 0.2);
+            box-shadow: 
+                0 25px 60px rgba(201, 169, 97, 0.25),
+                0 0 0 1px rgba(201, 169, 97, 0.3);
             border-color: var(--accent-gold);
         }
         
@@ -732,10 +756,12 @@
             margin-bottom: 2rem;
             display: inline-block;
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: grayscale(20%);
         }
 
         .collection-item:hover .collection-icon {
             transform: scale(1.15) rotate(5deg);
+            filter: grayscale(0%);
         }
         
         .collection-item h3 {
@@ -745,6 +771,7 @@
             margin-bottom: 1.5rem;
             position: relative;
             z-index: 1;
+            color: var(--primary-dark);
         }
         
         .collection-item p {
@@ -756,7 +783,55 @@
         }
         
         .brands-section {
-            background: var(--primary-light);
+            background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 50%, #1a1a1a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brands-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(201, 169, 97, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(201, 169, 97, 0.06) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .brands-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(90deg, transparent 0px, transparent 100px, rgba(201, 169, 97, 0.02) 100px, rgba(201, 169, 97, 0.02) 101px);
+            z-index: 0;
+        }
+
+        .brands-section .section-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        .brands-section .section-label {
+            color: var(--accent-gold);
+        }
+
+        .brands-section .section-title {
+            color: white;
+        }
+
+        .brands-section .section-title::after {
+            background: linear-gradient(90deg, transparent, rgba(201, 169, 97, 0.6), transparent);
+        }
+
+        .brands-section .section-desc {
+            color: rgba(255, 255, 255, 0.7);
         }
         
         .brands-grid {
@@ -767,12 +842,13 @@
         }
         
         .brand-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
             padding: 3.5rem;
             border-radius: 20px;
             text-align: center;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 2px solid var(--border-light);
+            border: 1px solid rgba(201, 169, 97, 0.2);
             min-height: 220px;
             display: flex;
             flex-direction: column;
@@ -781,13 +857,14 @@
             position: relative;
             overflow: hidden;
             cursor: pointer;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
         .brand-card::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(201, 169, 97, 0.05) 0%, transparent 100%);
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.1) 0%, transparent 100%);
             opacity: 0;
             transition: opacity 0.4s ease;
         }
@@ -799,7 +876,7 @@
             left: 0;
             right: 0;
             padding: 1.2rem;
-            background: var(--accent-gold);
+            background: linear-gradient(135deg, var(--accent-gold) 0%, #b8935a 100%);
             color: white;
             font-weight: 600;
             font-size: 0.95rem;
@@ -819,7 +896,10 @@
         .brand-card:hover {
             transform: translateY(-10px);
             border-color: var(--accent-gold);
-            box-shadow: 0 25px 60px rgba(201, 169, 97, 0.25);
+            box-shadow: 
+                0 25px 60px rgba(201, 169, 97, 0.4),
+                0 0 0 1px rgba(201, 169, 97, 0.5);
+            background: rgba(255, 255, 255, 0.08);
         }
         
         .brand-card img {
@@ -828,15 +908,15 @@
             width: auto;
             height: auto;
             object-fit: contain;
-            filter: grayscale(100%) opacity(0.6);
+            filter: brightness(0) invert(1) opacity(0.7);
             transition: all 0.4s ease;
             position: relative;
             z-index: 1;
         }
 
         .brand-card:hover img {
-            filter: grayscale(0%) opacity(1);
-            transform: scale(1.08);
+            filter: brightness(1) invert(0) opacity(1);
+            transform: scale(1.08) translateY(-10px);
         }
         
         .gallery-overlay {
