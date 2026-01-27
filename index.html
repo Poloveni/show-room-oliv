@@ -96,6 +96,27 @@
                     inset 0 0 60px rgba(201, 169, 97, 0.4);
             }
         }
+
+        @keyframes wave {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes scroll-progress {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { 
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1) rotate(180deg);
+            }
+        }
         
         * {
             margin: 0;
@@ -116,11 +137,11 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            cursor: default;
+            cursor: none;
         }
 
-        body::before {
-            content: '';
+        /* Curseur personnalisé */
+        .custom-cursor {
             position: fixed;
             width: 20px;
             height: 20px;
@@ -128,8 +149,46 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 99999;
-            transition: transform 0.1s ease, opacity 0.3s ease;
-            opacity: 0;
+            transition: all 0.15s ease;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transition: all 0.05s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .custom-cursor.hover {
+            width: 50px;
+            height: 50px;
+            background: rgba(201, 169, 97, 0.1);
+            border-width: 1px;
+        }
+
+        /* Barre de progression de scroll */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light), var(--accent-gold));
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 99998;
+            box-shadow: 0 0 10px var(--shadow-gold);
+        }
+
+        body::before {
+            display: none;
         }
 
         a, button, .btn, .collection-card, .brand-card {
@@ -469,6 +528,8 @@
             background-repeat: no-repeat;
             filter: brightness(0.4);
             z-index: 0;
+            will-change: transform;
+            transition: transform 0.05s ease-out;
         }
 
         .hero::after {
@@ -889,6 +950,31 @@
             color: var(--accent-gold);
             font-weight: 600;
             margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.1) 0%, rgba(201, 169, 97, 0.05) 100%);
+            border-radius: 50px;
+            border: 1px solid rgba(201, 169, 97, 0.3);
+        }
+
+        .section-label::before {
+            content: '✦';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .section-label::after {
+            content: '✦';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: sparkle 2s ease-in-out infinite;
+            animation-delay: 1s;
         }
         
         .section-title {
@@ -1110,8 +1196,29 @@
             transition: opacity 0.5s ease;
         }
 
+        .collection-item::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 70%
+            );
+            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            transition: transform 0.8s ease;
+        }
+
         .collection-item:hover::before {
             opacity: 1;
+        }
+
+        .collection-item:hover::after {
+            transform: translateX(100%) translateY(100%) rotate(45deg);
         }
         
         .collection-item:hover {
@@ -1742,6 +1849,39 @@
         .scroll-to-top:hover::before {
             opacity: 0.6;
         }
+
+        /* Séparateur de section avec vague */
+        .section-divider {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+            background: linear-gradient(180deg, transparent 0%, rgba(201, 169, 97, 0.03) 50%, transparent 100%);
+        }
+
+        .section-divider::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent 0px,
+                rgba(201, 169, 97, 0.2) 50px,
+                transparent 100px
+            );
+            animation: wave 3s linear infinite;
+        }
+
+        .section-divider::after {
+            content: '✦';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: var(--accent-gold);
+            animation: sparkle 3s ease-in-out infinite;
+        }
         
         .footer-grid {
             max-width: 1400px;
@@ -1899,6 +2039,13 @@
     </style>
 </head>
 <body>
+    <!-- Curseur personnalisé -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-dot"></div>
+
+    <!-- Barre de progression de scroll -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-container">
             <div class="loading-logo">
@@ -1998,6 +2145,8 @@
         </div>
     </section>
 
+    <div class="section-divider"></div>
+
     <section id="collections">
         <div class="section-wrapper">
             <div class="section-head scroll-reveal">
@@ -2029,6 +2178,8 @@
             </div>
         </div>
     </section>
+
+    <div class="section-divider"></div>
 
     <section id="marques" class="brands-section">
         <div class="section-wrapper">
@@ -2070,6 +2221,8 @@
             <div class="gallery-thumbs" id="galleryThumbs"></div>
         </div>
     </div>
+
+    <div class="section-divider"></div>
 
     <section id="contact" class="contact-section">
         <div class="section-wrapper">
@@ -2262,6 +2415,61 @@
         };
 
         createLoadingParticles();
+
+        // Curseur personnalisé
+        const cursor = document.querySelector('.custom-cursor');
+        const cursorDot = document.querySelector('.custom-cursor-dot');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let dotX = 0, dotY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            dotX = e.clientX;
+            dotY = e.clientY;
+            cursorDot.style.left = dotX + 'px';
+            cursorDot.style.top = dotY + 'px';
+        });
+
+        function animateCursor() {
+            const dx = mouseX - cursorX;
+            const dy = mouseY - cursorY;
+            cursorX += dx * 0.15;
+            cursorY += dy * 0.15;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Effet hover sur éléments interactifs
+        const interactiveElements = document.querySelectorAll('a, button, .btn, .brand-card, .collection-item');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Barre de progression de scroll
+        const scrollProgress = document.getElementById('scrollProgress');
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight);
+            scrollProgress.style.transform = `scaleX(${scrolled})`;
+        });
+
+        // Effet parallaxe sur le hero
+        const hero = document.querySelector('.hero');
+        const heroBackground = hero?.querySelector('::before');
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            if (hero && scrolled < window.innerHeight) {
+                const heroElement = hero.querySelector('.hero::before') || hero;
+                hero.style.setProperty('--parallax-offset', scrolled * 0.5 + 'px');
+                // Applique via le CSS custom property pour ::before
+                document.documentElement.style.setProperty('--hero-parallax', scrolled * 0.5 + 'px');
+            }
+        });
 
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -2471,27 +2679,47 @@
 
         animateNumbers();
 
-        // Effet de particules sur les boutons au survol
+        // Effet de particules sur les boutons au survol (version améliorée)
         document.querySelectorAll('.btn').forEach(btn => {
             btn.addEventListener('mouseenter', function(e) {
-                for (let i = 0; i < 5; i++) {
+                for (let i = 0; i < 8; i++) {
                     const particle = document.createElement('span');
+                    const angle = (360 / 8) * i;
+                    const velocity = 40 + Math.random() * 20;
+                    const tx = Math.cos(angle * Math.PI / 180) * velocity;
+                    const ty = Math.sin(angle * Math.PI / 180) * velocity;
+                    
                     particle.style.cssText = `
                         position: absolute;
-                        width: 6px;
-                        height: 6px;
-                        background: var(--accent-gold);
+                        width: ${4 + Math.random() * 4}px;
+                        height: ${4 + Math.random() * 4}px;
+                        background: ${Math.random() > 0.5 ? 'var(--accent-gold)' : 'white'};
                         border-radius: 50%;
                         pointer-events: none;
-                        opacity: 0;
-                        animation: particle-burst 0.8s ease-out forwards;
-                        left: ${e.offsetX}px;
-                        top: ${e.offsetY}px;
-                        animation-delay: ${i * 0.05}s;
+                        opacity: 1;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        box-shadow: 0 0 10px currentColor;
                     `;
                     
                     this.appendChild(particle);
-                    setTimeout(() => particle.remove(), 1000);
+                    
+                    particle.animate([
+                        { 
+                            transform: 'translate(-50%, -50%) scale(1)',
+                            opacity: 1
+                        },
+                        { 
+                            transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`,
+                            opacity: 0
+                        }
+                    ], {
+                        duration: 800,
+                        easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                    });
+                    
+                    setTimeout(() => particle.remove(), 800);
                 }
             });
         });
@@ -2587,3 +2815,4 @@
     </script>
 </body>
 </html>
+
