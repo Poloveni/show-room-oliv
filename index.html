@@ -1330,7 +1330,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="#accueil" class="logo-container">
-                <img src="logo.png" alt="Show-Room d'Oliv" class="logo-image">
+                <img src="./logo.png" alt="Show-Room d'Oliv" class="logo-image">
                 <span class="logo-text">SHOW-ROOM D'OLIV</span>
             </a>
             <ul class="nav-links">
@@ -1350,7 +1350,7 @@
 
     <section id="accueil" class="hero">
         <div class="hero-background">
-            <img src="hero-background.jpg" alt="Boutique Show-Room d'Oliv" class="hero-image">
+            <img src="./hero-background.jpg" alt="Boutique Show-Room d'Oliv" class="hero-image">
             <div class="hero-gradient"></div>
             <div class="particles">
                 <div class="particle"></div>
@@ -1363,7 +1363,7 @@
         </div>
         
         <div class="hero-content">
-            <img src="logo.png" alt="Show-Room d'Oliv" class="hero-logo">
+            <img src="./logo.png" alt="Show-Room d'Oliv" class="hero-logo">
             <h1>Show-Room d'Oliv</h1>
             <p class="hero-subtitle">Votre destination mode femme à Nîmes</p>
             <p class="hero-address">📍 3, Boulevard Gambetta - 30900 NÎMES</p>
@@ -1406,7 +1406,7 @@
                     <p>Notre équipe vous accompagne dans vos choix pour créer le style qui vous ressemble, alliant élégance et personnalité. De la tenue casual au look sophistiqué, trouvez les pièces qui sublimeront votre garde-robe.</p>
                 </div>
                 <div class="about-image reveal">
-                    <img src="about-photo.jpg" alt="Boutique Show-Room d'Oliv">
+                    <img src="./about-photo.jpg" alt="Boutique Show-Room d'Oliv">
                 </div>
             </div>
         </div>
@@ -1451,19 +1451,7 @@
             </div>
             <div class="brands-grid">
                 <div class="brand-item reveal" onclick="openGallery('marque-a')">
-                    <img src="marques/marque-a.png" alt="Marque A">
-                </div>
-                <div class="brand-item reveal" onclick="openGallery('marque-b')">
-                    <img src="marques/marque-b.png" alt="Marque B">
-                </div>
-                <div class="brand-item reveal" onclick="openGallery('marque-c')">
-                    <img src="marques/marque-c.png" alt="Marque C">
-                </div>
-                <div class="brand-item reveal" onclick="openGallery('marque-d')">
-                    <img src="marques/marque-d.png" alt="Marque D">
-                </div>
-                <div class="brand-item reveal" onclick="openGallery('marque-e')">
-                    <img src="marques/marque-e.png" alt="Marque E">
+                    <img src="./marques/marque-a.png" alt="Marque A">
                 </div>
             </div>
         </div>
@@ -1588,42 +1576,15 @@
 
     <script>
         // Galeries pour chaque marque (photos et vidéos)
+        // CHEMINS CORRIGÉS POUR GITHUB PAGES
         const galleries = {
             'marque-a': {
                 name: 'Marque A',
                 media: [
-                    { type: 'image', src: 'galeries/marque-a/photo1.jpg' },
-                    { type: 'image', src: 'galeries/marque-a/photo2.jpg' },
-                    { type: 'image', src: 'galeries/marque-a/photo3.jpg' },
-                    { type: 'video', src: 'galeries/marque-a/video1.mp4' }
-                ]
-            },
-            'marque-b': {
-                name: 'Marque B',
-                media: [
-                    { type: 'image', src: 'galeries/marque-b/photo1.jpg' },
-                    { type: 'image', src: 'galeries/marque-b/photo2.jpg' }
-                ]
-            },
-            'marque-c': {
-                name: 'Marque C',
-                media: [
-                    { type: 'image', src: 'galeries/marque-c/photo1.jpg' },
-                    { type: 'image', src: 'galeries/marque-c/photo2.jpg' }
-                ]
-            },
-            'marque-d': {
-                name: 'Marque D',
-                media: [
-                    { type: 'image', src: 'galeries/marque-d/photo1.jpg' },
-                    { type: 'image', src: 'galeries/marque-d/photo2.jpg' }
-                ]
-            },
-            'marque-e': {
-                name: 'Marque E',
-                media: [
-                    { type: 'image', src: 'galeries/marque-e/photo1.jpg' },
-                    { type: 'image', src: 'galeries/marque-e/photo2.jpg' }
+                    { type: 'image', src: './galeries/marque-a/photo1.jpg' },
+                    { type: 'image', src: './galeries/marque-a/photo2.jpg' },
+                    { type: 'image', src: './galeries/marque-a/photo3.jpg' },
+                    { type: 'video', src: './galeries/marque-a/video1.mp4' }
                 ]
             }
         };
@@ -1658,9 +1619,9 @@
             const media = currentGallery.media[index];
             
             if (media.type === 'image') {
-                mainMediaContainer.innerHTML = `<img src="${media.src}" alt="Photo ${index + 1}" id="mainMedia">`;
+                mainMediaContainer.innerHTML = `<img src="${media.src}" alt="Photo ${index + 1}" id="mainMedia" onerror="this.src='https://via.placeholder.com/800x600?text=Image+non+disponible'">`;
             } else if (media.type === 'video') {
-                mainMediaContainer.innerHTML = `<video src="${media.src}" controls autoplay id="mainMedia"></video>`;
+                mainMediaContainer.innerHTML = `<video src="${media.src}" controls autoplay id="mainMedia">Votre navigateur ne supporte pas les vidéos.</video>`;
             }
             
             updateThumbnails();
@@ -1676,6 +1637,9 @@
                     thumb.src = media.src;
                     thumb.className = 'gallery-thumb';
                     thumb.onclick = () => showMedia(index);
+                    thumb.onerror = function() {
+                        this.src = 'https://via.placeholder.com/120?text=Image';
+                    };
                     thumbsContainer.appendChild(thumb);
                 } else if (media.type === 'video') {
                     const thumb = document.createElement('div');
