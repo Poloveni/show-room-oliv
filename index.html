@@ -51,6 +51,51 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+
+        @keyframes particle-float {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes rays-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes loading-text-fade {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes loading-breathe {
+            0%, 100% { 
+                transform: scale(1) translateY(0px);
+                box-shadow: 
+                    0 0 40px var(--shadow-gold),
+                    0 0 80px var(--shadow-gold),
+                    inset 0 0 40px rgba(201, 169, 97, 0.2);
+            }
+            50% { 
+                transform: scale(1.08) translateY(-10px);
+                box-shadow: 
+                    0 0 60px var(--shadow-gold),
+                    0 0 120px var(--shadow-gold),
+                    0 0 160px var(--shadow-gold),
+                    inset 0 0 60px rgba(201, 169, 97, 0.4);
+            }
+        }
         
         * {
             margin: 0;
@@ -124,10 +169,31 @@
             background-size: 200% 200%;
             animation: gradient-shift 3s ease infinite;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 3rem;
             z-index: 99999;
             transition: opacity 0.8s ease, visibility 0.8s ease;
+            overflow: hidden;
+        }
+
+        .loading-screen::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                rgba(201, 169, 97, 0.15) 90deg,
+                transparent 180deg,
+                rgba(201, 169, 97, 0.15) 270deg,
+                transparent 360deg
+            );
+            border-radius: 50%;
+            animation: rays-rotate 20s linear infinite;
+            filter: blur(40px);
         }
 
         .loading-screen.hidden {
@@ -135,41 +201,46 @@
             visibility: hidden;
         }
 
+        .loading-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+            z-index: 1;
+        }
+
         .loading-logo {
-            width: 150px;
-            height: 150px;
-            border: 4px solid var(--accent-gold);
+            width: 180px;
+            height: 180px;
+            border: 5px solid var(--accent-gold);
             border-radius: 50%;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 
-                0 0 40px var(--shadow-gold),
-                0 0 80px var(--shadow-gold),
-                inset 0 0 40px rgba(201, 169, 97, 0.2);
-            animation: glow-pulse 2s ease-in-out infinite, float 3s ease-in-out infinite;
+            animation: loading-breathe 3s ease-in-out infinite;
         }
 
         .loading-logo::before {
             content: '';
             position: absolute;
-            inset: -15px;
+            inset: -20px;
             border-radius: 50%;
             background: radial-gradient(circle, var(--accent-gold) 0%, transparent 70%);
-            opacity: 0.3;
+            opacity: 0.4;
             animation: glow-pulse 2s ease-in-out infinite;
-            filter: blur(20px);
+            filter: blur(30px);
         }
 
         .loading-logo::after {
             content: '';
             position: absolute;
-            inset: -8px;
+            inset: -12px;
             border-radius: 50%;
-            border: 2px solid var(--accent-gold);
-            opacity: 0.4;
-            animation: rotate-border 4s linear infinite reverse;
+            border: 3px solid var(--accent-gold);
+            opacity: 0.5;
+            animation: rotate-border 6s linear infinite reverse;
         }
 
         .loading-logo img {
@@ -179,6 +250,47 @@
             object-fit: cover;
             position: relative;
             z-index: 2;
+            animation: rotate-border 30s linear infinite;
+        }
+
+        .loading-particles {
+            position: absolute;
+            inset: -100px;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-gold);
+            animation: particle-float 4s ease-in-out infinite;
+        }
+
+        .loading-text {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            animation: loading-text-fade 2s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(201, 169, 97, 0.5);
+            position: relative;
+        }
+
+        .loading-text::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            animation: glow-pulse 2s ease-in-out infinite;
         }
         
         .navbar {
@@ -1788,8 +1900,12 @@
 </head>
 <body>
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-logo">
-            <img src="loading-logo.png" alt="Show-Room d'Oliv Logo">
+        <div class="loading-container">
+            <div class="loading-logo">
+                <div class="loading-particles" id="loadingParticles"></div>
+                <img src="loading-logo.png" alt="Show-Room d'Oliv Logo">
+            </div>
+            <div class="loading-text">Chargement</div>
         </div>
     </div>
 
@@ -2116,10 +2232,41 @@
         let activeGallery = null;
         let activeIndex = 0;
         
+        // Génération des particules pour l'écran de chargement
+        const createLoadingParticles = () => {
+            const container = document.getElementById('loadingParticles');
+            if (!container) return;
+            
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const angle = (360 / particleCount) * i;
+                const distance = 120 + Math.random() * 60;
+                const tx = Math.cos(angle * Math.PI / 180) * distance;
+                const ty = Math.sin(angle * Math.PI / 180) * distance;
+                
+                particle.style.cssText = `
+                    left: 50%;
+                    top: 50%;
+                    --tx: ${tx}px;
+                    --ty: ${ty}px;
+                    animation-delay: ${i * 0.15}s;
+                    animation-duration: ${3 + Math.random() * 2}s;
+                `;
+                
+                container.appendChild(particle);
+            }
+        };
+
+        createLoadingParticles();
+
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
-            }, 1000);
+            }, 2000);
         });
         
         const burger = document.getElementById('burger');
