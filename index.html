@@ -96,6 +96,76 @@
                     inset 0 0 60px rgba(201, 169, 97, 0.4);
             }
         }
+
+        @keyframes wave {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes scroll-progress {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { 
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1) rotate(180deg);
+            }
+        }
+
+        @keyframes toast-in {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes toast-out {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Mode réduit animations pour accessibilité */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .custom-cursor, .custom-cursor-dot {
+                display: none !important;
+            }
+            
+            body {
+                cursor: default !important;
+            }
+            
+            a, button, .btn, .collection-card, .brand-card {
+                cursor: pointer !important;
+            }
+        }
         
         * {
             margin: 0;
@@ -116,20 +186,24 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            cursor: default;
+        }
+
+        /* Barre de progression de scroll */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light), var(--accent-gold));
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 99998;
+            box-shadow: 0 0 10px var(--shadow-gold);
         }
 
         body::before {
-            content: '';
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--accent-gold);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            transition: transform 0.1s ease, opacity 0.3s ease;
-            opacity: 0;
+            display: none;
         }
 
         a, button, .btn, .collection-card, .brand-card {
@@ -469,6 +543,8 @@
             background-repeat: no-repeat;
             filter: brightness(0.4);
             z-index: 0;
+            will-change: transform;
+            transition: transform 0.05s ease-out;
         }
 
         .hero::after {
@@ -889,6 +965,31 @@
             color: var(--accent-gold);
             font-weight: 600;
             margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.1) 0%, rgba(201, 169, 97, 0.05) 100%);
+            border-radius: 50px;
+            border: 1px solid rgba(201, 169, 97, 0.3);
+        }
+
+        .section-label::before {
+            content: '✦';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .section-label::after {
+            content: '✦';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: sparkle 2s ease-in-out infinite;
+            animation-delay: 1s;
         }
         
         .section-title {
@@ -1110,8 +1211,29 @@
             transition: opacity 0.5s ease;
         }
 
+        .collection-item::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 70%
+            );
+            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            transition: transform 0.8s ease;
+        }
+
         .collection-item:hover::before {
             opacity: 1;
+        }
+
+        .collection-item:hover::after {
+            transform: translateX(100%) translateY(100%) rotate(45deg);
         }
         
         .collection-item:hover {
@@ -1742,6 +1864,190 @@
         .scroll-to-top:hover::before {
             opacity: 0.6;
         }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 300px;
+            animation: toast-in 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: all;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toast::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent-gold);
+        }
+
+        .toast.success::before {
+            background: #4CAF50;
+        }
+
+        .toast.error::before {
+            background: #f44336;
+        }
+
+        .toast.warning::before {
+            background: #ff9800;
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .toast-message {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toast-close:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--text-primary);
+        }
+
+        .toast.removing {
+            animation: toast-out 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* Validation de formulaire */
+        .form-field.error input,
+        .form-field.error textarea,
+        .form-field.error select {
+            border-color: #f44336;
+            animation: shake 0.5s;
+        }
+
+        .form-field.error label {
+            color: #f44336;
+        }
+
+        .form-field.success input,
+        .form-field.success textarea,
+        .form-field.success select {
+            border-color: #4CAF50;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .form-field.error .error-message {
+            display: flex;
+        }
+
+        .success-message {
+            color: #4CAF50;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .form-field.success .success-message {
+            display: flex;
+        }
+
+        /* Trail du curseur */
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 99998;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Séparateur de section avec vague */
+        .section-divider {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+            background: linear-gradient(180deg, transparent 0%, rgba(201, 169, 97, 0.03) 50%, transparent 100%);
+        }
+
+        .section-divider::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent 0px,
+                rgba(201, 169, 97, 0.2) 50px,
+                transparent 100px
+            );
+            animation: wave 3s linear infinite;
+        }
+
+        .section-divider::after {
+            content: '✦';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: var(--accent-gold);
+            animation: sparkle 3s ease-in-out infinite;
+        }
         
         .footer-grid {
             max-width: 1400px;
@@ -1899,6 +2205,12 @@
     </style>
 </head>
 <body>
+    <!-- Barre de progression de scroll -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-container">
             <div class="loading-logo">
@@ -1998,6 +2310,8 @@
         </div>
     </section>
 
+    <div class="section-divider"></div>
+
     <section id="collections">
         <div class="section-wrapper">
             <div class="section-head scroll-reveal">
@@ -2029,6 +2343,8 @@
             </div>
         </div>
     </section>
+
+    <div class="section-divider"></div>
 
     <section id="marques" class="brands-section">
         <div class="section-wrapper">
@@ -2071,6 +2387,8 @@
         </div>
     </div>
 
+    <div class="section-divider"></div>
+
     <section id="contact" class="contact-section">
         <div class="section-wrapper">
             <div class="section-head scroll-reveal">
@@ -2106,14 +2424,20 @@
                     <div class="form-field">
                         <label for="name">Nom complet *</label>
                         <input type="text" id="name" name="name" required>
+                        <span class="error-message">⚠️ Veuillez entrer votre nom</span>
+                        <span class="success-message">✓ Valide</span>
                     </div>
                     <div class="form-field">
                         <label for="email">Email *</label>
                         <input type="email" id="email" name="email" required>
+                        <span class="error-message">⚠️ Veuillez entrer un email valide</span>
+                        <span class="success-message">✓ Valide</span>
                     </div>
                     <div class="form-field">
                         <label for="phone">Téléphone</label>
                         <input type="tel" id="phone" name="phone">
+                        <span class="error-message">⚠️ Numéro de téléphone invalide</span>
+                        <span class="success-message">✓ Valide</span>
                     </div>
                     <div class="form-field">
                         <label for="subject">Sujet *</label>
@@ -2124,10 +2448,14 @@
                             <option value="marque">Question sur une marque</option>
                             <option value="autre">Autre</option>
                         </select>
+                        <span class="error-message">⚠️ Veuillez sélectionner un sujet</span>
+                        <span class="success-message">✓ Valide</span>
                     </div>
                     <div class="form-field">
                         <label for="message">Message *</label>
                         <textarea id="message" name="message" required></textarea>
+                        <span class="error-message">⚠️ Veuillez entrer un message</span>
+                        <span class="success-message">✓ Valide</span>
                     </div>
                     <button type="submit" class="submit-btn">📩 Envoyer mon message</button>
                 </form>
@@ -2263,9 +2591,190 @@
 
         createLoadingParticles();
 
+        // Barre de progression de scroll
+        const scrollProgress = document.getElementById('scrollProgress');
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight);
+            scrollProgress.style.transform = `scaleX(${scrolled})`;
+        });
+
+        // Effet parallaxe sur le hero
+        const hero = document.querySelector('.hero');
+        const heroBackground = hero?.querySelector('::before');
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            if (hero && scrolled < window.innerHeight) {
+                const heroElement = hero.querySelector('.hero::before') || hero;
+                hero.style.setProperty('--parallax-offset', scrolled * 0.5 + 'px');
+                // Applique via le CSS custom property pour ::before
+                document.documentElement.style.setProperty('--hero-parallax', scrolled * 0.5 + 'px');
+            }
+        });
+
+        // Parallax à la souris sur le hero
+        if (hero) {
+            hero.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const { innerWidth, innerHeight } = window;
+                const xPos = (clientX / innerWidth - 0.5) * 30;
+                const yPos = (clientY / innerHeight - 0.5) * 30;
+                
+                const heroContent = hero.querySelector('.hero-content');
+                if (heroContent) {
+                    heroContent.style.transform = `translate(${xPos}px, ${yPos}px)`;
+                }
+                
+                // Effet parallax sur les formes
+                document.querySelectorAll('.hero-shape').forEach((shape, index) => {
+                    const speed = 0.5 + (index * 0.2);
+                    shape.style.transform = `translate(${xPos * speed}px, ${yPos * speed}px)`;
+                });
+            });
+            
+            hero.addEventListener('mouseleave', () => {
+                const heroContent = hero.querySelector('.hero-content');
+                if (heroContent) {
+                    heroContent.style.transform = '';
+                }
+                document.querySelectorAll('.hero-shape').forEach(shape => {
+                    shape.style.transform = '';
+                });
+            });
+        }
+
+        // Système de Toast Notifications
+        function showToast(type, title, message, duration = 5000) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ℹ'
+            };
+            
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type] || icons.info}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('removing');
+                setTimeout(() => toast.remove(), 500);
+            }, duration);
+        }
+
+        // Validation de formulaire avancée
+        const formFields = {
+            name: {
+                validate: (value) => value.trim().length >= 2,
+                errorMessage: '⚠️ Le nom doit contenir au moins 2 caractères'
+            },
+            email: {
+                validate: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+                errorMessage: '⚠️ Veuillez entrer un email valide'
+            },
+            phone: {
+                validate: (value) => !value || /^[\d\s\-\+\(\)]{10,}$/.test(value),
+                errorMessage: '⚠️ Numéro de téléphone invalide'
+            },
+            subject: {
+                validate: (value) => value !== '',
+                errorMessage: '⚠️ Veuillez sélectionner un sujet'
+            },
+            message: {
+                validate: (value) => value.trim().length >= 10,
+                errorMessage: '⚠️ Le message doit contenir au moins 10 caractères'
+            }
+        };
+
+        function validateField(fieldName, value) {
+            const field = formFields[fieldName];
+            if (!field) return true;
+            
+            const isValid = field.validate(value);
+            const fieldElement = document.getElementById(fieldName).closest('.form-field');
+            const errorMsg = fieldElement.querySelector('.error-message');
+            
+            if (isValid) {
+                fieldElement.classList.remove('error');
+                fieldElement.classList.add('success');
+            } else {
+                fieldElement.classList.remove('success');
+                fieldElement.classList.add('error');
+                if (errorMsg) {
+                    errorMsg.textContent = field.errorMessage;
+                }
+            }
+            
+            return isValid;
+        }
+
+        // Validation en temps réel
+        Object.keys(formFields).forEach(fieldName => {
+            const input = document.getElementById(fieldName);
+            if (input) {
+                input.addEventListener('blur', () => {
+                    validateField(fieldName, input.value);
+                });
+                
+                input.addEventListener('input', () => {
+                    const fieldElement = input.closest('.form-field');
+                    if (fieldElement.classList.contains('error')) {
+                        validateField(fieldName, input.value);
+                    }
+                });
+            }
+        });
+
+        // Trail du curseur (effet de trainée)
+        const trails = [];
+        const trailCount = 8;
+        
+        for (let i = 0; i < trailCount; i++) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            document.body.appendChild(trail);
+            trails.push({
+                element: trail,
+                x: 0,
+                y: 0
+            });
+        }
+
+        let trailIndex = 0;
+        document.addEventListener('mousemove', (e) => {
+            const trail = trails[trailIndex];
+            trail.x = e.clientX;
+            trail.y = e.clientY;
+            trail.element.style.left = trail.x + 'px';
+            trail.element.style.top = trail.y + 'px';
+            trail.element.style.opacity = '0.6';
+            
+            setTimeout(() => {
+                trail.element.style.opacity = '0';
+            }, 100);
+            
+            trailIndex = (trailIndex + 1) % trailCount;
+        });
+
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
+                
+                // Message de bienvenue
+                setTimeout(() => {
+                    showToast('success', 'Bienvenue ! ✨', 'Découvrez nos collections exclusives à Nîmes', 4000);
+                }, 500);
             }, 2000);
         });
         
@@ -2398,16 +2907,47 @@
         const contactForm = document.getElementById('contactForm');
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            
+            // Valider tous les champs
+            let isFormValid = true;
+            Object.keys(formFields).forEach(fieldName => {
+                const input = document.getElementById(fieldName);
+                if (input) {
+                    const isValid = validateField(fieldName, input.value);
+                    if (!isValid) isFormValid = false;
+                }
+            });
+            
+            if (!isFormValid) {
+                showToast('error', 'Erreur', 'Veuillez corriger les erreurs dans le formulaire');
+                return;
+            }
+            
             const button = e.target.querySelector('.submit-btn');
             const originalText = button.textContent;
-            button.textContent = '✓ Message envoyé !';
-            button.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+            button.disabled = true;
+            button.textContent = '⏳ Envoi en cours...';
+            button.style.background = 'linear-gradient(135deg, #ff9800 0%, #f57c00 100%)';
             
+            // Simuler l'envoi (à remplacer par votre logique backend)
             setTimeout(() => {
-                button.textContent = originalText;
-                button.style.background = '';
-                e.target.reset();
-            }, 3000);
+                button.textContent = '✓ Message envoyé !';
+                button.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+                
+                showToast('success', 'Message envoyé !', 'Nous vous répondrons dans les plus brefs délais.');
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.disabled = false;
+                    e.target.reset();
+                    
+                    // Retirer les classes de validation
+                    document.querySelectorAll('.form-field').forEach(field => {
+                        field.classList.remove('success', 'error');
+                    });
+                }, 3000);
+            }, 2000);
         });
         
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -2471,27 +3011,47 @@
 
         animateNumbers();
 
-        // Effet de particules sur les boutons au survol
+        // Effet de particules sur les boutons au survol (version améliorée)
         document.querySelectorAll('.btn').forEach(btn => {
             btn.addEventListener('mouseenter', function(e) {
-                for (let i = 0; i < 5; i++) {
+                for (let i = 0; i < 8; i++) {
                     const particle = document.createElement('span');
+                    const angle = (360 / 8) * i;
+                    const velocity = 40 + Math.random() * 20;
+                    const tx = Math.cos(angle * Math.PI / 180) * velocity;
+                    const ty = Math.sin(angle * Math.PI / 180) * velocity;
+                    
                     particle.style.cssText = `
                         position: absolute;
-                        width: 6px;
-                        height: 6px;
-                        background: var(--accent-gold);
+                        width: ${4 + Math.random() * 4}px;
+                        height: ${4 + Math.random() * 4}px;
+                        background: ${Math.random() > 0.5 ? 'var(--accent-gold)' : 'white'};
                         border-radius: 50%;
                         pointer-events: none;
-                        opacity: 0;
-                        animation: particle-burst 0.8s ease-out forwards;
-                        left: ${e.offsetX}px;
-                        top: ${e.offsetY}px;
-                        animation-delay: ${i * 0.05}s;
+                        opacity: 1;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        box-shadow: 0 0 10px currentColor;
                     `;
                     
                     this.appendChild(particle);
-                    setTimeout(() => particle.remove(), 1000);
+                    
+                    particle.animate([
+                        { 
+                            transform: 'translate(-50%, -50%) scale(1)',
+                            opacity: 1
+                        },
+                        { 
+                            transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`,
+                            opacity: 0
+                        }
+                    ], {
+                        duration: 800,
+                        easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                    });
+                    
+                    setTimeout(() => particle.remove(), 800);
                 }
             });
         });
