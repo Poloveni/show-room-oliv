@@ -717,6 +717,7 @@
             min-height: 180px;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
         
         .brand-item::before {
@@ -728,8 +729,31 @@
             transition: opacity 0.4s ease;
         }
         
+        .brand-item::after {
+            content: '👁️ Voir la galerie';
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--color-accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-family: var(--font-body);
+        }
+        
         .brand-item:hover::before {
             opacity: 1;
+        }
+        
+        .brand-item:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
         
         .brand-item:hover {
@@ -754,7 +778,157 @@
         .brand-item:hover img {
             filter: grayscale(0%);
             opacity: 1;
-            transform: scale(1.1);
+            transform: scale(1.1) translateY(-10px);
+        }
+        
+        /* Galerie Modal */
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .gallery-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            animation: zoomIn 0.3s ease;
+        }
+        
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .gallery-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-family: var(--font-display);
+            font-size: 2rem;
+            z-index: 10001;
+        }
+        
+        .gallery-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--color-accent);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10001;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .gallery-close:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: white;
+            color: var(--color-primary);
+        }
+        
+        .gallery-main {
+            width: 100%;
+            max-width: 1200px;
+            margin: 80px auto 20px;
+        }
+        
+        .gallery-main img,
+        .gallery-main video {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .gallery-thumbnails {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-thumb {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+        
+        .gallery-thumb:hover,
+        .gallery-thumb.active {
+            border-color: var(--color-accent);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        
+        .gallery-nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(212, 175, 55, 0.8);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10001;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .gallery-nav:hover {
+            background: var(--color-accent);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .gallery-prev {
+            left: 20px;
+        }
+        
+        .gallery-next {
+            right: 20px;
         }
         
         .contact {
@@ -1276,24 +1450,39 @@
                 <p class="section-subtitle">Une sélection exclusive de marques reconnues pour leur qualité et leur style.</p>
             </div>
             <div class="brands-grid">
-                <div class="brand-item reveal">
+                <div class="brand-item reveal" onclick="openGallery('marque-a')">
                     <img src="marques/marque-a.png" alt="Marque A">
                 </div>
-                <div class="brand-item reveal">
+                <div class="brand-item reveal" onclick="openGallery('marque-b')">
                     <img src="marques/marque-b.png" alt="Marque B">
                 </div>
-                <div class="brand-item reveal">
+                <div class="brand-item reveal" onclick="openGallery('marque-c')">
                     <img src="marques/marque-c.png" alt="Marque C">
                 </div>
-                <div class="brand-item reveal">
+                <div class="brand-item reveal" onclick="openGallery('marque-d')">
                     <img src="marques/marque-d.png" alt="Marque D">
                 </div>
-                <div class="brand-item reveal">
+                <div class="brand-item reveal" onclick="openGallery('marque-e')">
                     <img src="marques/marque-e.png" alt="Marque E">
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Galerie Modal -->
+    <div id="galleryModal" class="gallery-modal">
+        <h2 class="gallery-header" id="galleryTitle">Marque</h2>
+        <button class="gallery-close" onclick="closeGallery()">×</button>
+        <button class="gallery-nav gallery-prev" onclick="changeMedia(-1)">‹</button>
+        <button class="gallery-nav gallery-next" onclick="changeMedia(1)">›</button>
+        
+        <div class="gallery-content">
+            <div class="gallery-main" id="galleryMain">
+                <img src="" alt="Galerie" id="mainMedia">
+            </div>
+            <div class="gallery-thumbnails" id="galleryThumbs"></div>
+        </div>
+    </div>
 
     <section id="contact" class="contact">
         <div class="section-container">
@@ -1398,6 +1587,139 @@
     </footer>
 
     <script>
+        // Galeries pour chaque marque (photos et vidéos)
+        const galleries = {
+            'marque-a': {
+                name: 'Marque A',
+                media: [
+                    { type: 'image', src: 'galeries/marque-a/photo1.jpg' },
+                    { type: 'image', src: 'galeries/marque-a/photo2.jpg' },
+                    { type: 'image', src: 'galeries/marque-a/photo3.jpg' },
+                    { type: 'video', src: 'galeries/marque-a/video1.mp4' }
+                ]
+            },
+            'marque-b': {
+                name: 'Marque B',
+                media: [
+                    { type: 'image', src: 'galeries/marque-b/photo1.jpg' },
+                    { type: 'image', src: 'galeries/marque-b/photo2.jpg' }
+                ]
+            },
+            'marque-c': {
+                name: 'Marque C',
+                media: [
+                    { type: 'image', src: 'galeries/marque-c/photo1.jpg' },
+                    { type: 'image', src: 'galeries/marque-c/photo2.jpg' }
+                ]
+            },
+            'marque-d': {
+                name: 'Marque D',
+                media: [
+                    { type: 'image', src: 'galeries/marque-d/photo1.jpg' },
+                    { type: 'image', src: 'galeries/marque-d/photo2.jpg' }
+                ]
+            },
+            'marque-e': {
+                name: 'Marque E',
+                media: [
+                    { type: 'image', src: 'galeries/marque-e/photo1.jpg' },
+                    { type: 'image', src: 'galeries/marque-e/photo2.jpg' }
+                ]
+            }
+        };
+        
+        let currentGallery = null;
+        let currentIndex = 0;
+        
+        function openGallery(brandId) {
+            currentGallery = galleries[brandId];
+            currentIndex = 0;
+            
+            const modal = document.getElementById('galleryModal');
+            const title = document.getElementById('galleryTitle');
+            
+            title.textContent = currentGallery.name;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            showMedia(0);
+            renderThumbnails();
+        }
+        
+        function closeGallery() {
+            const modal = document.getElementById('galleryModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function showMedia(index) {
+            currentIndex = index;
+            const mainMediaContainer = document.getElementById('galleryMain');
+            const media = currentGallery.media[index];
+            
+            if (media.type === 'image') {
+                mainMediaContainer.innerHTML = `<img src="${media.src}" alt="Photo ${index + 1}" id="mainMedia">`;
+            } else if (media.type === 'video') {
+                mainMediaContainer.innerHTML = `<video src="${media.src}" controls autoplay id="mainMedia"></video>`;
+            }
+            
+            updateThumbnails();
+        }
+        
+        function renderThumbnails() {
+            const thumbsContainer = document.getElementById('galleryThumbs');
+            thumbsContainer.innerHTML = '';
+            
+            currentGallery.media.forEach((media, index) => {
+                if (media.type === 'image') {
+                    const thumb = document.createElement('img');
+                    thumb.src = media.src;
+                    thumb.className = 'gallery-thumb';
+                    thumb.onclick = () => showMedia(index);
+                    thumbsContainer.appendChild(thumb);
+                } else if (media.type === 'video') {
+                    const thumb = document.createElement('div');
+                    thumb.className = 'gallery-thumb';
+                    thumb.style.background = 'linear-gradient(135deg, #d4af37 0%, #c09b2a 100%)';
+                    thumb.style.display = 'flex';
+                    thumb.style.alignItems = 'center';
+                    thumb.style.justifyContent = 'center';
+                    thumb.style.color = 'white';
+                    thumb.style.fontSize = '2rem';
+                    thumb.innerHTML = '▶';
+                    thumb.onclick = () => showMedia(index);
+                    thumbsContainer.appendChild(thumb);
+                }
+            });
+            
+            updateThumbnails();
+        }
+        
+        function updateThumbnails() {
+            const thumbs = document.querySelectorAll('.gallery-thumb');
+            thumbs.forEach((thumb, index) => {
+                if (index === currentIndex) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+        }
+        
+        function changeMedia(direction) {
+            let newIndex = currentIndex + direction;
+            if (newIndex < 0) newIndex = currentGallery.media.length - 1;
+            if (newIndex >= currentGallery.media.length) newIndex = 0;
+            showMedia(newIndex);
+        }
+        
+        // Fermer la galerie avec Échap
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeGallery();
+            if (e.key === 'ArrowLeft') changeMedia(-1);
+            if (e.key === 'ArrowRight') changeMedia(1);
+        });
+        
         function toggleMenu() {
             const navLinks = document.querySelector('.nav-links');
             navLinks.classList.toggle('active');
