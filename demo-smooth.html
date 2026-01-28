@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Démo Smooth Scroll Élégant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: #0a0a0a;
+            color: white;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(26, 26, 26, 0.95);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            z-index: 1000;
+            border-bottom: 1px solid #c9a961;
+        }
+
+        nav a {
+            color: #c9a961;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.5rem 1.5rem;
+            border: 2px solid #c9a961;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background: #c9a961;
+            color: #0a0a0a;
+            transform: translateY(-2px);
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem;
+            position: relative;
+        }
+
+        #accueil {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        }
+
+        #apropos {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+        }
+
+        #collections {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+        }
+
+        #marques {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        }
+
+        #contact {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        }
+
+        h1 {
+            font-size: 5rem;
+            color: #c9a961;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(201, 169, 97, 0.5);
+        }
+
+        p {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .notice {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #c9a961 0%, #d4b76e 100%);
+            color: #0a0a0a;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            z-index: 999;
+            box-shadow: 0 10px 40px rgba(201, 169, 97, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
+        }
+    </style>
+
+    <script>
+        // SMOOTH SCROLL ULTRA NATUREL - Courbe élastique douce
+        window.smoothScrollToSection = function(sectionId) {
+            const targetElement = document.getElementById(sectionId);
+            if (!targetElement) return;
+            
+            const navbar = document.querySelector('nav');
+            const navbarHeight = navbar ? navbar.offsetHeight : 80;
+            const targetPosition = targetElement.offsetTop - navbarHeight;
+            
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 2500; // 2.5 secondes
+            let startTime = null;
+            
+            // Courbe "easeInOutExpo" - Très naturelle et fluide
+            function easeInOutExpo(t) {
+                if (t === 0) return 0;
+                if (t === 1) return 1;
+                if (t < 0.5) {
+                    return Math.pow(2, 20 * t - 10) / 2;
+                }
+                return (2 - Math.pow(2, -20 * t + 10)) / 2;
+            }
+            
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const progress = Math.min(timeElapsed / duration, 1);
+                const ease = easeInOutExpo(progress);
+                
+                window.scrollTo(0, startPosition + distance * ease);
+                
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                }
+            }
+            
+            requestAnimationFrame(animation);
+        };
+
+        // Intercepter les clics
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('nav a').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('href').replace('#', '');
+                    smoothScrollToSection(sectionId);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="notice">👆 Animation ULTRA NATURELLE - Courbe exponentielle douce (2.5s)</div>
+
+    <nav>
+        <a href="#accueil">Accueil</a>
+        <a href="#apropos">À Propos</a>
+        <a href="#collections">Collections</a>
+        <a href="#marques">Marques</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section id="accueil">
+        <h1>🏠 Accueil</h1>
+        <p>Bienvenue sur la démo du smooth scroll élégant. Cliquez sur les liens du menu en haut pour voir l'animation fluide de 4 secondes.</p>
+    </section>
+
+    <section id="apropos">
+        <h1>📖 À Propos</h1>
+        <p>Cette courbe "easeInOutExpo" est beaucoup plus naturelle : démarrage très doux, accélération progressive, puis ralentissement très fluide. Durée : 2.5 secondes.</p>
+    </section>
+
+    <section id="collections">
+        <h1>👗 Collections</h1>
+        <p>L'animation ressemble maintenant à un mouvement naturel et organique, sans à-coups. Plus du tout linéaire !</p>
+    </section>
+
+    <section id="marques">
+        <h1>⭐ Marques</h1>
+        <p>C'est le type d'animation qu'on trouve sur les sites premium haut de gamme. Fluide, élégant, naturel.</p>
+    </section>
+
+    <section id="contact">
+        <h1>📞 Contact</h1>
+        <p>Si vous aimez cette animation, je commit et push immédiatement. Sinon, dites-moi comment l'ajuster (plus lent ? plus rapide ? courbe différente ?).</p>
+    </section>
+</body>
+</html>
