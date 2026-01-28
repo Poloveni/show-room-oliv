@@ -1193,6 +1193,13 @@
             box-shadow: 0 25px 80px rgba(201, 169, 97, 0.3);
         }
 
+        .collections-media-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
         .collections-slideshow img,
         .collections-slideshow video {
             position: absolute;
@@ -2386,6 +2393,7 @@
                 <p class="section-desc">Des pièces soigneusement sélectionnées pour sublimer votre style, de l'élégance classique aux dernières tendances.</p>
             </div>
             <div class="collections-slideshow" id="collectionsSlideshow">
+                <div class="collections-media-container" id="collectionsMediaContainer"></div>
                 <div class="collections-arrow prev" id="collectionsPrev">‹</div>
                 <div class="collections-arrow next" id="collectionsNext">›</div>
                 <div class="collections-counter" id="collectionsCounter">
@@ -3255,6 +3263,7 @@
         ];
 
         const slideshow = document.getElementById('collectionsSlideshow');
+        const mediaContainer = document.getElementById('collectionsMediaContainer');
         const dotsContainer = document.getElementById('collectionsDots');
         const counter = document.getElementById('collectionsCounter');
         const prevBtn = document.getElementById('collectionsPrev');
@@ -3268,7 +3277,7 @@
                 img.src = media.src;
                 img.alt = `Collection ${index + 1}`;
                 if (index === 0) img.classList.add('active');
-                slideshow.insertBefore(img, slideshow.firstChild);
+                mediaContainer.appendChild(img);
             } else if (media.type === 'video') {
                 const video = document.createElement('video');
                 video.src = media.src;
@@ -3280,7 +3289,7 @@
                     video.classList.add('active');
                     video.play().catch(err => console.log('Autoplay prevented:', err));
                 }
-                slideshow.insertBefore(video, slideshow.firstChild);
+                mediaContainer.appendChild(video);
             }
 
             const dot = document.createElement('div');
@@ -3302,7 +3311,7 @@
         }
 
         function goToSlide(index) {
-            const allMedia = slideshow.querySelectorAll('img, video');
+            const allMedia = mediaContainer.querySelectorAll('img, video');
             const currentMedia = allMedia[currentSlide];
             
             if (currentMedia.tagName === 'VIDEO') {
@@ -3338,13 +3347,13 @@
 
         function resetAutoPlay() {
             clearInterval(autoPlayInterval);
-            autoPlayInterval = setInterval(nextSlide, 4000);
+            autoPlayInterval = setInterval(nextSlide, 6000);
         }
 
         prevBtn.addEventListener('click', prevSlide);
         nextBtn.addEventListener('click', nextSlide);
 
-        autoPlayInterval = setInterval(nextSlide, 4000);
+        autoPlayInterval = setInterval(nextSlide, 6000);
     </script>
 </body>
 </html>
