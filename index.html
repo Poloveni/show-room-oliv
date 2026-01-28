@@ -1212,6 +1212,9 @@
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
             pointer-events: none;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            will-change: opacity;
         }
 
         .collections-slideshow img.active,
@@ -1225,6 +1228,11 @@
         .collections-slideshow video.prev {
             opacity: 0;
             z-index: 1;
+        }
+
+        /* Optimisations globales images */
+        img {
+            image-rendering: -webkit-optimize-contrast;
         }
 
         .collections-arrow {
@@ -3405,23 +3413,39 @@
         const nextBtn = document.getElementById('collectionsNext');
         let currentSlide = 0;
         let autoPlayInterval;
+        let mediaLoaded = {};
 
+        // Précharger seulement les 3 premières images
         collectionsMedia.forEach((media, index) => {
             if (media.type === 'image') {
                 const img = document.createElement('img');
-                img.src = media.src;
                 img.alt = `Collection ${index + 1}`;
+                
+                // Lazy loading : charger seulement les 3 premières
+                if (index < 3) {
+                    img.src = media.src;
+                    mediaLoaded[index] = true;
+                } else {
+                    img.dataset.src = media.src;
+                    mediaLoaded[index] = false;
+                }
+                
                 if (index === 0) img.classList.add('active');
                 mediaContainer.appendChild(img);
             } else if (media.type === 'video') {
                 const video = document.createElement('video');
-                video.src = media.src;
+                video.dataset.src = media.src;
                 video.muted = true;
                 video.loop = false;
                 video.playsInline = true;
                 video.setAttribute('playsinline', '');
+                video.preload = 'none';
+                mediaLoaded[index] = false;
+                
                 if (index === 0) {
                     video.classList.add('active');
+                    video.src = media.src;
+                    mediaLoaded[index] = true;
                     video.play().catch(err => console.log('Autoplay prevented:', err));
                 }
                 mediaContainer.appendChild(video);
@@ -3449,6 +3473,30 @@
             const allMedia = mediaContainer.querySelectorAll('img, video');
             const currentMedia = allMedia[currentSlide];
             
+            // Lazy load : charger l'image/vidéo si pas encore chargée
+            const nextMedia = allMedia[index];
+            if (!mediaLoaded[index]) {
+                if (nextMedia.tagName === 'IMG' && nextMedia.dataset.src) {
+                    nextMedia.src = nextMedia.dataset.src;
+                    delete nextMedia.dataset.src;
+                } else if (nextMedia.tagName === 'VIDEO' && nextMedia.dataset.src) {
+                    nextMedia.src = nextMedia.dataset.src;
+                    delete nextMedia.dataset.src;
+                }
+                mediaLoaded[index] = true;
+            }
+            
+            // Précharger la prochaine image
+            const nextIndex = (index + 1) % collectionsMedia.length;
+            if (!mediaLoaded[nextIndex] && allMedia[nextIndex]) {
+                const preloadMedia = allMedia[nextIndex];
+                if (preloadMedia.tagName === 'IMG' && preloadMedia.dataset.src) {
+                    preloadMedia.src = preloadMedia.dataset.src;
+                    delete preloadMedia.dataset.src;
+                    mediaLoaded[nextIndex] = true;
+                }
+            }
+            
             if (currentMedia.tagName === 'VIDEO') {
                 currentMedia.pause();
                 currentMedia.currentTime = 0;
@@ -3462,7 +3510,6 @@
                 });
                 
                 currentSlide = index;
-                const nextMedia = allMedia[currentSlide];
                 nextMedia.style.opacity = '1';
                 nextMedia.classList.add('active');
                 
@@ -3482,7 +3529,6 @@
                 
                 currentSlide = index;
                 
-                const nextMedia = allMedia[currentSlide];
                 nextMedia.classList.remove('prev');
                 nextMedia.classList.add('active');
                 
