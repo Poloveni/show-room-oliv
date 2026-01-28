@@ -2274,6 +2274,68 @@
             .brands-grid {
                 grid-template-columns: 1fr;
             }
+
+            /* Optimisations mobile pour performances */
+            .hero::before {
+                will-change: auto;
+                transform: none !important;
+            }
+
+            .hero-shapes,
+            .loading-particles,
+            .particle {
+                display: none;
+            }
+
+            .loading-logo::before,
+            .loading-logo::after {
+                animation: none;
+            }
+
+            .collections-slideshow img,
+            .collections-slideshow video {
+                transition: opacity 1s ease-in-out;
+            }
+
+            .about-img-wrapper::before {
+                display: none;
+            }
+
+            .btn::before,
+            .btn::after {
+                display: none;
+            }
+
+            .collection-item::before,
+            .collection-item::after {
+                display: none;
+            }
+
+            .stat-box::before,
+            .stat-box::after {
+                display: none;
+            }
+
+            .section-divider::before {
+                animation: none;
+            }
+
+            * {
+                will-change: auto !important;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero {
+                min-height: 100vh;
+            }
+
+            .stats-section::before {
+                animation: none;
+            }
         }
     </style>
 </head>
@@ -2661,6 +2723,9 @@
 
         createLoadingParticles();
 
+        // Détection mobile pour optimisations
+        const isMobile = window.innerWidth <= 768;
+
         // Barre de progression de scroll
         const scrollProgress = document.getElementById('scrollProgress');
         window.addEventListener('scroll', () => {
@@ -2669,21 +2734,22 @@
             scrollProgress.style.transform = `scaleX(${scrolled})`;
         });
 
-        // Effet parallaxe sur le hero
+        // Effet parallaxe sur le hero (désactivé sur mobile)
         const hero = document.querySelector('.hero');
-        const heroBackground = hero?.querySelector('::before');
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
-            if (hero && scrolled < window.innerHeight) {
-                const heroElement = hero.querySelector('.hero::before') || hero;
-                hero.style.setProperty('--parallax-offset', scrolled * 0.5 + 'px');
-                // Applique via le CSS custom property pour ::before
-                document.documentElement.style.setProperty('--hero-parallax', scrolled * 0.5 + 'px');
-            }
-        });
+        if (!isMobile) {
+            const heroBackground = hero?.querySelector('::before');
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY;
+                if (hero && scrolled < window.innerHeight) {
+                    const heroElement = hero.querySelector('.hero::before') || hero;
+                    hero.style.setProperty('--parallax-offset', scrolled * 0.5 + 'px');
+                    document.documentElement.style.setProperty('--hero-parallax', scrolled * 0.5 + 'px');
+                }
+            });
+        }
 
-        // Parallax à la souris sur le hero
-        if (hero) {
+        // Parallax à la souris sur le hero (désactivé sur mobile)
+        if (hero && !isMobile) {
             hero.addEventListener('mousemove', (e) => {
                 const { clientX, clientY } = e;
                 const { innerWidth, innerHeight } = window;
@@ -3081,50 +3147,52 @@
 
         animateNumbers();
 
-        // Effet de particules sur les boutons au survol (version améliorée)
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('mouseenter', function(e) {
-                for (let i = 0; i < 8; i++) {
-                    const particle = document.createElement('span');
-                    const angle = (360 / 8) * i;
-                    const velocity = 40 + Math.random() * 20;
-                    const tx = Math.cos(angle * Math.PI / 180) * velocity;
-                    const ty = Math.sin(angle * Math.PI / 180) * velocity;
-                    
-                    particle.style.cssText = `
-                        position: absolute;
-                        width: ${4 + Math.random() * 4}px;
-                        height: ${4 + Math.random() * 4}px;
-                        background: ${Math.random() > 0.5 ? 'var(--accent-gold)' : 'white'};
-                        border-radius: 50%;
-                        pointer-events: none;
-                        opacity: 1;
-                        left: 50%;
-                        top: 50%;
-                        transform: translate(-50%, -50%);
-                        box-shadow: 0 0 10px currentColor;
-                    `;
-                    
-                    this.appendChild(particle);
-                    
-                    particle.animate([
-                        { 
-                            transform: 'translate(-50%, -50%) scale(1)',
-                            opacity: 1
-                        },
-                        { 
-                            transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`,
-                            opacity: 0
-                        }
-                    ], {
-                        duration: 800,
-                        easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-                    });
-                    
-                    setTimeout(() => particle.remove(), 800);
-                }
+        // Effet de particules sur les boutons au survol (désactivé sur mobile)
+        if (!isMobile) {
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('mouseenter', function(e) {
+                    for (let i = 0; i < 8; i++) {
+                        const particle = document.createElement('span');
+                        const angle = (360 / 8) * i;
+                        const velocity = 40 + Math.random() * 20;
+                        const tx = Math.cos(angle * Math.PI / 180) * velocity;
+                        const ty = Math.sin(angle * Math.PI / 180) * velocity;
+                        
+                        particle.style.cssText = `
+                            position: absolute;
+                            width: ${4 + Math.random() * 4}px;
+                            height: ${4 + Math.random() * 4}px;
+                            background: ${Math.random() > 0.5 ? 'var(--accent-gold)' : 'white'};
+                            border-radius: 50%;
+                            pointer-events: none;
+                            opacity: 1;
+                            left: 50%;
+                            top: 50%;
+                            transform: translate(-50%, -50%);
+                            box-shadow: 0 0 10px currentColor;
+                        `;
+                        
+                        this.appendChild(particle);
+                        
+                        particle.animate([
+                            { 
+                                transform: 'translate(-50%, -50%) scale(1)',
+                                opacity: 1
+                            },
+                            { 
+                                transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`,
+                                opacity: 0
+                            }
+                        ], {
+                            duration: 800,
+                            easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                        });
+                        
+                        setTimeout(() => particle.remove(), 800);
+                    }
+                });
             });
-        });
+        }
 
         // Animation CSS pour les particules
         const style = document.createElement('style');
@@ -3160,24 +3228,26 @@
         window.addEventListener('scroll', enhancedReveal);
         enhancedReveal();
 
-        // Effet de survol 3D sur les cartes
-        document.querySelectorAll('.collection-item, .brand-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
+        // Effet de survol 3D sur les cartes (désactivé sur mobile)
+        if (!isMobile) {
+            document.querySelectorAll('.collection-item, .brand-card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-15px)`;
+                });
                 
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-15px)`;
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
             });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = '';
-            });
-        });
+        }
 
         // Bouton Retour en haut
         const scrollToTopBtn = document.getElementById('scrollToTop');
