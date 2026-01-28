@@ -1193,7 +1193,8 @@
             box-shadow: 0 25px 80px rgba(201, 169, 97, 0.3);
         }
 
-        .collections-slideshow img {
+        .collections-slideshow img,
+        .collections-slideshow video {
             position: absolute;
             top: 0;
             left: 0;
@@ -1204,12 +1205,14 @@
             transition: opacity 2s ease-in-out;
         }
 
-        .collections-slideshow img.active {
+        .collections-slideshow img.active,
+        .collections-slideshow video.active {
             opacity: 1;
             z-index: 1;
         }
 
-        .collections-slideshow img.prev {
+        .collections-slideshow img.prev,
+        .collections-slideshow video.prev {
             opacity: 0;
             z-index: 0;
         }
@@ -3077,68 +3080,98 @@
         });
 
         // Carrousel Collections
-        const collectionsImages = [
-            'collections/collections1/42801c3f-6f3f-46bb-ad32-61565caa868a.jpeg',
-            'collections/collections1/IMG_1766.jpeg',
-            'collections/collections1/IMG_1850.jpeg',
-            'collections/collections1/IMG_1851.jpeg',
-            'collections/collections1/IMG_1853.jpeg',
-            'collections/collections1/IMG_1854.jpeg',
-            'collections/collections1/IMG_1855.jpeg',
-            'collections/collections1/IMG_1856.jpeg',
-            'collections/collections1/IMG_1857.jpeg',
-            'collections/collections1/IMG_1858.jpeg',
-            'collections/collections2/IMG_1859.jpeg',
-            'collections/collections2/IMG_1860.jpeg',
-            'collections/collections2/IMG_1861.jpeg',
-            'collections/collections2/IMG_1862.jpeg',
-            'collections/collections2/IMG_1864.jpeg',
-            'collections/collections2/IMG_1865.jpeg',
-            'collections/collections2/IMG_1866.jpeg',
-            'collections/collections2/IMG_1868.jpeg',
-            'collections/collections2/IMG_1869.jpeg',
-            'collections/collections2/IMG_1870.jpeg',
-            'collections/collections3/IMG_1871.jpeg',
-            'collections/collections3/IMG_1872.jpeg',
-            'collections/collections3/IMG_1873.jpeg',
-            'collections/collections3/IMG_1874.jpeg',
-            'collections/collections3/IMG_1875.jpeg',
-            'collections/collections3/IMG_1883.jpeg',
-            'collections/collections3/IMG_1884.jpeg',
-            'collections/collections3/IMG_1887.jpeg',
-            'collections/collections3/IMG_1888.jpeg',
-            'collections/collections3/IMG_1889.jpeg',
-            'collections/collections4/IMG_1903.jpeg',
-            'collections/collections4/IMG_1904.jpeg',
-            'collections/collections4/IMG_1905.jpeg',
-            'collections/collections4/IMG_1907.jpeg',
-            'collections/collections4/photo1.jpeg',
-            'collections/collections4/photo2.jpeg',
-            'collections/collections4/photo3.jpeg',
-            'collections/collections4/photo4.jpeg',
-            'collections/collections4/photo5.jpeg'
+        const collectionsMedia = [
+            { type: 'image', src: 'collections/collections1/42801c3f-6f3f-46bb-ad32-61565caa868a.jpeg' },
+            { type: 'image', src: 'collections/collections1/IMG_1766.jpeg' },
+            { type: 'image', src: 'collections/collections1/IMG_1850.jpeg' },
+            { type: 'image', src: 'collections/collections1/IMG_1851.jpeg' },
+            { type: 'image', src: 'collections/collections1/IMG_1853.jpeg' },
+            { type: 'image', src: 'collections/collections1/IMG_1854.jpeg' },
+            { type: 'image', src: 'collections/collections1/IMG_1855.jpeg' },
+            { type: 'image', src: 'collections/collections1/IMG_1856.jpeg' },
+            { type: 'image', src: 'collections/collections1/IMG_1857.jpeg' },
+            { type: 'image', src: 'collections/collections1/IMG_1858.jpeg' },
+            { type: 'image', src: 'collections/collections2/IMG_1859.jpeg' },
+            { type: 'image', src: 'collections/collections2/IMG_1860.jpeg' },
+            { type: 'image', src: 'collections/collections2/IMG_1861.jpeg' },
+            { type: 'image', src: 'collections/collections2/IMG_1862.jpeg' },
+            { type: 'image', src: 'collections/collections2/IMG_1864.jpeg' },
+            { type: 'image', src: 'collections/collections2/IMG_1865.jpeg' },
+            { type: 'image', src: 'collections/collections2/IMG_1866.jpeg' },
+            { type: 'image', src: 'collections/collections2/IMG_1868.jpeg' },
+            { type: 'image', src: 'collections/collections2/IMG_1869.jpeg' },
+            { type: 'image', src: 'collections/collections2/IMG_1870.jpeg' },
+            { type: 'image', src: 'collections/collections3/IMG_1871.jpeg' },
+            { type: 'image', src: 'collections/collections3/IMG_1872.jpeg' },
+            { type: 'image', src: 'collections/collections3/IMG_1873.jpeg' },
+            { type: 'image', src: 'collections/collections3/IMG_1874.jpeg' },
+            { type: 'image', src: 'collections/collections3/IMG_1875.jpeg' },
+            { type: 'image', src: 'collections/collections3/IMG_1883.jpeg' },
+            { type: 'image', src: 'collections/collections3/IMG_1884.jpeg' },
+            { type: 'image', src: 'collections/collections3/IMG_1887.jpeg' },
+            { type: 'image', src: 'collections/collections3/IMG_1888.jpeg' },
+            { type: 'image', src: 'collections/collections3/IMG_1889.jpeg' },
+            { type: 'image', src: 'collections/collections4/IMG_1903.jpeg' },
+            { type: 'image', src: 'collections/collections4/IMG_1904.jpeg' },
+            { type: 'image', src: 'collections/collections4/IMG_1905.jpeg' },
+            { type: 'image', src: 'collections/collections4/IMG_1907.jpeg' },
+            { type: 'image', src: 'collections/collections4/photo1.jpeg' },
+            { type: 'image', src: 'collections/collections4/photo2.jpeg' },
+            { type: 'image', src: 'collections/collections4/photo3.jpeg' },
+            { type: 'image', src: 'collections/collections4/photo4.jpeg' },
+            { type: 'image', src: 'collections/collections4/photo5.jpeg' },
+            { type: 'video', src: 'Videomultimarque/Laure + Max.mp4' },
+            { type: 'video', src: 'Videomultimarque/See u Soon déballage carton.mp4' },
+            { type: 'video', src: "Videomultimarque/Show Room d'oliv.mp4" },
+            { type: 'video', src: 'Videomultimarque/The Korner.mp4' }
         ];
 
         const slideshow = document.getElementById('collectionsSlideshow');
         let currentSlide = 0;
 
-        collectionsImages.forEach((src, index) => {
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = `Collection ${index + 1}`;
-            if (index === 0) img.classList.add('active');
-            slideshow.appendChild(img);
+        collectionsMedia.forEach((media, index) => {
+            if (media.type === 'image') {
+                const img = document.createElement('img');
+                img.src = media.src;
+                img.alt = `Collection ${index + 1}`;
+                if (index === 0) img.classList.add('active');
+                slideshow.appendChild(img);
+            } else if (media.type === 'video') {
+                const video = document.createElement('video');
+                video.src = media.src;
+                video.muted = true;
+                video.loop = false;
+                video.playsInline = true;
+                video.setAttribute('playsinline', '');
+                if (index === 0) {
+                    video.classList.add('active');
+                    video.play().catch(err => console.log('Autoplay prevented:', err));
+                }
+                slideshow.appendChild(video);
+            }
         });
 
         function nextSlide() {
-            const images = slideshow.querySelectorAll('img');
-            images[currentSlide].classList.remove('active');
-            images[currentSlide].classList.add('prev');
+            const allMedia = slideshow.querySelectorAll('img, video');
+            const currentMedia = allMedia[currentSlide];
             
-            currentSlide = (currentSlide + 1) % collectionsImages.length;
+            if (currentMedia.tagName === 'VIDEO') {
+                currentMedia.pause();
+                currentMedia.currentTime = 0;
+            }
             
-            images[currentSlide].classList.remove('prev');
-            images[currentSlide].classList.add('active');
+            currentMedia.classList.remove('active');
+            currentMedia.classList.add('prev');
+            
+            currentSlide = (currentSlide + 1) % collectionsMedia.length;
+            
+            const nextMedia = allMedia[currentSlide];
+            nextMedia.classList.remove('prev');
+            nextMedia.classList.add('active');
+            
+            if (nextMedia.tagName === 'VIDEO') {
+                nextMedia.play().catch(err => console.log('Autoplay prevented:', err));
+            }
         }
 
         setInterval(nextSlide, 4000);
