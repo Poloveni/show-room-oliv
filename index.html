@@ -3549,52 +3549,6 @@
             if (e.key === 'ArrowRight') navigateGallery(1);
         });
         
-        const contactForm = document.getElementById('contactForm');
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Valider tous les champs
-            let isFormValid = true;
-            Object.keys(formFields).forEach(fieldName => {
-                const input = document.getElementById(fieldName);
-                if (input) {
-                    const isValid = validateField(fieldName, input.value);
-                    if (!isValid) isFormValid = false;
-                }
-            });
-            
-            if (!isFormValid) {
-                showToast('error', 'Erreur', 'Veuillez corriger les erreurs dans le formulaire');
-                return;
-            }
-            
-            const button = e.target.querySelector('.submit-btn');
-            const originalText = button.textContent;
-            button.disabled = true;
-            button.textContent = '⏳ Envoi en cours...';
-            button.style.background = 'linear-gradient(135deg, #ff9800 0%, #f57c00 100%)';
-            
-            // Simuler l'envoi (à remplacer par votre logique backend)
-            setTimeout(() => {
-                button.textContent = '✓ Message envoyé !';
-                button.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
-                
-                showToast('success', 'Message envoyé !', 'Nous vous répondrons dans les plus brefs délais.');
-                
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.style.background = '';
-                    button.disabled = false;
-                    e.target.reset();
-                    
-                    // Retirer les classes de validation
-                    document.querySelectorAll('.form-field').forEach(field => {
-                        field.classList.remove('success', 'error');
-                    });
-                }, 3000);
-            }, 2000);
-        });
-        
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
