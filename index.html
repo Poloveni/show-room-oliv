@@ -4257,65 +4257,70 @@
 
         // ===== THEME TOGGLE (MODE SOMBRE/CLAIR) =====
         const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = themeToggle.querySelector('.theme-toggle-icon');
         
-        // Charger le thème sauvegardé ou détecter la préférence système
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (themeToggle) {
+            const themeIcon = themeToggle.querySelector('.theme-toggle-icon');
             
-            if (savedTheme) {
-                document.documentElement.setAttribute('data-theme', savedTheme);
-                updateThemeIcon(savedTheme);
-            } else if (prefersDark) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                updateThemeIcon('dark');
+            // Charger le thème sauvegardé ou détecter la préférence système
+            function loadTheme() {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme) {
+                    document.documentElement.setAttribute('data-theme', savedTheme);
+                    updateThemeIcon(savedTheme);
+                } else if (prefersDark) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    updateThemeIcon('dark');
+                }
             }
-        }
 
-        // Mettre à jour l'icône du toggle
-        function updateThemeIcon(theme) {
-            if (theme === 'dark') {
-                themeIcon.textContent = '🌙';
-            } else {
-                themeIcon.textContent = '☀️';
+            // Mettre à jour l'icône du toggle
+            function updateThemeIcon(theme) {
+                if (themeIcon) {
+                    if (theme === 'dark') {
+                        themeIcon.textContent = '🌙';
+                    } else {
+                        themeIcon.textContent = '☀️';
+                    }
+                }
             }
-        }
 
-        // Toggle du thème
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
-            
-            // Animation de feedback
-            themeToggle.style.transform = 'scale(0.9)';
-            setTimeout(() => {
-                themeToggle.style.transform = 'scale(1)';
-            }, 200);
-
-            // Toast notification
-            const message = newTheme === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé';
-            showToast(message, 'info');
-        }
-
-        // Event listeners
-        themeToggle.addEventListener('click', toggleTheme);
-        
-        // Charger le thème au démarrage
-        loadTheme();
-
-        // Détecter les changements de préférence système
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            if (!localStorage.getItem('theme')) {
-                const newTheme = e.matches ? 'dark' : 'light';
+            // Toggle du thème
+            function toggleTheme() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
                 document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
                 updateThemeIcon(newTheme);
+                
+                // Animation de feedback
+                themeToggle.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    themeToggle.style.transform = 'scale(1)';
+                }, 200);
+
+                // Toast notification
+                const message = newTheme === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé';
+                showToast(message, 'info');
             }
-        });
+
+            // Event listeners
+            themeToggle.addEventListener('click', toggleTheme);
+            
+            // Charger le thème au démarrage
+            loadTheme();
+
+            // Détecter les changements de préférence système
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    const newTheme = e.matches ? 'dark' : 'light';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    updateThemeIcon(newTheme);
+                }
+            });
+        }
     </script>
 </body>
 </html>
