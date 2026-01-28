@@ -227,12 +227,56 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light), var(--accent-gold));
+            height: 4px;
+            background: transparent;
             transform-origin: left;
             transform: scaleX(0);
             z-index: 99998;
-            box-shadow: 0 0 10px var(--shadow-gold);
+            transition: transform 0.1s ease-out;
+        }
+
+        .scroll-progress::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                var(--accent-gold) 0%, 
+                var(--accent-gold-light) 50%, 
+                #f4d799 100%
+            );
+            box-shadow: 
+                0 2px 10px rgba(201, 169, 97, 0.4),
+                0 0 20px rgba(201, 169, 97, 0.2);
+        }
+
+        .scroll-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5));
+            animation: shimmer-progress 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer-progress {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        /* Mode sombre : barre plus lumineuse */
+        [data-theme="dark"] .scroll-progress::before {
+            box-shadow: 
+                0 2px 15px rgba(201, 169, 97, 0.6),
+                0 0 30px rgba(201, 169, 97, 0.4);
         }
 
         body::before {
