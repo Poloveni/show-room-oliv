@@ -2671,17 +2671,18 @@
             left: 35px;
             width: 65px;
             height: 65px;
-            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             text-decoration: none;
-            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 8px 30px var(--shadow-gold);
             z-index: 9998;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             animation: whatsapp-pulse 5s ease-in-out infinite;
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .whatsapp-float::before {
@@ -2689,28 +2690,39 @@
             position: absolute;
             inset: -8px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(37, 211, 102, 0.3) 0%, transparent 70%);
+            background: radial-gradient(circle, var(--shadow-gold) 0%, transparent 70%);
             animation: whatsapp-ripple 4s ease-out infinite;
             z-index: -1;
         }
 
         .whatsapp-float:hover {
             transform: scale(1.15) rotate(5deg);
-            box-shadow: 0 12px 40px rgba(37, 211, 102, 0.6);
+            box-shadow: 0 12px 40px var(--shadow-gold), 0 0 50px var(--shadow-gold);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .whatsapp-float svg {
             width: 35px;
             height: 35px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Mode sombre : WhatsApp avec bordure dorée plus visible */
+        [data-theme="dark"] .whatsapp-float {
+            border: 2px solid var(--accent-gold-light);
+            box-shadow: 0 8px 30px var(--shadow-gold), 0 0 40px rgba(201, 169, 97, 0.2);
+        }
+
+        [data-theme="dark"] .whatsapp-float:hover {
+            box-shadow: 0 12px 40px var(--shadow-gold), 0 0 60px var(--shadow-gold);
         }
 
         @keyframes whatsapp-pulse {
             0%, 100% {
-                box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+                box-shadow: 0 8px 30px var(--shadow-gold);
             }
             50% {
-                box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4), 0 0 0 15px rgba(37, 211, 102, 0.1);
+                box-shadow: 0 8px 30px var(--shadow-gold), 0 0 0 15px rgba(201, 169, 97, 0.15);
             }
         }
 
@@ -4389,6 +4401,13 @@
                 existingToast.remove();
             }
 
+            // Couleurs adaptées à la charte graphique
+            const colors = {
+                success: 'linear-gradient(135deg, #c9a961 0%, #b8935a 100%)',
+                error: 'linear-gradient(135deg, #dc8850 0%, #c97643 100%)',
+                info: 'linear-gradient(135deg, #d4b76e 0%, #c9a961 100%)'
+            };
+
             const toast = document.createElement('div');
             toast.className = `toast-notification toast-${type}`;
             toast.textContent = message;
@@ -4396,16 +4415,18 @@
                 position: fixed;
                 bottom: 30px;
                 right: 30px;
-                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                background: ${colors[type] || colors.info};
                 color: white;
                 padding: 1rem 1.5rem;
                 border-radius: 12px;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 10px 40px rgba(201, 169, 97, 0.4);
                 z-index: 100000;
                 font-weight: 600;
                 font-size: 0.95rem;
                 max-width: 400px;
                 animation: toast-in 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(10px);
             `;
 
             document.body.appendChild(toast);
