@@ -643,6 +643,96 @@
             50% { transform: translate(-15px, 25px) scale(0.95); }
             75% { transform: translate(10px, -10px) scale(1.02); }
         }
+
+        /* Étoiles filantes discrètes */
+        .shooting-stars {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-gold-light), transparent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-gold);
+            animation: shooting 3s ease-out infinite;
+            opacity: 0;
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent-gold-light), transparent);
+            transform: translateX(-80px) translateY(0px);
+        }
+
+        .shooting-star:nth-child(1) {
+            top: 15%;
+            right: 10%;
+            animation-delay: 0s;
+            animation-duration: 2.5s;
+        }
+
+        .shooting-star:nth-child(2) {
+            top: 35%;
+            right: 25%;
+            animation-delay: 4s;
+            animation-duration: 3s;
+        }
+
+        .shooting-star:nth-child(3) {
+            top: 55%;
+            right: 5%;
+            animation-delay: 7s;
+            animation-duration: 2.8s;
+        }
+
+        .shooting-star:nth-child(4) {
+            top: 25%;
+            right: 40%;
+            animation-delay: 10s;
+            animation-duration: 3.2s;
+        }
+
+        .shooting-star:nth-child(5) {
+            top: 70%;
+            right: 30%;
+            animation-delay: 13s;
+            animation-duration: 2.7s;
+        }
+
+        @keyframes shooting {
+            0% {
+                opacity: 0;
+                transform: translateX(0) translateY(0) rotate(-45deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-300px) translateY(300px) rotate(-45deg);
+            }
+        }
+
+        /* Désactiver étoiles filantes sur mobile */
+        @media (max-width: 768px) {
+            .shooting-stars {
+                display: none;
+            }
+        }
         
         .hero-content {
             position: relative;
@@ -3109,6 +3199,15 @@
             <div class="hero-shape"></div>
             <div class="hero-shape"></div>
             <div class="hero-shape"></div>
+        </div>
+
+        <!-- Étoiles filantes discrètes -->
+        <div class="shooting-stars">
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
         </div>
         
         <div class="hero-content">
