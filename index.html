@@ -205,7 +205,7 @@
         }
         
         html {
-            scroll-behavior: smooth;
+            /* scroll-behavior désactivé, on utilise JS custom */
             overflow-x: hidden;
             transition: background-color 0.3s ease;
         }
@@ -221,62 +221,148 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Barre de progression de scroll */
-        .scroll-progress {
+        /* ==================== NOUVELLE BARRE DE PROGRESSION V2 ==================== */
+        .progress-bar-v2 {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: transparent;
-            transform-origin: left;
-            transform: scaleX(0);
+            top: 12px;
+            left: 30px;
+            right: 30px;
+            height: 10px;
+            background: rgba(26, 26, 26, 0.2);
+            border-radius: 100px;
+            overflow: visible;
             z-index: 99998;
-            transition: transform 0.1s ease-out;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.1),
+                inset 0 2px 4px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
         }
 
-        .scroll-progress::before {
-            content: '';
+        .progress-fill-v2 {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, 
+                #b8935a 0%,
+                var(--accent-gold) 20%,
+                var(--accent-gold-light) 50%, 
+                #f4d799 80%,
+                #ffefc7 100%
+            );
+            border-radius: 100px;
+            transition: width 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 0 25px rgba(201, 169, 97, 0.7),
+                0 0 50px rgba(201, 169, 97, 0.4),
+                inset 0 2px 5px rgba(255, 255, 255, 0.6),
+                inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-shine-v2 {
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
+            left: -120px;
+            width: 120px;
             height: 100%;
             background: linear-gradient(90deg, 
-                var(--accent-gold) 0%, 
-                var(--accent-gold-light) 50%, 
-                #f4d799 100%
+                transparent 0%,
+                rgba(255, 255, 255, 0.9) 50%,
+                transparent 100%
             );
-            box-shadow: 
-                0 2px 10px rgba(201, 169, 97, 0.4),
-                0 0 20px rgba(201, 169, 97, 0.2);
+            border-radius: 100px;
+            animation: shine-move-v2 2.5s ease-in-out infinite;
+            pointer-events: none;
         }
 
-        .scroll-progress::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 30px;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5));
-            animation: shimmer-progress 2s ease-in-out infinite;
-        }
-
-        @keyframes shimmer-progress {
-            0%, 100% {
-                opacity: 0.3;
+        @keyframes shine-move-v2 {
+            0% {
+                left: -120px;
+                opacity: 0;
             }
-            50% {
+            20% {
+                opacity: 1;
+            }
+            80% {
                 opacity: 0.8;
             }
+            100% {
+                left: calc(100% + 120px);
+                opacity: 0;
+            }
         }
 
-        /* Mode sombre : barre plus lumineuse */
-        [data-theme="dark"] .scroll-progress::before {
+        .progress-percent-v2 {
+            position: fixed;
+            top: 24px;
+            right: 45px;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            z-index: 99999;
+            letter-spacing: 0.1em;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .progress-percent-v2.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mode sombre */
+        [data-theme="dark"] .progress-bar-v2 {
+            background: rgba(255, 255, 255, 0.08);
             box-shadow: 
-                0 2px 15px rgba(201, 169, 97, 0.6),
-                0 0 30px rgba(201, 169, 97, 0.4);
+                0 4px 30px rgba(201, 169, 97, 0.3),
+                inset 0 2px 4px rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .progress-fill-v2 {
+            box-shadow: 
+                0 0 35px rgba(201, 169, 97, 0.9),
+                0 0 70px rgba(201, 169, 97, 0.6),
+                inset 0 2px 5px rgba(255, 255, 255, 0.7),
+                inset 0 -2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="dark"] .progress-percent-v2 {
+            color: var(--accent-gold-light);
+            text-shadow: 0 0 15px rgba(201, 169, 97, 0.6);
+        }
+
+        /* Mobile : barre plus compacte */
+        @media (max-width: 768px) {
+            .progress-bar-v2 {
+                top: 8px;
+                left: 15px;
+                right: 15px;
+                height: 6px;
+            }
+
+            .progress-percent-v2 {
+                top: 16px;
+                right: 25px;
+                font-size: 0.7rem;
+            }
+
+            .progress-shine-v2 {
+                animation: none;
+            }
+        }
+
+        /* Cacher l'ancienne barre si elle existe encore */
+        .scroll-progress {
+            display: none !important;
+        }
+
+        .scroll-progress-text {
+            display: none !important;
         }
 
         body::before {
@@ -3206,6 +3292,13 @@
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Nouvelle barre de progression élégante v2 -->
+    <div class="progress-bar-v2" id="progressBarV2">
+        <div class="progress-fill-v2"></div>
+        <div class="progress-shine-v2"></div>
+    </div>
+    <div class="progress-percent-v2" id="progressPercentV2">0%</div>
+
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-container">
             <div class="loading-logo">
@@ -3223,11 +3316,11 @@
                 <span class="logo-text">SHOW-ROOM D'OLIV</span>
             </a>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#propos">À Propos</a></li>
-                <li><a href="#collections">Collections</a></li>
-                <li><a href="#marques">Marques</a></li>
-                <li><a href="#contact" class="nav-cta">Contact</a></li>
+                <li><a href="#accueil" onclick="event.preventDefault(); smoothScrollToSection('accueil'); return false;">Accueil</a></li>
+                <li><a href="#propos" onclick="event.preventDefault(); smoothScrollToSection('propos'); return false;">À Propos</a></li>
+                <li><a href="#collections" onclick="event.preventDefault(); smoothScrollToSection('collections'); return false;">Collections</a></li>
+                <li><a href="#marques" onclick="event.preventDefault(); smoothScrollToSection('marques'); return false;">Marques</a></li>
+                <li><a href="#contact" class="nav-cta" onclick="event.preventDefault(); smoothScrollToSection('contact'); return false;">Contact</a></li>
             </ul>
             <div class="burger" id="burger">
                 <span></span>
@@ -3606,6 +3699,50 @@
         let activeGallery = null;
         let activeIndex = 0;
         
+        // ========== FONCTION SMOOTH SCROLL GLOBAL (APPELÉE PAR ONCLICK) ==========
+        window.smoothScrollToSection = function(sectionId) {
+            const targetElement = document.getElementById(sectionId);
+            if (!targetElement) return;
+            
+            const navbar = document.querySelector('.navbar');
+            const navbarHeight = navbar ? navbar.offsetHeight : 80;
+            const targetPosition = targetElement.offsetTop - navbarHeight - 20;
+            
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 2000; // 2 secondes = VRAIMENT lent
+            let startTime = null;
+            
+            function easeInOutQuart(t) {
+                return t < 0.5 
+                    ? 8 * t * t * t * t 
+                    : 1 - Math.pow(-2 * t + 2, 4) / 2;
+            }
+            
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const progress = Math.min(timeElapsed / duration, 1);
+                const ease = easeInOutQuart(progress);
+                
+                window.scrollTo(0, startPosition + distance * ease);
+                
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                }
+            }
+            
+            requestAnimationFrame(animation);
+            
+            // Fermer menu mobile
+            const navMenu = document.getElementById('navMenu');
+            const burger = document.getElementById('burger');
+            if (navMenu && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                if (burger) burger.classList.remove('active');
+            }
+        };
+        
         // Génération des particules pour l'écran de chargement
         const createLoadingParticles = () => {
             const container = document.getElementById('loadingParticles');
@@ -3640,13 +3777,33 @@
         // Détection mobile pour optimisations
         const isMobile = window.innerWidth <= 768;
 
-        // Barre de progression de scroll
-        const scrollProgress = document.getElementById('scrollProgress');
-        window.addEventListener('scroll', () => {
+        // ========== NOUVELLE BARRE DE PROGRESSION V2 ==========
+        const progressBarV2 = document.getElementById('progressBarV2');
+        const progressFillV2 = progressBarV2?.querySelector('.progress-fill-v2');
+        const progressPercentV2 = document.getElementById('progressPercentV2');
+
+        function updateProgressBar() {
             const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (window.scrollY / windowHeight);
-            scrollProgress.style.transform = `scaleX(${scrolled})`;
-        });
+            const scrolled = window.scrollY / windowHeight;
+            const percentage = Math.round(scrolled * 100);
+            
+            if (progressFillV2) {
+                progressFillV2.style.width = `${percentage}%`;
+            }
+            
+            if (progressPercentV2) {
+                progressPercentV2.textContent = `${percentage}%`;
+                
+                if (percentage > 2) {
+                    progressPercentV2.classList.add('show');
+                } else {
+                    progressPercentV2.classList.remove('show');
+                }
+            }
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+        updateProgressBar(); // Initialisation
 
         // Effet parallaxe sur le hero (désactivé sur mobile)
         const hero = document.querySelector('.hero');
@@ -4193,10 +4350,7 @@
             { type: 'image', src: 'collections/collections4/photo3.jpeg' },
             { type: 'image', src: 'collections/collections4/photo4.jpeg' },
             { type: 'image', src: 'collections/collections4/photo5.jpeg' },
-            { type: 'video', src: 'Videomultimarque/Laure + Max.mp4' },
-            { type: 'video', src: 'Videomultimarque/See u Soon déballage carton.mp4' },
-            { type: 'video', src: "Videomultimarque/Show Room d'oliv.mp4" },
-            { type: 'video', src: 'Videomultimarque/The Korner.mp4' }
+            { type: 'video', src: "Videomultimarque/Show Room d'oliv.mp4" }
         ];
 
         const slideshow = document.getElementById('collectionsSlideshow');
@@ -4689,6 +4843,71 @@
                 }
             });
         }
+
+        // ========== SMOOTH SCROLL PERSONNALISÉ ÉLÉGANT ==========
+        // Fonction easing pour une animation fluide et naturelle
+        function easeInOutCubic(t) {
+            return t < 0.5 
+                ? 4 * t * t * t 
+                : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+        // Fonction de smooth scroll ultra fluide
+        function smoothScrollTo(targetPosition, duration = 1200) {
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const progress = Math.min(timeElapsed / duration, 1);
+                const ease = easeInOutCubic(progress);
+                
+                window.scrollTo(0, startPosition + distance * ease);
+                
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                }
+            }
+
+            requestAnimationFrame(animation);
+        }
+
+        // Intercepter tous les liens d'ancre pour smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                
+                // Ignorer les liens vides ou juste "#"
+                if (!href || href === '#') return;
+                
+                const targetElement = document.querySelector(href);
+                
+                if (targetElement) {
+                    e.preventDefault();
+                    
+                    // Calculer la position avec offset pour la navbar
+                    const navbar = document.querySelector('.navbar');
+                    const navbarHeight = navbar ? navbar.offsetHeight : 80;
+                    const targetPosition = targetElement.offsetTop - navbarHeight - 20;
+                    
+                    // Scroll fluide avec durée adaptée à la distance
+                    const distance = Math.abs(targetPosition - window.pageYOffset);
+                    const duration = Math.min(1500, Math.max(800, distance * 0.5));
+                    
+                    smoothScrollTo(targetPosition, duration);
+                    
+                    // Fermer le menu mobile si ouvert
+                    const navMenu = document.getElementById('navMenu');
+                    const burger = document.getElementById('burger');
+                    if (navMenu && navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        if (burger) burger.classList.remove('active');
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
