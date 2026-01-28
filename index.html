@@ -2225,11 +2225,11 @@
             }
             
             section {
-                padding: 5rem 1.5rem;
+                padding: 4rem 1.5rem;
             }
             
             .hero-content {
-                padding: 7rem 1.5rem 4rem;
+                padding: 6rem 1.5rem 3rem;
             }
             
             .footer-grid {
@@ -2242,21 +2242,21 @@
             }
 
             .collections-slideshow {
-                height: 400px;
+                height: 350px;
             }
 
             .collections-arrow {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
+                width: 55px;
+                height: 55px;
+                font-size: 1.8rem;
             }
 
             .collections-arrow.prev {
-                left: 10px;
+                left: 15px;
             }
 
             .collections-arrow.next {
-                right: 10px;
+                right: 15px;
             }
 
             .collections-dots {
@@ -2367,7 +2367,23 @@
             }
 
             .hero {
-                min-height: 100vh;
+                min-height: 85vh;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.5rem, 10vw, 4rem) !important;
+            }
+
+            .section-title {
+                font-size: clamp(2rem, 7vw, 3rem) !important;
+            }
+
+            .stats-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 3rem !important;
             }
 
             .stats-section::before,
@@ -2664,17 +2680,16 @@
             <div class="footer-col">
                 <h4>Contact</h4>
                 <ul>
-                    <li>📞 06 07 70 82 15</li>
-                    <li>✉️ contact@show-room-oliv.fr</li>
-                    <li>📍 3 Bd Gambetta, Nîmes</li>
+                    <li><a href="tel:+33607708215" style="color: inherit; text-decoration: none;">📞 06 07 70 82 15</a></li>
+                    <li><a href="mailto:contact@show-room-oliv.fr" style="color: inherit; text-decoration: none;">✉️ contact@show-room-oliv.fr</a></li>
+                    <li><a href="https://maps.google.com/?q=3+Bd+Gambetta,+30000+Nîmes" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">📍 3 Bd Gambetta, Nîmes</a></li>
                     <li>⏰ Lun-Sam 10h-19h</li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Suivez-nous</h4>
                 <ul>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Instagram</a></li>
+                    <li><a href="https://www.instagram.com/show_room_d_oliv/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
                 </ul>
             </div>
         </div>
@@ -3500,6 +3515,29 @@
 
         const initialInterval = isMobile ? 5000 : 6000;
         autoPlayInterval = setInterval(nextSlide, initialInterval);
+
+        // Swipe tactile sur le carrousel
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        slideshow.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        slideshow.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                prevSlide();
+            }
+        }
     </script>
 </body>
 </html>
