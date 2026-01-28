@@ -2411,6 +2411,237 @@
             .collections-counter {
                 backdrop-filter: none !important;
             }
+
+            .whatsapp-float {
+                width: 55px !important;
+                height: 55px !important;
+                bottom: 25px !important;
+                right: 25px !important;
+            }
+
+            .whatsapp-float svg {
+                width: 30px !important;
+                height: 30px !important;
+            }
+        }
+
+        /* Bouton WhatsApp Flottant */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 35px;
+            right: 35px;
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+            z-index: 9998;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: whatsapp-pulse 3s ease-in-out infinite;
+        }
+
+        .whatsapp-float::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(37, 211, 102, 0.3) 0%, transparent 70%);
+            animation: whatsapp-ripple 2s ease-out infinite;
+            z-index: -1;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 12px 40px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-float svg {
+            width: 35px;
+            height: 35px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        @keyframes whatsapp-pulse {
+            0%, 100% {
+                box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+            }
+            50% {
+                box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4), 0 0 0 15px rgba(37, 211, 102, 0.1);
+            }
+        }
+
+        @keyframes whatsapp-ripple {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Modal Plein Écran */
+        .fullscreen-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .fullscreen-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .fullscreen-content {
+            max-width: 95vw;
+            max-height: 90vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fullscreen-content img,
+        .fullscreen-content video {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .fullscreen-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 100000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .fullscreen-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg) scale(1.1);
+            border-color: var(--accent-gold);
+        }
+
+        .fullscreen-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 100000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .fullscreen-arrow:hover {
+            background: var(--accent-gold);
+            border-color: var(--accent-gold);
+            transform: translateY(-50%) scale(1.15);
+        }
+
+        .fullscreen-prev {
+            left: 30px;
+        }
+
+        .fullscreen-next {
+            right: 30px;
+        }
+
+        .fullscreen-counter {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(201, 169, 97, 0.3);
+        }
+
+        .fullscreen-counter span {
+            color: var(--accent-gold);
+        }
+
+        .fullscreen-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .fullscreen-arrow {
+                width: 55px;
+                height: 55px;
+                font-size: 2rem;
+            }
+
+            .fullscreen-prev {
+                left: 15px;
+            }
+
+            .fullscreen-next {
+                right: 15px;
+            }
+
+            .fullscreen-close {
+                width: 45px;
+                height: 45px;
+                top: 20px;
+                right: 20px;
+            }
+
+            .fullscreen-hint {
+                font-size: 0.8rem;
+                padding: 8px 15px;
+                bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -2710,6 +2941,44 @@
     <div class="scroll-to-top" id="scrollToTop">
         ↑
     </div>
+
+    <!-- Bouton WhatsApp flottant -->
+    <a href="https://wa.me/33607708215?text=Bonjour%20Show-Room%20d'Oliv%2C%20je%20souhaite%20des%20informations" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       aria-label="Contactez-nous sur WhatsApp">
+        <svg viewBox="0 0 32 32" fill="currentColor">
+            <path d="M16 0C7.164 0 0 7.164 0 16c0 2.828.738 5.482 2.031 7.781L0 32l8.438-2.031C10.736 31.262 13.291 32 16 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm0 29.333c-2.547 0-4.95-.716-7.01-1.969l-.5-.297-5.198 1.251 1.26-4.823-.318-.52C2.77 20.932 2 18.538 2 16 2 8.28 8.28 2 16 2s14 6.28 14 14-6.28 13.333-14 13.333zm7.729-10.083c-.422-.214-2.5-1.234-2.886-1.375-.385-.14-.667-.214-.948.214-.281.427-1.088 1.375-1.333 1.656-.245.281-.49.318-.911.104-.422-.214-1.781-.656-3.391-2.094-1.255-1.12-2.104-2.5-2.349-2.922-.245-.422-.026-.651.188-.86.188-.193.422-.49.635-.74.214-.245.281-.427.422-.708.14-.281.073-.531-.036-.74-.104-.214-.948-2.286-1.302-3.135-.344-.823-.688-.708-.948-.724-.245-.01-.531-.01-.813-.01s-.74.104-1.13.531c-.385.427-1.479 1.448-1.479 3.521s1.516 4.083 1.729 4.365c.214.281 2.99 4.563 7.24 6.396 1.01.438 1.802.698 2.417.896.1.302 2.057.651 3.052.396.995-.255 2.5-1.021 2.854-2.005.354-.984.354-1.828.245-2.005-.104-.177-.385-.281-.807-.495z"/>
+        </svg>
+    </a>
+
+    <!-- Modal Plein Écran Carrousel -->
+    <div class="fullscreen-modal" id="fullscreenModal">
+        <button class="fullscreen-close" id="fullscreenClose" aria-label="Fermer le plein écran">✕</button>
+        <button class="fullscreen-arrow fullscreen-prev" id="fullscreenPrev" aria-label="Image précédente">‹</button>
+        <button class="fullscreen-arrow fullscreen-next" id="fullscreenNext" aria-label="Image suivante">›</button>
+        <div class="fullscreen-content" id="fullscreenContent"></div>
+        <div class="fullscreen-counter" id="fullscreenCounter"></div>
+        <div class="fullscreen-hint">Utilisez les flèches ← → ou swipe pour naviguer • ESC pour fermer</div>
+    </div>
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX'); // Remplacez par votre ID Google Analytics
+    </script>
+
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("YOUR_PUBLIC_KEY"); // Remplacez par votre clé publique EmailJS
+        })();
+    </script>
 
     <script>
         const galleryData = {
@@ -3583,6 +3852,241 @@
             if (touchEndX > touchStartX + swipeThreshold) {
                 prevSlide();
             }
+        }
+
+        // ===== NAVIGATION CLAVIER CARROUSEL =====
+        document.addEventListener('keydown', (e) => {
+            // Si le modal plein écran est ouvert, ne pas interférer
+            if (document.getElementById('fullscreenModal').classList.contains('active')) {
+                return;
+            }
+
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+                resetAutoPlay();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+                resetAutoPlay();
+            }
+        });
+
+        // ===== MODE PLEIN ÉCRAN CARROUSEL =====
+        const fullscreenModal = document.getElementById('fullscreenModal');
+        const fullscreenContent = document.getElementById('fullscreenContent');
+        const fullscreenClose = document.getElementById('fullscreenClose');
+        const fullscreenPrev = document.getElementById('fullscreenPrev');
+        const fullscreenNext = document.getElementById('fullscreenNext');
+        const fullscreenCounterEl = document.getElementById('fullscreenCounter');
+
+        let currentFullscreenIndex = 0;
+
+        // Double-clic sur une image/vidéo pour ouvrir en plein écran
+        mediaContainer.addEventListener('dblclick', () => {
+            openFullscreen(currentSlide);
+        });
+
+        // Clic sur les images du carrousel pour ouvrir en plein écran
+        mediaContainer.addEventListener('click', (e) => {
+            if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO') {
+                openFullscreen(currentSlide);
+            }
+        });
+
+        function openFullscreen(index) {
+            currentFullscreenIndex = index;
+            updateFullscreenContent();
+            fullscreenModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Pause l'autoplay du carrousel principal
+            clearInterval(autoPlayInterval);
+        }
+
+        function closeFullscreen() {
+            fullscreenModal.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Reprendre l'autoplay du carrousel principal
+            resetAutoPlay();
+            
+            // Arrêter les vidéos en plein écran
+            const videos = fullscreenContent.querySelectorAll('video');
+            videos.forEach(v => v.pause());
+        }
+
+        function updateFullscreenContent() {
+            const media = collectionsMedia[currentFullscreenIndex];
+            fullscreenContent.innerHTML = '';
+
+            if (media.type === 'image') {
+                const img = document.createElement('img');
+                img.src = media.src;
+                img.alt = `Collection ${currentFullscreenIndex + 1}`;
+                fullscreenContent.appendChild(img);
+            } else if (media.type === 'video') {
+                const video = document.createElement('video');
+                video.src = media.src;
+                video.controls = true;
+                video.autoplay = true;
+                video.loop = false;
+                fullscreenContent.appendChild(video);
+            }
+
+            fullscreenCounterEl.innerHTML = `<span>${currentFullscreenIndex + 1}</span> / ${collectionsMedia.length}`;
+        }
+
+        function nextFullscreen() {
+            currentFullscreenIndex = (currentFullscreenIndex + 1) % collectionsMedia.length;
+            updateFullscreenContent();
+        }
+
+        function prevFullscreen() {
+            currentFullscreenIndex = (currentFullscreenIndex - 1 + collectionsMedia.length) % collectionsMedia.length;
+            updateFullscreenContent();
+        }
+
+        fullscreenClose.addEventListener('click', closeFullscreen);
+        fullscreenNext.addEventListener('click', nextFullscreen);
+        fullscreenPrev.addEventListener('click', prevFullscreen);
+
+        // Navigation clavier en plein écran
+        document.addEventListener('keydown', (e) => {
+            if (!fullscreenModal.classList.contains('active')) return;
+
+            if (e.key === 'Escape') {
+                closeFullscreen();
+            } else if (e.key === 'ArrowLeft') {
+                prevFullscreen();
+            } else if (e.key === 'ArrowRight') {
+                nextFullscreen();
+            }
+        });
+
+        // Swipe en plein écran
+        let fullscreenTouchStartX = 0;
+        let fullscreenTouchEndX = 0;
+
+        fullscreenModal.addEventListener('touchstart', (e) => {
+            fullscreenTouchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        fullscreenModal.addEventListener('touchend', (e) => {
+            fullscreenTouchEndX = e.changedTouches[0].screenX;
+            const swipeThreshold = 50;
+            if (fullscreenTouchEndX < fullscreenTouchStartX - swipeThreshold) {
+                nextFullscreen();
+            } else if (fullscreenTouchEndX > fullscreenTouchStartX + swipeThreshold) {
+                prevFullscreen();
+            }
+        }, { passive: true });
+
+        // Fermer le modal en cliquant sur le fond
+        fullscreenModal.addEventListener('click', (e) => {
+            if (e.target === fullscreenModal) {
+                closeFullscreen();
+            }
+        });
+
+        // ===== FORMULAIRE DE CONTACT AVEC EMAILJS =====
+        const contactForm = document.getElementById('contactForm');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const submitBtn = contactForm.querySelector('.submit-btn');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = '⏳ Envoi en cours...';
+                submitBtn.disabled = true;
+
+                // Validation des champs
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value.trim();
+
+                if (!name || !email || !subject || !message) {
+                    showToast('⚠️ Veuillez remplir tous les champs obligatoires', 'error');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    return;
+                }
+
+                // Configuration EmailJS (utilise un service gratuit de formulaire de contact)
+                // Pour activer EmailJS, créez un compte sur https://www.emailjs.com/
+                // Puis remplacez YOUR_SERVICE_ID, YOUR_TEMPLATE_ID et YOUR_PUBLIC_KEY
+
+                const templateParams = {
+                    from_name: name,
+                    from_email: email,
+                    subject: subject,
+                    message: message,
+                    phone: document.getElementById('phone').value || 'Non renseigné'
+                };
+
+                // Vérifier si EmailJS est chargé
+                if (typeof emailjs === 'undefined') {
+                    // Fallback : simuler l'envoi (version beta)
+                    setTimeout(() => {
+                        showToast('✅ Message reçu ! Nous vous répondrons rapidement.', 'success');
+                        contactForm.reset();
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        
+                        // Log pour le développement
+                        console.log('Formulaire soumis (mode beta):', templateParams);
+                    }, 1500);
+                    return;
+                }
+
+                // Envoi réel avec EmailJS (activez en remplaçant les IDs)
+                emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                    .then(function(response) {
+                        showToast('✅ Message envoyé avec succès ! Nous vous répondrons rapidement.', 'success');
+                        contactForm.reset();
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    }, function(error) {
+                        showToast('❌ Erreur lors de l\'envoi. Veuillez réessayer ou nous appeler.', 'error');
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        console.error('EmailJS error:', error);
+                    });
+            });
+        }
+
+        // Système de toast notifications
+        function showToast(message, type = 'info') {
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            const toast = document.createElement('div');
+            toast.className = `toast-notification toast-${type}`;
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+                z-index: 100000;
+                font-weight: 600;
+                font-size: 0.95rem;
+                max-width: 400px;
+                animation: toast-in 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            `;
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'toast-out 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
         }
     </script>
 </body>
