@@ -2305,7 +2305,7 @@
 
             .collections-slideshow img,
             .collections-slideshow video {
-                transition: opacity 0.5s ease-in-out !important;
+                transition: none !important;
             }
 
             .about-img-wrapper::before {
@@ -3432,12 +3432,6 @@
 
         function goToSlide(index) {
             const allMedia = mediaContainer.querySelectorAll('img, video');
-            
-            // Enlever toutes les classes prev d'abord
-            allMedia.forEach(media => {
-                media.classList.remove('prev');
-            });
-            
             const currentMedia = allMedia[currentSlide];
             
             if (currentMedia.tagName === 'VIDEO') {
@@ -3445,19 +3439,41 @@
                 currentMedia.currentTime = 0;
             }
             
-            currentMedia.classList.remove('active');
-            setTimeout(() => {
-                currentMedia.classList.add('prev');
-            }, 50);
-            
-            currentSlide = index;
-            
-            const nextMedia = allMedia[currentSlide];
-            nextMedia.classList.remove('prev');
-            nextMedia.classList.add('active');
-            
-            if (nextMedia.tagName === 'VIDEO') {
-                nextMedia.play().catch(err => console.log('Autoplay prevented:', err));
+            if (isMobile) {
+                // Sur mobile : changement instantané sans transition
+                allMedia.forEach(media => {
+                    media.style.opacity = '0';
+                    media.classList.remove('active', 'prev');
+                });
+                
+                currentSlide = index;
+                const nextMedia = allMedia[currentSlide];
+                nextMedia.style.opacity = '1';
+                nextMedia.classList.add('active');
+                
+                if (nextMedia.tagName === 'VIDEO') {
+                    nextMedia.play().catch(err => console.log('Autoplay prevented:', err));
+                }
+            } else {
+                // Sur desktop : transition normale
+                allMedia.forEach(media => {
+                    media.classList.remove('prev');
+                });
+                
+                currentMedia.classList.remove('active');
+                setTimeout(() => {
+                    currentMedia.classList.add('prev');
+                }, 50);
+                
+                currentSlide = index;
+                
+                const nextMedia = allMedia[currentSlide];
+                nextMedia.classList.remove('prev');
+                nextMedia.classList.add('active');
+                
+                if (nextMedia.tagName === 'VIDEO') {
+                    nextMedia.play().catch(err => console.log('Autoplay prevented:', err));
+                }
             }
 
             updateCounter();
