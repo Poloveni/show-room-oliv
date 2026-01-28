@@ -3277,6 +3277,96 @@
             }
         }
     </style>
+
+    <!-- Script Smooth Scroll chargé en priorité -->
+    <script>
+        // ========== SMOOTH SCROLL ULTRA FLUIDE ==========
+        // Chargé AVANT le HTML pour être disponible immédiatement
+        window.smoothScrollToSection = function(sectionId) {
+            console.log('🎯 Smooth scroll vers:', sectionId);
+            
+            const targetElement = document.getElementById(sectionId);
+            if (!targetElement) {
+                console.error('❌ Section non trouvée:', sectionId);
+                return;
+            }
+            
+            const navbar = document.querySelector('.navbar');
+            const navbarHeight = navbar ? navbar.offsetHeight : 80;
+            const targetPosition = targetElement.offsetTop - navbarHeight - 20;
+            
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 4000; // 4 secondes = VRAIMENT VISIBLE
+            let startTime = null;
+            
+            console.log('📍 De:', startPosition, 'Vers:', targetPosition, 'Distance:', distance);
+            
+            function easeInOutQuart(t) {
+                return t < 0.5 
+                    ? 8 * t * t * t * t 
+                    : 1 - Math.pow(-2 * t + 2, 4) / 2;
+            }
+            
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const progress = Math.min(timeElapsed / duration, 1);
+                const ease = easeInOutQuart(progress);
+                
+                window.scrollTo(0, startPosition + distance * ease);
+                
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                } else {
+                    console.log('✅ Animation terminée');
+                }
+            }
+            
+            requestAnimationFrame(animation);
+            
+            // Fermer menu mobile
+            const navMenu = document.getElementById('navMenu');
+            const burger = document.getElementById('burger');
+            if (navMenu && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                if (burger) burger.classList.remove('active');
+            }
+        };
+        
+        console.log('✅ Smooth scroll chargé et prêt');
+        
+        // FORCER l'interception des clics sur les liens de navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔧 Installation des listeners de navigation...');
+            
+            // Attendre que le DOM soit chargé
+            setTimeout(function() {
+                const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
+                console.log('📍 Liens trouvés:', navLinks.length);
+                
+                navLinks.forEach(function(link) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const href = this.getAttribute('href');
+                        const sectionId = href.replace('#', '');
+                        
+                        console.log('🖱️ Clic intercepté sur:', sectionId);
+                        
+                        if (window.smoothScrollToSection) {
+                            window.smoothScrollToSection(sectionId);
+                        }
+                        
+                        return false;
+                    }, true); // true = capture phase
+                });
+                
+                console.log('✅ Listeners installés avec succès');
+            }, 100);
+        });
+    </script>
 </head>
 <body>
     <!-- Barre de progression de scroll -->
@@ -3375,7 +3465,7 @@
                 <div class="stat-label">D'Espace Mode</div>
             </div>
             <div class="stat-box scroll-reveal">
-                <div class="stat-value">50+</div>
+                <div class="stat-value">Nombreuses</div>
                 <div class="stat-label">Marques Exclusives</div>
             </div>
             <div class="stat-box scroll-reveal">
@@ -3698,50 +3788,6 @@
         
         let activeGallery = null;
         let activeIndex = 0;
-        
-        // ========== FONCTION SMOOTH SCROLL GLOBAL (APPELÉE PAR ONCLICK) ==========
-        window.smoothScrollToSection = function(sectionId) {
-            const targetElement = document.getElementById(sectionId);
-            if (!targetElement) return;
-            
-            const navbar = document.querySelector('.navbar');
-            const navbarHeight = navbar ? navbar.offsetHeight : 80;
-            const targetPosition = targetElement.offsetTop - navbarHeight - 20;
-            
-            const startPosition = window.pageYOffset;
-            const distance = targetPosition - startPosition;
-            const duration = 2000; // 2 secondes = VRAIMENT lent
-            let startTime = null;
-            
-            function easeInOutQuart(t) {
-                return t < 0.5 
-                    ? 8 * t * t * t * t 
-                    : 1 - Math.pow(-2 * t + 2, 4) / 2;
-            }
-            
-            function animation(currentTime) {
-                if (startTime === null) startTime = currentTime;
-                const timeElapsed = currentTime - startTime;
-                const progress = Math.min(timeElapsed / duration, 1);
-                const ease = easeInOutQuart(progress);
-                
-                window.scrollTo(0, startPosition + distance * ease);
-                
-                if (timeElapsed < duration) {
-                    requestAnimationFrame(animation);
-                }
-            }
-            
-            requestAnimationFrame(animation);
-            
-            // Fermer menu mobile
-            const navMenu = document.getElementById('navMenu');
-            const burger = document.getElementById('burger');
-            if (navMenu && navMenu.classList.contains('active')) {
-                navMenu.classList.remove('active');
-                if (burger) burger.classList.remove('active');
-            }
-        };
         
         // Génération des particules pour l'écran de chargement
         const createLoadingParticles = () => {
@@ -4843,71 +4889,6 @@
                 }
             });
         }
-
-        // ========== SMOOTH SCROLL PERSONNALISÉ ÉLÉGANT ==========
-        // Fonction easing pour une animation fluide et naturelle
-        function easeInOutCubic(t) {
-            return t < 0.5 
-                ? 4 * t * t * t 
-                : 1 - Math.pow(-2 * t + 2, 3) / 2;
-        }
-
-        // Fonction de smooth scroll ultra fluide
-        function smoothScrollTo(targetPosition, duration = 1200) {
-            const startPosition = window.pageYOffset;
-            const distance = targetPosition - startPosition;
-            let startTime = null;
-
-            function animation(currentTime) {
-                if (startTime === null) startTime = currentTime;
-                const timeElapsed = currentTime - startTime;
-                const progress = Math.min(timeElapsed / duration, 1);
-                const ease = easeInOutCubic(progress);
-                
-                window.scrollTo(0, startPosition + distance * ease);
-                
-                if (timeElapsed < duration) {
-                    requestAnimationFrame(animation);
-                }
-            }
-
-            requestAnimationFrame(animation);
-        }
-
-        // Intercepter tous les liens d'ancre pour smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                
-                // Ignorer les liens vides ou juste "#"
-                if (!href || href === '#') return;
-                
-                const targetElement = document.querySelector(href);
-                
-                if (targetElement) {
-                    e.preventDefault();
-                    
-                    // Calculer la position avec offset pour la navbar
-                    const navbar = document.querySelector('.navbar');
-                    const navbarHeight = navbar ? navbar.offsetHeight : 80;
-                    const targetPosition = targetElement.offsetTop - navbarHeight - 20;
-                    
-                    // Scroll fluide avec durée adaptée à la distance
-                    const distance = Math.abs(targetPosition - window.pageYOffset);
-                    const duration = Math.min(1500, Math.max(800, distance * 0.5));
-                    
-                    smoothScrollTo(targetPosition, duration);
-                    
-                    // Fermer le menu mobile si ouvert
-                    const navMenu = document.getElementById('navMenu');
-                    const burger = document.getElementById('burger');
-                    if (navMenu && navMenu.classList.contains('active')) {
-                        navMenu.classList.remove('active');
-                        if (burger) burger.classList.remove('active');
-                    }
-                }
-            });
-        });
     </script>
 </body>
 </html>
