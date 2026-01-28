@@ -1198,6 +1198,7 @@
             inset: 0;
             width: 100%;
             height: 100%;
+            background: #000;
         }
 
         .collections-slideshow img,
@@ -1209,19 +1210,21 @@
             height: 100%;
             object-fit: cover;
             opacity: 0;
-            transition: opacity 2s ease-in-out;
+            transition: opacity 1.5s ease-in-out;
+            pointer-events: none;
         }
 
         .collections-slideshow img.active,
         .collections-slideshow video.active {
             opacity: 1;
-            z-index: 1;
+            z-index: 2;
+            pointer-events: auto;
         }
 
         .collections-slideshow img.prev,
         .collections-slideshow video.prev {
             opacity: 0;
-            z-index: 0;
+            z-index: 1;
         }
 
         .collections-arrow {
@@ -2279,22 +2282,30 @@
             .hero::before {
                 will-change: auto;
                 transform: none !important;
+                animation: none !important;
             }
 
             .hero-shapes,
             .loading-particles,
             .particle {
-                display: none;
+                display: none !important;
             }
 
+            .loading-screen::before,
             .loading-logo::before,
-            .loading-logo::after {
-                animation: none;
+            .loading-logo::after,
+            .loading-logo img {
+                animation: none !important;
+            }
+
+            .loading-screen {
+                background: #0a0a0a !important;
+                animation: none !important;
             }
 
             .collections-slideshow img,
             .collections-slideshow video {
-                transition: opacity 1s ease-in-out;
+                transition: opacity 0.5s ease-in-out !important;
             }
 
             .about-img-wrapper::before {
@@ -2316,12 +2327,38 @@
                 display: none;
             }
 
+            .stat-value {
+                animation: none !important;
+                background: var(--accent-gold) !important;
+                -webkit-background-clip: text !important;
+                -webkit-text-fill-color: transparent !important;
+                background-clip: text !important;
+            }
+
             .section-divider::before {
-                animation: none;
+                animation: none !important;
+            }
+
+            .section-title::after {
+                animation: none !important;
+            }
+
+            .section-label::before,
+            .section-label::after {
+                animation: none !important;
+            }
+
+            h1, .hero h1 {
+                animation: none !important;
+                background: white !important;
+                -webkit-background-clip: text !important;
+                -webkit-text-fill-color: transparent !important;
+                background-clip: text !important;
             }
 
             * {
                 will-change: auto !important;
+                animation-duration: 0.3s !important;
             }
 
             .about-grid {
@@ -2333,8 +2370,22 @@
                 min-height: 100vh;
             }
 
-            .stats-section::before {
-                animation: none;
+            .stats-section::before,
+            .about-section::before,
+            .about-section::after,
+            .brands-section::before,
+            .brands-section::after {
+                animation: none !important;
+                display: none !important;
+            }
+
+            .collections-arrow {
+                backdrop-filter: none !important;
+            }
+
+            .collections-dots,
+            .collections-counter {
+                backdrop-filter: none !important;
             }
         }
     </style>
@@ -3382,6 +3433,12 @@
 
         function goToSlide(index) {
             const allMedia = mediaContainer.querySelectorAll('img, video');
+            
+            // Enlever toutes les classes prev d'abord
+            allMedia.forEach(media => {
+                media.classList.remove('prev');
+            });
+            
             const currentMedia = allMedia[currentSlide];
             
             if (currentMedia.tagName === 'VIDEO') {
@@ -3390,7 +3447,9 @@
             }
             
             currentMedia.classList.remove('active');
-            currentMedia.classList.add('prev');
+            setTimeout(() => {
+                currentMedia.classList.add('prev');
+            }, 50);
             
             currentSlide = index;
             
@@ -3417,13 +3476,15 @@
 
         function resetAutoPlay() {
             clearInterval(autoPlayInterval);
-            autoPlayInterval = setInterval(nextSlide, 6000);
+            const interval = isMobile ? 5000 : 6000;
+            autoPlayInterval = setInterval(nextSlide, interval);
         }
 
         prevBtn.addEventListener('click', prevSlide);
         nextBtn.addEventListener('click', nextSlide);
 
-        autoPlayInterval = setInterval(nextSlide, 6000);
+        const initialInterval = isMobile ? 5000 : 6000;
+        autoPlayInterval = setInterval(nextSlide, initialInterval);
     </script>
 </body>
 </html>
