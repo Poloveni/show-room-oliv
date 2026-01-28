@@ -1127,6 +1127,7 @@
             padding: 2rem;
             border-radius: 20px;
             cursor: pointer;
+            overflow: visible;
         }
 
         .stat-box::before {
@@ -1180,6 +1181,8 @@
             position: relative;
             z-index: 1;
             transition: transform 0.4s ease;
+            white-space: nowrap;
+            overflow: visible;
         }
 
         .stat-box:hover .stat-value {
@@ -2667,7 +2670,7 @@
             }
 
             .stat-value {
-                font-size: 3rem !important;
+                font-size: clamp(2rem, 6vw, 3rem) !important;
             }
 
             .stat-label {
@@ -2880,7 +2883,7 @@
             }
 
             .stat-value {
-                font-size: 3rem !important;
+                font-size: clamp(2rem, 6vw, 3rem) !important;
             }
 
             .stats-section::before,
