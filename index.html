@@ -2541,6 +2541,13 @@
             .collections-slideshow img,
             .collections-slideshow video {
                 transition: none !important;
+                animation: none !important;
+            }
+
+            .collections-slideshow .active,
+            .collections-slideshow .prev {
+                transition: none !important;
+                animation: none !important;
             }
 
             .about-img-wrapper::before {
@@ -2644,6 +2651,11 @@
                 height: 55px !important;
                 bottom: 25px !important;
                 left: 25px !important;
+                animation: none !important;
+            }
+
+            .whatsapp-float::before {
+                animation: none !important;
             }
 
             .whatsapp-float svg {
@@ -2669,7 +2681,7 @@
             box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
             z-index: 9998;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: whatsapp-pulse 3s ease-in-out infinite;
+            animation: whatsapp-pulse 5s ease-in-out infinite;
         }
 
         .whatsapp-float::before {
@@ -2678,7 +2690,7 @@
             inset: -8px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(37, 211, 102, 0.3) 0%, transparent 70%);
-            animation: whatsapp-ripple 2s ease-out infinite;
+            animation: whatsapp-ripple 4s ease-out infinite;
             z-index: -1;
         }
 
