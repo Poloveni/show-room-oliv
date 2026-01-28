@@ -1182,98 +1182,36 @@
             z-index: 1;
         }
 
-        .collections-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin-top: 4rem;
-        }
-        
-        .collection-item {
-            background: white;
-            padding: 4rem 3rem;
+        .collections-slideshow {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            height: 700px;
+            margin: 4rem auto 0;
             border-radius: 20px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(201, 169, 97, 0.2);
-            box-shadow: 0 10px 40px rgba(201, 169, 97, 0.08);
-            position: relative;
             overflow: hidden;
-            transform-style: preserve-3d;
-            will-change: transform;
+            box-shadow: 0 25px 80px rgba(201, 169, 97, 0.3);
         }
 
-        .collection-item::before {
-            content: '';
+        .collections-slideshow img {
             position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(201, 169, 97, 0.08) 0%, transparent 100%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 2s ease-in-out;
         }
 
-        .collection-item::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba(255, 255, 255, 0.3) 50%,
-                transparent 70%
-            );
-            transform: translateX(-100%) translateY(-100%) rotate(45deg);
-            transition: transform 0.8s ease;
-        }
-
-        .collection-item:hover::before {
+        .collections-slideshow img.active {
             opacity: 1;
+            z-index: 1;
         }
 
-        .collection-item:hover::after {
-            transform: translateX(100%) translateY(100%) rotate(45deg);
-        }
-        
-        .collection-item:hover {
-            transform: translateY(-15px);
-            box-shadow: 
-                0 25px 60px rgba(201, 169, 97, 0.25),
-                0 0 0 1px rgba(201, 169, 97, 0.3);
-            border-color: var(--accent-gold);
-        }
-        
-        .collection-icon {
-            font-size: 4.5rem;
-            margin-bottom: 2rem;
-            display: inline-block;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            filter: grayscale(20%);
-        }
-
-        .collection-item:hover .collection-icon {
-            transform: scale(1.15) rotate(5deg);
-            filter: grayscale(0%);
-        }
-        
-        .collection-item h3 {
-            font-family: var(--font-display);
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
-            color: var(--primary-dark);
-        }
-        
-        .collection-item p {
-            color: var(--text-secondary);
-            line-height: 1.9;
-            font-size: 1.05rem;
-            position: relative;
-            z-index: 1;
+        .collections-slideshow img.prev {
+            opacity: 0;
+            z-index: 0;
         }
         
         .brands-section {
@@ -2198,7 +2136,10 @@
                 padding: 0 2rem;
             }
 
-            .collections-grid,
+            .collections-slideshow {
+                height: 400px;
+            }
+
             .brands-grid {
                 grid-template-columns: 1fr;
             }
@@ -2320,28 +2261,7 @@
                 <h2 class="section-title">Nos Collections</h2>
                 <p class="section-desc">Des pièces soigneusement sélectionnées pour sublimer votre style, de l'élégance classique aux dernières tendances.</p>
             </div>
-            <div class="collections-grid">
-                <div class="collection-item scroll-reveal">
-                    <div class="collection-icon">👗</div>
-                    <h3>Prêt-à-Porter</h3>
-                    <p>Une sélection raffinée de vêtements tendances et intemporels pour toutes les occasions.</p>
-                </div>
-                <div class="collection-item scroll-reveal">
-                    <div class="collection-icon">👠</div>
-                    <h3>Chaussures</h3>
-                    <p>Des escarpins élégants aux baskets tendance, trouvez la paire parfaite pour compléter votre look.</p>
-                </div>
-                <div class="collection-item scroll-reveal">
-                    <div class="collection-icon">👜</div>
-                    <h3>Accessoires</h3>
-                    <p>Sacs à main, bijoux, foulards... Les détails qui font toute la différence.</p>
-                </div>
-                <div class="collection-item scroll-reveal">
-                    <div class="collection-icon">✨</div>
-                    <h3>Collection Soir</h3>
-                    <p>Des tenues sophistiquées pour vos événements spéciaux et soirées d'exception.</p>
-                </div>
-            </div>
+            <div class="collections-slideshow" id="collectionsSlideshow"></div>
         </div>
     </section>
 
@@ -3155,6 +3075,73 @@
                 ticking = true;
             }
         });
+
+        // Carrousel Collections
+        const collectionsImages = [
+            'collections/collections1/42801c3f-6f3f-46bb-ad32-61565caa868a.jpeg',
+            'collections/collections1/IMG_1766.jpeg',
+            'collections/collections1/IMG_1850.jpeg',
+            'collections/collections1/IMG_1851.jpeg',
+            'collections/collections1/IMG_1853.jpeg',
+            'collections/collections1/IMG_1854.jpeg',
+            'collections/collections1/IMG_1855.jpeg',
+            'collections/collections1/IMG_1856.jpeg',
+            'collections/collections1/IMG_1857.jpeg',
+            'collections/collections1/IMG_1858.jpeg',
+            'collections/collections2/IMG_1859.jpeg',
+            'collections/collections2/IMG_1860.jpeg',
+            'collections/collections2/IMG_1861.jpeg',
+            'collections/collections2/IMG_1862.jpeg',
+            'collections/collections2/IMG_1864.jpeg',
+            'collections/collections2/IMG_1865.jpeg',
+            'collections/collections2/IMG_1866.jpeg',
+            'collections/collections2/IMG_1868.jpeg',
+            'collections/collections2/IMG_1869.jpeg',
+            'collections/collections2/IMG_1870.jpeg',
+            'collections/collections3/IMG_1871.jpeg',
+            'collections/collections3/IMG_1872.jpeg',
+            'collections/collections3/IMG_1873.jpeg',
+            'collections/collections3/IMG_1874.jpeg',
+            'collections/collections3/IMG_1875.jpeg',
+            'collections/collections3/IMG_1883.jpeg',
+            'collections/collections3/IMG_1884.jpeg',
+            'collections/collections3/IMG_1887.jpeg',
+            'collections/collections3/IMG_1888.jpeg',
+            'collections/collections3/IMG_1889.jpeg',
+            'collections/collections4/IMG_1903.jpeg',
+            'collections/collections4/IMG_1904.jpeg',
+            'collections/collections4/IMG_1905.jpeg',
+            'collections/collections4/IMG_1907.jpeg',
+            'collections/collections4/photo1.jpeg',
+            'collections/collections4/photo2.jpeg',
+            'collections/collections4/photo3.jpeg',
+            'collections/collections4/photo4.jpeg',
+            'collections/collections4/photo5.jpeg'
+        ];
+
+        const slideshow = document.getElementById('collectionsSlideshow');
+        let currentSlide = 0;
+
+        collectionsImages.forEach((src, index) => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `Collection ${index + 1}`;
+            if (index === 0) img.classList.add('active');
+            slideshow.appendChild(img);
+        });
+
+        function nextSlide() {
+            const images = slideshow.querySelectorAll('img');
+            images[currentSlide].classList.remove('active');
+            images[currentSlide].classList.add('prev');
+            
+            currentSlide = (currentSlide + 1) % collectionsImages.length;
+            
+            images[currentSlide].classList.remove('prev');
+            images[currentSlide].classList.add('active');
+        }
+
+        setInterval(nextSlide, 4000);
     </script>
 </body>
 </html>
