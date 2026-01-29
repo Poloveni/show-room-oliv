@@ -907,6 +907,11 @@
             .hero-bg-pattern {
                 display: none;
             }
+            /* Désactiver l'image de fond lourde sur mobile */
+            .hero::before {
+                background-image: none;
+                background-color: #1a1a1a;
+            }
         }
         
         .hero-content {
@@ -2540,6 +2545,12 @@
                 display: flex;
             }
             
+            /* Réduire les animations pour améliorer les performances */
+            * {
+                animation-duration: 0.3s !important;
+                transition-duration: 0.3s !important;
+            }
+            
             .nav-menu {
                 position: fixed;
                 top: 0;
@@ -4135,15 +4146,26 @@
             trailIndex = (trailIndex + 1) % trailCount;
         });
 
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
+        // Forcer le masquage de l'écran de chargement après 3 secondes max
+        let loadingHidden = false;
+        const hideLoading = () => {
+            if (!loadingHidden) {
+                loadingHidden = true;
                 document.getElementById('loadingScreen').classList.add('hidden');
                 
                 // Message de bienvenue
                 setTimeout(() => {
                     showToast('✨ Bienvenue ! Découvrez nos collections exclusives à Nîmes', 'success');
                 }, 500);
-            }, 500);
+            }
+        };
+
+        // Timeout de sécurité - masquer après 3s maximum
+        setTimeout(hideLoading, 3000);
+
+        // Masquage normal au chargement du DOM
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(hideLoading, 500);
         });
         
         const burger = document.getElementById('burger');
