@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://poloveni.github.io/show-room-oliv/sitemap.xml
+
+# Disallow specific files
+Disallow: /demo-smooth.html
+Disallow: /test-barre.html
