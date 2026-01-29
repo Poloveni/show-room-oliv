@@ -36,9 +36,14 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://poloveni.github.io/show-room-oliv/">
     
+    <!-- Preload critical resources -->
+    <link rel="preload" as="image" href="hero-background.png" media="(min-width: 769px)">
+    <link rel="preload" as="image" href="logo.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
     <link rel="icon" type="image/png" href="logo.png">
     
     <style>
@@ -730,14 +735,13 @@
             content: '';
             position: absolute;
             inset: 0;
+            background-color: #1a1a1a;
             background-image: url('hero-background.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             filter: brightness(0.4);
             z-index: 0;
-            will-change: transform;
-            transition: transform 0.05s ease-out;
         }
 
         .hero::after {
@@ -770,7 +774,6 @@
             border-radius: 50%;
             background: radial-gradient(circle, rgba(201, 169, 97, 0.2) 0%, transparent 70%);
             opacity: 0.3;
-            animation: float-shape 20s ease-in-out infinite;
         }
 
         .hero-shape:nth-child(1) {
@@ -778,7 +781,6 @@
             height: 500px;
             top: -100px;
             left: -100px;
-            animation-delay: 0s;
         }
 
         .hero-shape:nth-child(2) {
@@ -786,7 +788,6 @@
             height: 400px;
             bottom: -50px;
             right: -50px;
-            animation-delay: 5s;
         }
 
         .hero-shape:nth-child(3) {
@@ -794,7 +795,15 @@
             height: 300px;
             top: 50%;
             right: 10%;
-            animation-delay: 10s;
+        }
+
+        @media (min-width: 769px) {
+            .hero-shape {
+                animation: float-shape 20s ease-in-out infinite;
+            }
+            .hero-shape:nth-child(1) { animation-delay: 0s; }
+            .hero-shape:nth-child(2) { animation-delay: 5s; }
+            .hero-shape:nth-child(3) { animation-delay: 10s; }
         }
 
         @keyframes float-shape {
@@ -887,9 +896,15 @@
             }
         }
 
-        /* Désactiver étoiles filantes sur mobile */
+        /* Désactiver étoiles filantes et animations hero sur mobile */
         @media (max-width: 768px) {
             .shooting-stars {
+                display: none;
+            }
+            .hero-shapes {
+                display: none;
+            }
+            .hero-bg-pattern {
                 display: none;
             }
         }
@@ -3518,7 +3533,7 @@
         
         <div class="hero-content">
             <img src="logo.png" alt="Show-Room d'Oliv" class="hero-logo">
-            <h1>Show-Room d'Oliv</h1>
+            <h1>ShowRoom d'Oliv</h1>
             <p class="hero-subtitle">Destination Mode Femme à Nîmes</p>
             <p class="hero-location">
                 <span>📍</span>
@@ -3570,7 +3585,7 @@
                     <p>Notre équipe vous accompagne dans vos choix pour créer le style qui vous ressemble, alliant élégance et personnalité. De la tenue casual au look sophistiqué, trouvez les pièces qui sublimeront votre garde-robe.</p>
                 </div>
                 <div class="about-img-wrapper scroll-reveal">
-                    <img src="about-photo.jpg" alt="Intérieur de la boutique Show-Room d'Oliv à Nîmes - 400m² de mode femme">
+                    <img src="about-photo.jpg" alt="Intérieur de la boutique Show-Room d'Oliv à Nîmes - 400m² de mode femme" loading="lazy">
                 </div>
             </div>
         </div>
@@ -3608,19 +3623,19 @@
             </div>
             <div class="brands-grid">
                 <div class="brand-card scroll-reveal" onclick="showGallery('marque-a')">
-                    <img src="marques/marque-a.png" alt="See u Soon - Marque de mode femme disponible chez Show-Room d'Oliv Nîmes">
+                    <img src="marques/marque-a.png" alt="See u Soon - Marque de mode femme disponible chez Show-Room d'Oliv Nîmes" loading="lazy">
                 </div>
                 <div class="brand-card scroll-reveal" onclick="showGallery('marque-b')">
-                    <img src="marques/marque-b.png" alt="The Korner - Marque de vêtements femme chez Show-Room d'Oliv Nîmes">
+                    <img src="marques/marque-b.png" alt="The Korner - Marque de vêtements femme chez Show-Room d'Oliv Nîmes" loading="lazy">
                 </div>
                 <div class="brand-card scroll-reveal" onclick="showGallery('marque-c')">
-                    <img src="marques/marque-c.png" alt="Balance ton Pull - Marque de pulls et vêtements femme Nîmes">
+                    <img src="marques/marque-c.png" alt="Balance ton Pull - Marque de pulls et vêtements femme Nîmes" loading="lazy">
                 </div>
                 <div class="brand-card scroll-reveal" onclick="showGallery('marque-d')">
-                    <img src="marques/marque-d.png" alt="Studio Nørdiic - Marque de mode femme scandinave à Nîmes">
+                    <img src="marques/marque-d.png" alt="Studio Nørdiic - Marque de mode femme scandinave à Nîmes" loading="lazy">
                 </div>
                 <div class="brand-card scroll-reveal" onclick="showGallery('marque-e')">
-                    <img src="marques/marque-e.png" alt="Laure + Max - Marque de prêt-à-porter femme disponible à Nîmes">
+                    <img src="marques/marque-e.png" alt="Laure + Max - Marque de prêt-à-porter femme disponible à Nîmes" loading="lazy">
                 </div>
             </div>
         </div>
@@ -4120,7 +4135,7 @@
             trailIndex = (trailIndex + 1) % trailCount;
         });
 
-        window.addEventListener('load', () => {
+        window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
                 
@@ -4128,7 +4143,7 @@
                 setTimeout(() => {
                     showToast('✨ Bienvenue ! Découvrez nos collections exclusives à Nîmes', 'success');
                 }, 500);
-            }, 1000);
+            }, 500);
         });
         
         const burger = document.getElementById('burger');
