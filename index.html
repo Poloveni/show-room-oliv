@@ -37,7 +37,7 @@
     <link rel="canonical" href="https://poloveni.github.io/show-room-oliv/">
     
     <!-- Preload critical resources -->
-    <link rel="preload" as="image" href="hero-background.png" media="(min-width: 769px)">
+    <link rel="preload" as="image" href="hero-background.webp" media="(min-width: 769px)">
     <link rel="preload" as="image" href="logo.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -736,7 +736,7 @@
             position: absolute;
             inset: 0;
             background-color: #1a1a1a;
-            background-image: url('hero-background.png');
+            background-image: url('hero-background.webp');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -3342,7 +3342,6 @@
         // ========== SMOOTH SCROLL ULTRA FLUIDE ==========
         // Chargé AVANT le HTML pour être disponible immédiatement
         window.smoothScrollToSection = function(sectionId) {
-            console.log('🎯 Smooth scroll vers:', sectionId);
             
             const targetElement = document.getElementById(sectionId);
             if (!targetElement) {
@@ -3356,10 +3355,9 @@
             
             const startPosition = window.pageYOffset;
             const distance = targetPosition - startPosition;
-            const duration = 4000; // 4 secondes = VRAIMENT VISIBLE
+            const duration = 800; // 0,8 seconde : fluide et réactif
             let startTime = null;
             
-            console.log('📍 De:', startPosition, 'Vers:', targetPosition, 'Distance:', distance);
             
             function easeInOutQuart(t) {
                 return t < 0.5 
@@ -3378,7 +3376,6 @@
                 if (timeElapsed < duration) {
                     requestAnimationFrame(animation);
                 } else {
-                    console.log('✅ Animation terminée');
                 }
             }
             
@@ -3393,16 +3390,13 @@
             }
         };
         
-        console.log('✅ Smooth scroll chargé et prêt');
         
         // FORCER l'interception des clics sur les liens de navigation
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🔧 Installation des listeners de navigation...');
             
             // Attendre que le DOM soit chargé
             setTimeout(function() {
                 const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
-                console.log('📍 Liens trouvés:', navLinks.length);
                 
                 navLinks.forEach(function(link) {
                     link.addEventListener('click', function(e) {
@@ -3412,7 +3406,6 @@
                         const href = this.getAttribute('href');
                         const sectionId = href.replace('#', '');
                         
-                        console.log('🖱️ Clic intercepté sur:', sectionId);
                         
                         if (window.smoothScrollToSection) {
                             window.smoothScrollToSection(sectionId);
@@ -3422,7 +3415,6 @@
                     }, true); // true = capture phase
                 });
                 
-                console.log('✅ Listeners installés avec succès');
             }, 100);
         });
     </script>
@@ -3648,7 +3640,7 @@
                 <div class="brand-card scroll-reveal" onclick="showGallery('marque-e')">
                     <img src="marques/marque-e.png" alt="Laure + Max - Marque de prêt-à-porter femme disponible à Nîmes" loading="lazy">
                 </div>
-                <div class="brand-card scroll-reveal" onclick="showGallery('marque-f')">
+                <div class="brand-card scroll-reveal">
                     <img src="marques/marque-f.png" alt="Caravan Pallas - Marque de mode femme disponible chez ShowRoom d'Oliv Nîmes" loading="lazy">
                 </div>
             </div>
@@ -3834,16 +3826,6 @@
         <div class="fullscreen-hint">Utilisez les flèches ← → ou swipe pour naviguer • ESC pour fermer</div>
     </div>
 
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX'); // Remplacez par votre ID Google Analytics
-    </script>
-
-
     <script>
         const galleryData = {
             'marque-a': {
@@ -3913,18 +3895,6 @@
                     { type: 'video', src: 'galeries/marque-e/video2.mp4' },
                     { type: 'video', src: 'galeries/marque-e/video3.mp4' },
                     { type: 'video', src: 'galeries/marque-e/video4.mp4' }
-                ]
-            },
-            'marque-f': {
-                name: 'Caravan Pallas',
-                media: [
-                    { type: 'video', src: 'galeries/marque-f/video1.mp4' },
-                    { type: 'image', src: 'galeries/marque-f/1.jpeg' },
-                    { type: 'image', src: 'galeries/marque-f/2.jpeg' },
-                    { type: 'image', src: 'galeries/marque-f/3.jpeg' },
-                    { type: 'image', src: 'galeries/marque-f/4.jpeg' },
-                    { type: 'image', src: 'galeries/marque-f/5.jpeg' },
-                    { type: 'image', src: 'galeries/marque-f/6.jpeg' }
                 ]
             }
         };
@@ -4880,7 +4850,6 @@
                 // Protection 2 : Honeypot (détection bot)
                 const botcheck = contactForm.querySelector('input[name="botcheck"]');
                 if (botcheck && botcheck.checked) {
-                    console.log('Bot détecté via honeypot');
                     showToast('✅ Message reçu !', 'success');
                     contactForm.reset();
                     return; // Bot détecté, on simule un succès
@@ -4914,7 +4883,6 @@
                 const messageLC = message.toLowerCase();
                 const containsSpam = spamKeywords.some(keyword => messageLC.includes(keyword));
                 if (containsSpam) {
-                    console.log('Spam détecté via mots-clés');
                     showToast('✅ Message reçu !', 'success');
                     contactForm.reset();
                     submitBtn.textContent = originalText;
@@ -5061,3 +5029,4 @@
     </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
