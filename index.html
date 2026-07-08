@@ -87,6 +87,7 @@
             font-size: 16px;
             line-height: 1.8;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         ::selection { background: var(--gold); color: #fff; }
@@ -392,9 +393,68 @@
             .burger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
             .maison-grid, .contact-grid { grid-template-columns: 1fr; gap: 3.5rem; }
             .maison-photo img { height: 420px; }
-            section { padding: 6rem 0; }
+            section { padding: 5.5rem 0; }
             .facts { justify-content: flex-start; gap: 2.4rem 3.5rem; }
             .band { height: 48vh; }
+        }
+
+        /* ---------- Mobile fin (téléphones) ---------- */
+        @media (max-width: 640px) {
+            html { scroll-padding-top: 70px; }
+
+            /* Accueil : plus compact, tout respire sans vide inutile */
+            .hero { padding: 7rem 6vw 3.5rem; }
+            .kicker { margin-bottom: 1.6rem; font-size: 0.64rem; letter-spacing: 0.26em; }
+            .hero-rule { margin: 2rem 0 1.6rem; }
+            .hero-copy > p { margin-bottom: 2.2rem; }
+            .hero-ctas { gap: 1.4rem 2.2rem; }
+            .hero-photo img { height: 52vh; }
+            .hero-photo::after { inset: 0.8rem -0.8rem -0.8rem 0.8rem; }
+            .hero-photo figcaption { font-size: 0.6rem; }
+
+            .band { height: 34vh; }
+            .band figcaption { font-size: 0.6rem; right: 6vw; bottom: 1rem; }
+
+            .sec-head { margin-bottom: 2.8rem; gap: 1rem; }
+
+            /* La Maison */
+            blockquote { font-size: 1.35rem; padding-left: 1.2rem; margin: 2.2rem 0; }
+            .maison-photo img { height: 380px; }
+            .maison-photo::after { inset: 0.9rem -0.9rem -0.9rem 0.9rem; }
+            .facts { flex-direction: column; align-items: flex-start; gap: 1.8rem; margin-top: 4.5rem; }
+            .fact b { font-size: 1.7rem; }
+
+            /* Collections : cartes presque pleine largeur, défilement au doigt */
+            .strip { gap: 0.9rem; }
+            .strip figure { width: 80vw; }
+            .strip-hint { margin-top: 1.8rem; font-size: 0.6rem; }
+
+            /* Marques : ligne compacte, tout doit tenir */
+            .brand-row { padding: 1.6rem 0.2rem; gap: 0.9rem; }
+            .brand-row .name { font-size: 1.45rem; min-width: 0; }
+            .brand-row .logo { height: 24px; max-width: 76px; }
+            .brand-row .see { font-size: 0.54rem; letter-spacing: 0.12em; }
+            .brand-row:hover { padding-left: 0.2rem; }
+
+            /* Contact : bouton pleine largeur, carte moins haute */
+            .phone-big { font-size: 1.6rem; }
+            .submit { width: 100%; padding: 1.2rem 0; }
+            .map { height: 280px; }
+
+            /* Pied de page centré */
+            .site-footer { flex-direction: column; align-items: center; text-align: center; gap: 0.9rem; padding: 2.2rem 6vw; }
+
+            /* Galerie plein écran : flèches en bas, médias plus larges */
+            .overlay-stage img, .overlay-stage video { max-width: 94vw; max-height: 64vh; }
+            .overlay-title { font-size: 1.2rem; top: 1.4rem; }
+            .overlay-nav { top: auto; bottom: 1.1rem; transform: none; font-size: 2.2rem; padding: 0.6rem 1.4rem; }
+            .overlay-prev { left: 14vw; }
+            .overlay-next { right: 14vw; }
+            .overlay-count { bottom: 2rem; }
+
+            /* WhatsApp plus discret */
+            .wa { width: 46px; height: 46px; right: 1.1rem; bottom: 1.1rem; }
+            .wa svg { width: 19px; height: 19px; }
         }
     </style>
 </head>
@@ -771,7 +831,8 @@
                     o: 0.15 + Math.random() * 0.5
                 };
             }
-            for (var i = 0; i < 70; i++) parts.push(makePart());
+            var count = window.innerWidth < 640 ? 40 : 70;
+            for (var i = 0; i < count; i++) parts.push(makePart());
 
             var t = 0;
             function draw() {
