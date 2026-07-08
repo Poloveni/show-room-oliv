@@ -228,6 +228,16 @@
             font-size: 0.68rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted);
             white-space: nowrap; transition: color 0.3s ease;
         }
+        .brand-row .name { flex: 1; }
+        .brand-row .logo {
+            height: 40px; width: auto; max-width: 150px; object-fit: contain;
+            mix-blend-mode: multiply; filter: grayscale(1); opacity: 0.45;
+            transition: opacity 0.35s ease, filter 0.35s ease;
+        }
+        .brand-row:hover .logo { opacity: 1; filter: none; }
+        @media (max-width: 640px) {
+            .brand-row .logo { height: 28px; max-width: 90px; }
+        }
         .brand-row:hover .see { color: var(--gold); }
         .brand-row.soon { cursor: default; }
         .brand-row.soon:hover { padding-left: 0.2rem; }
@@ -513,7 +523,7 @@
         ];
 
         var brands = [
-            { name: 'See u Soon', media: [
+            { name: 'See u Soon', logo: 'marques/marque-a.png', media: [
                 { type: 'video', src: 'galeries/marque-a/video1.mp4' },
                 { type: 'video', src: 'galeries/marque-a/video2.mp4' },
                 { type: 'image', src: 'galeries/marque-a/photo1.jpeg' },
@@ -522,7 +532,7 @@
                 { type: 'image', src: 'galeries/marque-a/photo 4.jpeg' },
                 { type: 'image', src: 'galeries/marque-a/photo5.jpeg' }
             ]},
-            { name: 'The Korner', media: [
+            { name: 'The Korner', logo: 'marques/marque-b.png', media: [
                 { type: 'video', src: 'galeries/marque-b/video1.mp4' },
                 { type: 'image', src: 'galeries/marque-b/photo1.jpeg' },
                 { type: 'image', src: 'galeries/marque-b/photo2.jpeg' },
@@ -536,7 +546,7 @@
                 { type: 'image', src: 'galeries/marque-b/photo10.jpeg' },
                 { type: 'image', src: 'galeries/marque-b/photo11.jpeg' }
             ]},
-            { name: 'Balance ton Pull', media: [
+            { name: 'Balance ton Pull', logo: 'marques/marque-c.png', media: [
                 { type: 'video', src: 'galeries/marque-c/video3.mp4' },
                 { type: 'image', src: 'galeries/marque-c/photo1.jpeg' },
                 { type: 'video', src: 'galeries/marque-c/video1.mp4' },
@@ -547,7 +557,7 @@
                 { type: 'image', src: 'galeries/marque-c/photo5.jpeg' },
                 { type: 'image', src: 'galeries/marque-c/photo6.jpeg' }
             ]},
-            { name: 'Studio Nørdiic', media: [
+            { name: 'Studio Nørdiic', logo: 'marques/marque-d.png', media: [
                 { type: 'video', src: 'galeries/marque-d/video2.mp4' },
                 { type: 'video', src: 'galeries/marque-d/video1.mp4' },
                 { type: 'image', src: 'galeries/marque-d/photo2.jpeg' },
@@ -556,7 +566,7 @@
                 { type: 'image', src: 'galeries/marque-d/photo5.jpeg' },
                 { type: 'image', src: 'galeries/marque-d/photo6.jpeg' }
             ]},
-            { name: 'Laure + Max', media: [
+            { name: 'Laure + Max', logo: 'marques/marque-e.png', media: [
                 { type: 'video', src: 'galeries/marque-e/video5.mp4' },
                 { type: 'image', src: 'galeries/marque-e/photo1.jpg' },
                 { type: 'image', src: 'galeries/marque-e/photo2.jpg' },
@@ -567,7 +577,7 @@
                 { type: 'video', src: 'galeries/marque-e/video3.mp4' },
                 { type: 'video', src: 'galeries/marque-e/video4.mp4' }
             ]},
-            { name: 'Caravan Pallas', media: [] }
+            { name: 'Caravan Pallas', logo: 'marques/marque-f.png', media: [] }
         ];
 
         // ---------- Header ----------
@@ -615,8 +625,9 @@
             var row = document.createElement('button');
             row.type = 'button';
             row.className = 'brand-row' + (b.media.length ? '' : ' soon');
-            row.innerHTML = '<span class="name">' + b.name + '</span><span class="see">' +
-                (b.media.length ? 'Voir la galerie —' : 'Bientôt') + '</span>';
+            row.innerHTML = '<span class="name">' + b.name + '</span>' +
+                '<img class="logo" src="' + b.logo + '" alt="Logo ' + b.name + '" loading="lazy">' +
+                '<span class="see">' + (b.media.length ? 'Voir la galerie —' : 'Bientôt') + '</span>';
             if (b.media.length) {
                 row.addEventListener('click', function () { openOverlay(b.name, b.media, 0); });
             }
