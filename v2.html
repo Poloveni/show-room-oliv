@@ -63,11 +63,11 @@
 
     <style>
         :root {
-            --paper: #faf8f4;
-            --ink: #141310;
-            --muted: #6f6a61;
-            --gold: #b3915a;
-            --hairline: #e6e1d7;
+            --paper: #131110;
+            --ink: #ece7dd;
+            --muted: #9a9289;
+            --gold: #c6a468;
+            --hairline: rgba(236, 231, 221, 0.14);
             --serif: 'Cormorant Garamond', Georgia, serif;
             --sans: 'Montserrat', Helvetica, Arial, sans-serif;
         }
@@ -101,7 +101,7 @@
             transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
         }
         .site-header.scrolled {
-            background: rgba(250, 248, 244, 0.96);
+            background: rgba(19, 17, 16, 0.94);
             padding: 1rem 6vw;
             border-bottom: 1px solid var(--hairline);
             backdrop-filter: blur(8px);
@@ -193,7 +193,7 @@
         .fact span { font-size: 0.68rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted); }
 
         /* ---------- Collections ---------- */
-        .collections { background: #fff; }
+        .collections { background: #1a1815; }
         .strip {
             display: flex; gap: 1.2rem; overflow-x: auto; padding: 0 6vw 1.6rem;
             scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
@@ -231,20 +231,20 @@
         .brand-row .name { flex: 1; }
         .brand-row .logo {
             height: 48px; width: auto; max-width: 170px; object-fit: contain;
-            mix-blend-mode: multiply; filter: grayscale(1); opacity: 0.45;
-            transition: opacity 0.35s ease, filter 0.35s ease;
+            mix-blend-mode: screen; filter: invert(1) grayscale(1); opacity: 0.55;
+            transition: opacity 0.35s ease;
         }
-        .brand-row:hover .logo { opacity: 1; filter: none; }
+        .brand-row:hover .logo { opacity: 1; }
         @media (max-width: 640px) {
             .brand-row .logo { height: 28px; max-width: 90px; }
         }
         .brand-row:hover .see { color: var(--gold); }
         .brand-row.soon { cursor: default; }
         .brand-row.soon:hover { padding-left: 0.2rem; }
-        .brand-row.soon .see { color: var(--hairline); color: #c9c3b8; }
+        .brand-row.soon .see { color: #55504a; }
 
         /* ---------- Contact ---------- */
-        .contact { background: var(--ink); color: #efece6; }
+        .contact { background: #0d0b0a; color: #efece6; }
         .contact .sec-head h2 { color: #efece6; }
         .contact-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 6vw; }
         .c-label {
@@ -279,7 +279,7 @@
         .submit:hover { background: var(--gold); color: var(--ink); }
         .form-note { margin-top: 1.4rem; font-size: 0.85rem; color: rgba(239,236,230,0.7); min-height: 1.4em; }
 
-        .map { filter: grayscale(1) contrast(1.05); width: 100%; height: 380px; border: 0; display: block; }
+        .map { filter: grayscale(1) invert(0.92) contrast(0.9); width: 100%; height: 380px; border: 0; display: block; }
 
         /* ---------- Footer ---------- */
         .site-footer {
@@ -320,7 +320,7 @@
         /* ---------- WhatsApp discret ---------- */
         .wa {
             position: fixed; right: 1.6rem; bottom: 1.6rem; z-index: 90;
-            width: 52px; height: 52px; border-radius: 50%; background: var(--ink); color: var(--paper);
+            width: 52px; height: 52px; border-radius: 50%; background: var(--ink); color: #131110;
             display: flex; align-items: center; justify-content: center; text-decoration: none;
             transition: background 0.3s ease; border: 1px solid rgba(255,255,255,0.15);
         }
