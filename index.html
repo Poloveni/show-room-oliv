@@ -259,18 +259,14 @@
         /* ==================== NOUVELLE BARRE DE PROGRESSION V2 ==================== */
         .progress-bar-v2 {
             position: fixed;
-            top: 90px;
-            left: 30px;
-            right: 30px;
-            height: 10px;
-            background: rgba(26, 26, 26, 0.2);
-            border-radius: 100px;
-            overflow: visible;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: transparent;
+            border-radius: 0;
+            overflow: hidden;
             z-index: 99998;
-            box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.1),
-                inset 0 2px 4px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(10px);
         }
 
         .progress-fill-v2 {
@@ -286,16 +282,12 @@
                 #f4d799 80%,
                 #ffefc7 100%
             );
-            border-radius: 100px;
+            border-radius: 0;
             transition: width 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                0 0 25px rgba(201, 169, 97, 0.7),
-                0 0 50px rgba(201, 169, 97, 0.4),
-                inset 0 2px 5px rgba(255, 255, 255, 0.6),
-                inset 0 -2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .progress-shine-v2 {
+            display: none;
             position: absolute;
             top: 0;
             left: -120px;
@@ -329,6 +321,7 @@
         }
 
         .progress-percent-v2 {
+            display: none !important;
             position: fixed;
             top: 102px;
             right: 45px;
@@ -352,18 +345,7 @@
 
         /* Mode sombre */
         [data-theme="dark"] .progress-bar-v2 {
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 
-                0 4px 30px rgba(201, 169, 97, 0.3),
-                inset 0 2px 4px rgba(255, 255, 255, 0.1);
-        }
-
-        [data-theme="dark"] .progress-fill-v2 {
-            box-shadow: 
-                0 0 35px rgba(201, 169, 97, 0.9),
-                0 0 70px rgba(201, 169, 97, 0.6),
-                inset 0 2px 5px rgba(255, 255, 255, 0.7),
-                inset 0 -2px 5px rgba(0, 0, 0, 0.3);
+            background: transparent;
         }
 
         [data-theme="dark"] .progress-percent-v2 {
@@ -374,20 +356,7 @@
         /* Mobile : barre plus compacte */
         @media (max-width: 768px) {
             .progress-bar-v2 {
-                top: 70px;
-                left: 15px;
-                right: 15px;
-                height: 6px;
-            }
-
-            .progress-percent-v2 {
-                top: 78px;
-                right: 25px;
-                font-size: 0.7rem;
-            }
-
-            .progress-shine-v2 {
-                animation: none;
+                height: 3px;
             }
         }
 
@@ -1989,6 +1958,32 @@
             margin-bottom: 3rem;
             position: relative;
             z-index: 1;
+            color: var(--text-main);
+        }
+
+        .ico {
+            width: 1.05em;
+            height: 1.05em;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            vertical-align: -0.15em;
+            display: inline-block;
+        }
+
+        .parking-letter {
+            display: inline-block;
+            min-width: 1.5em;
+            text-align: center;
+            border: 1px solid var(--accent-gold);
+            border-radius: 5px;
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-size: 0.85em;
+            margin-right: 0.4em;
+            padding: 0 0.15em;
         }
         
         .info-block {
@@ -2152,8 +2147,8 @@
         .submit-btn {
             width: 100%;
             padding: 1.5rem;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, #2a2a2a 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--accent-gold-dark) 0%, var(--accent-gold-light) 100%);
+            color: #1a1a1a;
             border: none;
             border-radius: 50px;
             font-size: 1.1rem;
@@ -3472,7 +3467,7 @@
     <!-- Toggle Thème Sombre/Clair -->
     <button class="theme-toggle" id="themeToggle" aria-label="Changer le thème">
         <div class="theme-toggle-slider">
-            <span class="theme-toggle-icon">☀️</span>
+            <span class="theme-toggle-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
         </div>
     </button>
 
@@ -3539,16 +3534,16 @@
             <h1>ShowRoom d'Oliv</h1>
             <p class="hero-subtitle">Destination Mode Femme à Nîmes</p>
             <p class="hero-location">
-                <span>📍</span>
+                <span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
                 <span>3, Boulevard Gambetta - 30900 NÎMES</span>
             </p>
             <div class="hero-buttons">
                 <a href="tel:+33607708215" class="btn btn-primary">
-                    <span>📞</span>
+                    <span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8 9.66a16 16 0 0 0 6.34 6.34l1.2-1.2a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z"/></svg></span>
                     <span>06 07 70 82 15</span>
                 </a>
                 <a href="#contact" class="btn btn-secondary">
-                    <span>✉️</span>
+                    <span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
                     <span>Prendre RDV</span>
                 </a>
             </div>
@@ -3568,10 +3563,6 @@
             <div class="stat-box scroll-reveal">
                 <div class="stat-value">100%</div>
                 <div class="stat-label">Collections Femme</div>
-            </div>
-            <div class="stat-box scroll-reveal">
-                <div class="stat-value">❤️</div>
-                <div class="stat-label">Passion Mode</div>
             </div>
         </div>
     </section>
@@ -3674,31 +3665,31 @@
                 <div class="contact-info-box scroll-reveal">
                     <h3>Informations</h3>
                     <div class="info-block">
-                        <h4>📍 Adresse</h4>
+                        <h4><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Adresse</h4>
                         <p>3, Boulevard Gambetta<br>30000 NÎMES, France</p>
                     </div>
                     <div class="info-block">
-                        <h4>📞 Téléphone</h4>
+                        <h4><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8 9.66a16 16 0 0 0 6.34 6.34l1.2-1.2a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z"/></svg> Téléphone</h4>
                         <a href="tel:+33607708215" class="phone-big">+33 6-07-70-82-15</a>
                     </div>
                     <div class="info-block">
-                        <h4>✉️ Email</h4>
+                        <h4><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg> Email</h4>
                         <a href="mailto:olivierprono@me.com">olivierprono@me.com</a>
                     </div>
                     <div class="info-block">
-                        <h4>⏰ Ouvertures sur rendez-vous</h4>
+                        <h4><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Ouvertures sur rendez-vous</h4>
                         <p><strong>Du lundi au vendredi</strong><br>de 8h00 à 20h00</p>
                     </div>
                     <div class="info-block parking-section">
-                        <h4>🅿️ Où se garer ?</h4>
+                        <h4><span class="parking-letter">P</span> Où se garer ?</h4>
                         <ul class="parking-list">
-                            <li>🅰️ <strong>Parking Coupole</strong> - 22 Boulevard Gambetta, 30000 Nîmes</li>
-                            <li>🅱️ <strong>Parking Halles</strong> - 7 Rue des Halles Nîmes</li>
-                            <li>🅲️ <strong>Parking Solopark</strong> - 7 Rue des Halles Nîmes</li>
+                            <li><span class="parking-letter">A</span> <strong>Parking Coupole</strong> - 22 Boulevard Gambetta, 30000 Nîmes</li>
+                            <li><span class="parking-letter">B</span> <strong>Parking Halles</strong> - 7 Rue des Halles Nîmes</li>
+                            <li><span class="parking-letter">C</span> <strong>Parking Solopark</strong> - 7 Rue des Halles Nîmes</li>
                         </ul>
                     </div>
                     <div class="social-icons">
-                        <a href="https://www.instagram.com/show_room_d_oliv/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📷</a>
+                        <a href="https://www.instagram.com/show_room_d_oliv/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" stroke="none"/></svg></a>
                     </div>
                 </div>
                 <form class="contact-form-box scroll-reveal" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
@@ -3747,7 +3738,7 @@
                         <span class="error-message">⚠️ Veuillez entrer un message (min. 10 caractères)</span>
                         <span class="success-message">✓ Valide</span>
                     </div>
-                    <button type="submit" class="submit-btn">📩 Envoyer mon message</button>
+                    <button type="submit" class="submit-btn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg> Envoyer mon message</button>
                 </form>
             </div>
             
@@ -3782,10 +3773,10 @@
             <div class="footer-col">
                 <h4>Contact</h4>
                 <ul>
-                    <li><a href="tel:+33607708215" style="color: inherit; text-decoration: none;">📞 +33 6-07-70-82-15</a></li>
-                    <li><a href="mailto:olivierprono@me.com" style="color: inherit; text-decoration: none;">✉️ olivierprono@me.com</a></li>
-                    <li><a href="https://maps.google.com/?q=3+Bd+Gambetta,+30000+Nîmes" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">📍 3 Bd Gambetta, Nîmes</a></li>
-                    <li>⏰ Sur RDV : Lun-Ven 8h-20h</li>
+                    <li><a href="tel:+33607708215" style="color: inherit; text-decoration: none;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8 9.66a16 16 0 0 0 6.34 6.34l1.2-1.2a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z"/></svg> +33 6-07-70-82-15</a></li>
+                    <li><a href="mailto:olivierprono@me.com" style="color: inherit; text-decoration: none;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg> olivierprono@me.com</a></li>
+                    <li><a href="https://maps.google.com/?q=3+Bd+Gambetta,+30000+Nîmes" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> 3 Bd Gambetta, Nîmes</a></li>
+                    <li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Sur RDV : Lun-Ven 8h-20h</li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -4984,9 +4975,9 @@
             function updateThemeIcon(theme) {
                 if (themeIcon) {
                     if (theme === 'dark') {
-                        themeIcon.textContent = '🌙';
+                        themeIcon.innerHTML = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
                     } else {
-                        themeIcon.textContent = '☀️';
+                        themeIcon.innerHTML = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
                     }
                 }
             }
@@ -5007,7 +4998,7 @@
                 }, 200);
 
                 // Toast notification
-                const message = newTheme === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé';
+                const message = newTheme === 'dark' ? 'Mode sombre activé' : 'Mode clair activé';
                 showToast(message, 'info');
             }
 
