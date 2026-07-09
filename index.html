@@ -363,8 +363,59 @@
         .wa svg { width: 22px; height: 22px; fill: currentColor; }
 
         /* ---------- Reveal ---------- */
-        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s ease, transform 0.9s ease; }
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 1s cubic-bezier(0.19, 1, 0.22, 1), transform 1s cubic-bezier(0.19, 1, 0.22, 1); }
         .reveal.in { opacity: 1; transform: none; }
+
+        /* ---------- Entrée en scène de l'accueil (cascade) ---------- */
+        .hero-copy .reveal:nth-child(1) { transition-delay: 0.1s; }
+        .hero-copy .reveal:nth-child(2) { transition-delay: 0.3s; transition-duration: 1.4s; }
+        .hero-copy .reveal:nth-child(3) { transition-delay: 0.7s; }
+        .hero-copy .reveal:nth-child(4) { transition-delay: 0.9s; }
+        .hero-copy .reveal:nth-child(5) { transition-delay: 1.1s; }
+        .hero-rule.reveal { transform: scaleX(0); transform-origin: left center; }
+        .hero-rule.reveal.in { transform: scaleX(1); }
+        .hero-photo.reveal { transform: translateY(0) scale(1.04); transition-delay: 0.5s; transition-duration: 1.6s; }
+        .hero-photo.reveal.in { transform: scale(1); }
+
+        /* ---------- Grain photographique ---------- */
+        body::after {
+            content: ''; position: fixed; inset: -100%; pointer-events: none; z-index: 60;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+        }
+
+        /* ---------- Bandeau éditorial défilant ---------- */
+        .marquee {
+            overflow: hidden; padding: 4.5rem 0; border-top: 1px solid var(--hairline);
+            border-bottom: 1px solid var(--hairline); background: var(--paper);
+        }
+        .marquee-track {
+            display: inline-flex; white-space: nowrap; width: max-content;
+            animation: marquee-scroll 40s linear infinite;
+        }
+        .marquee-track span {
+            font-family: var(--serif); font-weight: 300; font-size: clamp(3rem, 7vw, 5.5rem);
+            line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(198, 164, 104, 0.45);
+            padding-right: 2rem;
+        }
+        @keyframes marquee-scroll { to { transform: translateX(-50%); } }
+
+        /* ---------- Zooms lents sur les photos ---------- */
+        .strip figure { overflow: hidden; }
+        .strip img { transition: transform 1.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.35s ease; }
+        .strip figure:hover img { transform: scale(1.06); }
+        .maison-photo { overflow: visible; }
+        .maison-photo img { transition: transform 1.6s cubic-bezier(0.19, 1, 0.22, 1); }
+        .maison-photo:hover img { transform: scale(1.03); }
+
+        /* ---------- Profondeur sur la bande des Arènes ---------- */
+        .band img { height: 130%; will-change: transform; }
+
+        /* ---------- Ouverture en fondu de la galerie ---------- */
+        .overlay { display: flex; visibility: hidden; opacity: 0; transition: opacity 0.35s ease, visibility 0.35s; }
+        .overlay.open { visibility: visible; opacity: 1; }
+        .overlay-stage img, .overlay-stage video { animation: media-in 0.45s cubic-bezier(0.19, 1, 0.22, 1); }
+        @keyframes media-in { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
             .reveal { opacity: 1; transform: none; transition: none; }
@@ -512,12 +563,18 @@
                     </div>
                 </div>
                 <div class="facts reveal">
-                    <div class="fact"><b>400 m²</b><span>d'espace mode</span></div>
-                    <div class="fact"><b>6</b><span>marques exclusives</span></div>
+                    <div class="fact"><b data-count="400" data-suffix=" m²">400 m²</b><span>d'espace mode</span></div>
+                    <div class="fact"><b data-count="6">6</b><span>marques exclusives</span></div>
                     <div class="fact"><b>Lun – Ven</b><span>sur rendez-vous, 8h – 20h</span></div>
                 </div>
             </div>
         </section>
+
+        <div class="marquee" aria-hidden="true">
+            <div class="marquee-track">
+                <span>ShowRoom d'Oliv · Nîmes · Mode Femme · Sur rendez-vous · </span><span>ShowRoom d'Oliv · Nîmes · Mode Femme · Sur rendez-vous · </span>
+            </div>
+        </div>
 
         <section class="collections" id="collections">
             <div class="wrap">
@@ -805,6 +862,52 @@
             if (Math.abs(dx) > 50) step(dx > 0 ? -1 : 1);
             touchX = null;
         }, { passive: true });
+
+        // ---------- Profondeur sur la bande des Arènes ----------
+        (function () {
+            var band = document.querySelector('.band');
+            var img = band && band.querySelector('img');
+            if (!img) return;
+            var ticking = false;
+            function update() {
+                ticking = false;
+                var r = band.getBoundingClientRect();
+                if (r.bottom < 0 || r.top > window.innerHeight) return;
+                var progress = (window.innerHeight - r.top) / (window.innerHeight + r.height); // 0 → 1
+                // L'image fait 130% de la hauteur : on la garde toujours décalée vers le haut
+                img.style.transform = 'translateY(' + (-11.5 + (progress - 0.5) * -18) + '%)';
+            }
+            window.addEventListener('scroll', function () {
+                if (!ticking) { ticking = true; requestAnimationFrame(update); }
+            }, { passive: true });
+            update();
+        })();
+
+        // ---------- Chiffres qui se comptent ----------
+        (function () {
+            var facts = document.querySelector('.facts');
+            if (!facts) return;
+            var done = false;
+            var obs = new IntersectionObserver(function (entries) {
+                if (!entries[0].isIntersecting || done) return;
+                done = true;
+                obs.disconnect();
+                facts.querySelectorAll('b[data-count]').forEach(function (el) {
+                    var target = parseInt(el.getAttribute('data-count'), 10);
+                    var suffix = el.getAttribute('data-suffix') || '';
+                    var start = null;
+                    function tick(ts) {
+                        if (start === null) start = ts;
+                        var p = Math.min((ts - start) / 1400, 1);
+                        var eased = 1 - Math.pow(1 - p, 3);
+                        el.textContent = Math.round(target * eased) + suffix;
+                        if (p < 1) requestAnimationFrame(tick);
+                    }
+                    requestAnimationFrame(tick);
+                });
+            }, { threshold: 0.4 });
+            obs.observe(facts);
+        })();
 
         // ---------- Poussière d'or (canvas) ----------
         (function () {
