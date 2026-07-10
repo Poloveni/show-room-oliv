@@ -443,6 +443,47 @@
         .wa:hover { background: var(--gold); }
         .wa svg { width: 22px; height: 22px; fill: currentColor; }
 
+        /* ---------- Lumière d'atelier (suit la souris) ---------- */
+        .lampe {
+            position: fixed; top: -450px; left: -450px; width: 900px; height: 900px;
+            border-radius: 50%; pointer-events: none; z-index: 50;
+            background: radial-gradient(circle, rgba(198, 164, 104, 0.055) 0%, rgba(198, 164, 104, 0.02) 40%, transparent 68%);
+            will-change: transform;
+        }
+        .vitrine .lampe { display: none; }
+
+        /* ---------- Easter egg : le chien qui trottine ---------- */
+        .dog-run {
+            position: fixed; bottom: 14px; left: 0; z-index: 400;
+            transform: translateX(-90px); pointer-events: none;
+            animation: dog-cross 7s linear forwards;
+        }
+        .dog-run img {
+            width: 64px; height: 64px; border-radius: 50%; object-fit: cover;
+            border: 2px solid var(--gold); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+            animation: dog-bob 0.35s ease-in-out infinite alternate;
+        }
+        .dog-run::after {
+            content: 'Wouf !'; position: absolute; top: -34px; left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--serif); font-style: italic; font-size: 1rem;
+            color: var(--gold); white-space: nowrap;
+            animation: dog-wouf 7s linear forwards;
+        }
+        @keyframes dog-cross {
+            from { transform: translateX(-90px); }
+            to { transform: translateX(calc(100vw + 90px)); }
+        }
+        @keyframes dog-bob {
+            from { transform: translateY(0) rotate(-4deg); }
+            to { transform: translateY(-7px) rotate(4deg); }
+        }
+        @keyframes dog-wouf {
+            0%, 12% { opacity: 0; }
+            18%, 45% { opacity: 1; }
+            55%, 100% { opacity: 0; }
+        }
+
         /* ---------- Fil d'or (progression de lecture) ---------- */
         .fil {
             position: fixed; top: 0; right: 22px; width: 1px; height: 0;
@@ -1225,6 +1266,42 @@
             resize();
             window.addEventListener('resize', resize);
             requestAnimationFrame(draw);
+        })();
+
+        // ---------- Lumière d'atelier ----------
+        (function () {
+            if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+            var lampe = document.createElement('div');
+            lampe.className = 'lampe';
+            lampe.setAttribute('aria-hidden', 'true');
+            document.body.appendChild(lampe);
+            var lx = window.innerWidth / 2, ly = window.innerHeight / 3, tx = lx, ty = ly;
+            document.addEventListener('mousemove', function (e) { tx = e.clientX; ty = e.clientY; }, { passive: true });
+            (function glide() {
+                lx += (tx - lx) * 0.06;
+                ly += (ty - ly) * 0.06;
+                lampe.style.transform = 'translate(' + lx + 'px,' + ly + 'px)';
+                requestAnimationFrame(glide);
+            })();
+        })();
+
+        // ---------- Easter egg : trois clics sur le logo ----------
+        (function () {
+            var clics = 0, dernier = 0, enCours = false;
+            document.querySelector('.brand').addEventListener('click', function () {
+                var t = Date.now();
+                if (t - dernier > 1200) clics = 0;
+                dernier = t;
+                clics++;
+                if (clics >= 3 && !enCours) {
+                    clics = 0; enCours = true;
+                    var dog = document.createElement('div');
+                    dog.className = 'dog-run';
+                    dog.innerHTML = '<img src="logo.png" alt="">';
+                    document.body.appendChild(dog);
+                    setTimeout(function () { dog.remove(); enCours = false; }, 7200);
+                }
+            });
         })();
 
         // ---------- Fil d'or ----------
