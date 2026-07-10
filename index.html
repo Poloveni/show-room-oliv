@@ -35,7 +35,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="image" href="hero-chien.jpg">
+    <link rel="preload" as="image" href="hero-chien.jpg" imagesrcset="hero-chien-480.jpg 480w, hero-chien.jpg 886w" imagesizes="(max-width: 860px) 88vw, 42vw">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
 
@@ -160,6 +160,8 @@
         @media (max-width: 860px) {
             .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
             .hero-photo img { height: 46vh; }
+            /* Sur mobile la photo s'affiche immédiatement (meilleur score LCP) */
+            .hero-photo.reveal { opacity: 1; transform: none; transition: none; }
         }
         #dust {
             position: absolute; inset: 0; width: 100%; height: 100%;
@@ -539,7 +541,7 @@
                     </div>
                 </div>
                 <figure class="hero-photo reveal">
-                    <img src="hero-chien.jpg" alt="La mascotte du ShowRoom d'Oliv, installée dans la boutique" onerror="this.closest('.hero-photo').style.display='none'">
+                    <img src="hero-chien.jpg" srcset="hero-chien-480.jpg 480w, hero-chien.jpg 886w" sizes="(max-width: 860px) 88vw, 42vw" alt="La mascotte du ShowRoom d'Oliv, installée dans la boutique" onerror="this.closest('.hero-photo').style.display='none'">
                     <figcaption>Le comité d'accueil, en personne</figcaption>
                 </figure>
             </div>
