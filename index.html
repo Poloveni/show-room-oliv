@@ -347,9 +347,68 @@
         .site-footer a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--hairline); }
         .site-footer a:hover { color: var(--gold); }
 
+        /* ---------- Univers de marque (plein écran) ---------- */
+        .univers {
+            position: fixed; inset: 0; background: #0d0b0a; z-index: 150;
+            display: flex; flex-direction: column;
+            visibility: hidden; opacity: 0;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        .univers.open { visibility: visible; opacity: 1; }
+        .univers-head {
+            display: flex; align-items: baseline; justify-content: space-between;
+            padding: 2rem 6vw 1rem; flex-shrink: 0;
+        }
+        .univers-head h3 {
+            font-family: var(--serif); font-weight: 300; font-size: clamp(1.8rem, 4vw, 3rem);
+            color: var(--ink);
+        }
+        .univers-close {
+            background: none; border: none; color: var(--muted); cursor: pointer;
+            font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.26em;
+            text-transform: uppercase; border-bottom: 1px solid var(--hairline);
+            padding-bottom: 0.4rem; transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        .univers-close:hover { color: var(--gold); border-color: var(--gold); }
+        .univers-track {
+            display: flex; align-items: center; gap: 2.5vw;
+            overflow-x: auto; overflow-y: hidden; flex: 1;
+            padding: 2vh 6vw 4vh; scroll-snap-type: x proximity;
+            scrollbar-width: thin; scrollbar-color: var(--gold) transparent;
+            cursor: grab;
+        }
+        .univers-track.dragging { cursor: grabbing; scroll-snap-type: none; }
+        .univers-item {
+            flex: 0 0 auto; height: 62vh; scroll-snap-align: center;
+            opacity: 0; transform: translateX(50px);
+            transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .univers.open .univers-item { opacity: 1; transform: none; }
+        .univers-item img, .univers-item video {
+            height: 100%; width: auto; max-width: 82vw; object-fit: cover; display: block;
+        }
+        .univers-item img { cursor: zoom-in; }
+        .univers-name {
+            position: absolute; bottom: 1vh; left: 0; right: 0;
+            font-family: var(--serif); font-weight: 300; white-space: nowrap;
+            font-size: clamp(4rem, 13vw, 10rem); line-height: 1; text-align: center;
+            color: transparent; -webkit-text-stroke: 1px rgba(198, 164, 104, 0.22);
+            pointer-events: none; user-select: none;
+        }
+        .univers-hint {
+            position: absolute; bottom: 2.4rem; right: 6vw;
+            font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase;
+            color: var(--muted); pointer-events: none;
+        }
+        @media (max-width: 640px) {
+            .univers-item { height: 48vh; }
+            .univers-item img, .univers-item video { max-width: 88vw; }
+            .univers-hint { display: none; }
+        }
+
         /* ---------- Overlay galerie ---------- */
         .overlay {
-            position: fixed; inset: 0; background: rgba(15, 14, 12, 0.96); z-index: 200;
+            position: fixed; inset: 0; background: rgba(15, 14, 12, 0.97); z-index: 300;
             display: none; align-items: center; justify-content: center; flex-direction: column;
         }
         .overlay.open { display: flex; }
@@ -688,6 +747,16 @@
 
     <div class="brand-preview" id="brandPreview" aria-hidden="true"><img alt=""></div>
 
+    <div class="univers" id="univers" role="dialog" aria-modal="true">
+        <div class="univers-head">
+            <h3 id="universTitle"></h3>
+            <button class="univers-close" id="universClose">Fermer ✕</button>
+        </div>
+        <div class="univers-track" id="universTrack"></div>
+        <p class="univers-name" id="universName" aria-hidden="true"></p>
+        <p class="univers-hint">Faites défiler ou glissez →</p>
+    </div>
+
     <div class="overlay" id="overlay" role="dialog" aria-modal="true">
         <p class="overlay-title" id="overlayTitle"></p>
         <button class="overlay-close" id="overlayClose" aria-label="Fermer">×</button>
@@ -826,10 +895,93 @@
                 '<img class="logo" src="' + b.logo + '" alt="Logo ' + b.name + '" loading="lazy">' +
                 '<span class="see">' + (b.media.length ? 'Voir la galerie —' : 'Bientôt') + '</span>';
             if (b.media.length) {
-                row.addEventListener('click', function () { openOverlay(b.name, b.media, 0); });
+                row.addEventListener('click', function () { openUnivers(b); });
             }
             list.appendChild(row);
         });
+
+        // ---------- Univers de marque ----------
+        var univers = document.getElementById('univers');
+        var uTrack = document.getElementById('universTrack');
+        var uTitle = document.getElementById('universTitle');
+        var uName = document.getElementById('universName');
+
+        function openUnivers(b) {
+            uTitle.textContent = b.name;
+            uName.textContent = b.name;
+            uTrack.innerHTML = '';
+            uTrack.scrollLeft = 0;
+            b.media.forEach(function (m, idx) {
+                var item = document.createElement('div');
+                item.className = 'univers-item';
+                item.style.transitionDelay = Math.min(idx * 0.08, 0.5) + 's';
+                var el;
+                if (m.type === 'video') {
+                    el = document.createElement('video');
+                    el.src = m.src; el.controls = true; el.playsInline = true;
+                    el.muted = true; el.loop = true; el.preload = 'metadata';
+                } else {
+                    el = document.createElement('img');
+                    el.src = m.src; el.loading = 'lazy';
+                    el.alt = b.name + ' — pièce de la collection';
+                    el.addEventListener('click', function () { openOverlay(b.name, b.media, idx); });
+                }
+                item.appendChild(el);
+                uTrack.appendChild(item);
+            });
+            univers.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeUnivers() {
+            univers.classList.remove('open');
+            document.body.style.overflow = '';
+            // Coupe les vidéos en cours
+            uTrack.querySelectorAll('video').forEach(function (v) { v.pause(); });
+        }
+        document.getElementById('universClose').addEventListener('click', closeUnivers);
+
+        // Molette verticale = défilement horizontal
+        uTrack.addEventListener('wheel', function (e) {
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                e.preventDefault();
+                uTrack.scrollLeft += e.deltaY;
+            }
+        }, { passive: false });
+
+        // Glisser pour faire défiler (souris)
+        (function () {
+            var down = false, startX = 0, startScroll = 0, moved = false;
+            uTrack.addEventListener('mousedown', function (e) {
+                down = true; moved = false; startX = e.clientX; startScroll = uTrack.scrollLeft;
+                uTrack.classList.add('dragging');
+            });
+            window.addEventListener('mousemove', function (e) {
+                if (!down) return;
+                var dx = e.clientX - startX;
+                if (Math.abs(dx) > 5) moved = true;
+                uTrack.scrollLeft = startScroll - dx;
+            });
+            window.addEventListener('mouseup', function () {
+                down = false;
+                uTrack.classList.remove('dragging');
+            });
+            // Évite d'ouvrir le zoom quand on vient de glisser
+            uTrack.addEventListener('click', function (e) {
+                if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
+            }, true);
+        })();
+
+        // Lecture des vidéos uniquement quand elles sont visibles
+        var videoObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) {
+                if (en.target.tagName !== 'VIDEO') return;
+                if (en.isIntersecting) { en.target.play().catch(function () {}); }
+                else { en.target.pause(); }
+            });
+        }, { root: null, threshold: 0.5 });
+        new MutationObserver(function () {
+            uTrack.querySelectorAll('video').forEach(function (v) { videoObs.observe(v); });
+        }).observe(uTrack, { childList: true });
 
         // ---------- Lookbook au survol des marques ----------
         (function () {
@@ -906,7 +1058,10 @@
         function closeOverlay() {
             overlay.classList.remove('open');
             stage.innerHTML = '';
-            document.body.style.overflow = '';
+            // Ne débloque le défilement que si l'univers de marque n'est pas ouvert dessous
+            if (!univers.classList.contains('open')) {
+                document.body.style.overflow = '';
+            }
         }
         function step(d) {
             current.index = (current.index + d + current.media.length) % current.media.length;
@@ -917,10 +1072,17 @@
         document.getElementById('overlayNext').addEventListener('click', function () { step(1); });
         overlay.addEventListener('click', function (e) { if (e.target === overlay) closeOverlay(); });
         document.addEventListener('keydown', function (e) {
-            if (!overlay.classList.contains('open')) return;
-            if (e.key === 'Escape') closeOverlay();
-            if (e.key === 'ArrowLeft') step(-1);
-            if (e.key === 'ArrowRight') step(1);
+            if (overlay.classList.contains('open')) {
+                if (e.key === 'Escape') closeOverlay();
+                if (e.key === 'ArrowLeft') step(-1);
+                if (e.key === 'ArrowRight') step(1);
+                return;
+            }
+            if (univers.classList.contains('open')) {
+                if (e.key === 'Escape') closeUnivers();
+                if (e.key === 'ArrowLeft') uTrack.scrollBy({ left: -400, behavior: 'smooth' });
+                if (e.key === 'ArrowRight') uTrack.scrollBy({ left: 400, behavior: 'smooth' });
+            }
         });
         var touchX = null;
         overlay.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
